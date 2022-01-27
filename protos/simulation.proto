@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package simulation;
+
+message simulationParams{
+  int id 1;
+}
+
+message simulationObject{
+  int id 1;
+  int timestamp 2;
+  string object 3;
+}
+
+service Simulator{
+  rpc run (simulationParams) returns (stream simulationObject)
+}
