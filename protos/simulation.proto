@@ -13,5 +13,5 @@ message simulationObject{
 }
 
 service Simulator{
-  rpc run (simulationParams) returns (stream simulationObject)
+  rpc run (simulationParams) returns (simulationObject);
 }
