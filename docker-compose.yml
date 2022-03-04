@@ -1,0 +1,30 @@
+version: '3.3'
+
+services:
+  
+  database:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - "27017:27017"
+  
+  server:
+    build: server/.
+    restart: always
+    ports:
+      - "${REST_API_PORT}:${REST_API_PORT}"
+  
+  # client:
+  #   build: client/.
+  #   restart: always
+  #   ports:
+  #     - "${REST_API_PORT}:${REST_API_PORT}"
+  
+  # simulator:
+  #   build: simulator/.
+  #   restart: always
+  #   ports:
+  #     - "${REST_API_PORT}:${REST_API_PORT}"
