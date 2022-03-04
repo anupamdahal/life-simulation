@@ -9,22 +9,29 @@ services:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_USERNAME}
     ports:
-      - ${MONGODB_PORT}:${MONGODB_PORT}
+      - "${MONGODB_PORT}:27017"
   
   server:
-    build: server/.
+    
+    build:
+      context: .
+      dockerfile: server/Dockerfile.server
     restart: always
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
   
   client:
-    build: client/.
+    build:
+      context: .
+      dockerfile: client/Dockerfile.client
     restart: always
     ports:
       - "${CLIENT_PORT}:${CLIENT_PORT}"
   
   simulator:
-    build: simulator/.
+    build:
+      context: .
+      dockerfile: simulator/Dockerfile.simulator
     restart: always
     ports:
       - "${SIMULATOR_PORT}:${SIMULATOR_PORT}"

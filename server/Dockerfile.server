@@ -2,10 +2,14 @@ FROM node:12
 
 WORKDIR /life-simulation
 
-COPY package*.json ./
+ENV DIR=server
+
+COPY $DIR/package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY $DIR/. ./
+
+COPY .env ../
 
 CMD [ "npm", "start" ]
