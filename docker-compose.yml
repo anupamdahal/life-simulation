@@ -6,25 +6,25 @@ services:
     image: mongo
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_USERNAME}
     ports:
-      - "27017:27017"
+      - ${MONGODB_PORT}:${MONGODB_PORT}
   
   server:
     build: server/.
     restart: always
     ports:
-      - "${REST_API_PORT}:${REST_API_PORT}"
+      - "${SERVER_PORT}:${SERVER_PORT}"
   
-  # client:
-  #   build: client/.
-  #   restart: always
-  #   ports:
-  #     - "${REST_API_PORT}:${REST_API_PORT}"
+  client:
+    build: client/.
+    restart: always
+    ports:
+      - "${CLIENT_PORT}:${CLIENT_PORT}"
   
-  # simulator:
-  #   build: simulator/.
-  #   restart: always
-  #   ports:
-  #     - "${REST_API_PORT}:${REST_API_PORT}"
+  simulator:
+    build: simulator/.
+    restart: always
+    ports:
+      - "${SIMULATOR_PORT}:${SIMULATOR_PORT}"
