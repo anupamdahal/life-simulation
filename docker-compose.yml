@@ -12,7 +12,6 @@ services:
       - "${MONGODB_PORT}:27017"
   
   server:
-    
     build:
       context: .
       dockerfile: server/Dockerfile.server
@@ -20,18 +19,18 @@ services:
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
   
-  client:
-    build:
-      context: .
-      dockerfile: client/Dockerfile.client
-    restart: always
-    ports:
-      - "${CLIENT_PORT}:${CLIENT_PORT}"
+  # client:
+  #   build:
+  #     context: .
+  #     dockerfile: client/Dockerfile.client
+  #   restart: always
+  #   ports:
+  #     - "${CLIENT_PORT}:${CLIENT_PORT}"
   
-  simulator:
-    build:
-      context: .
-      dockerfile: simulator/Dockerfile.simulator
-    restart: always
-    ports:
-      - "${SIMULATOR_PORT}:${SIMULATOR_PORT}"
+  # simulator:
+  #   build:
+  #     context: .
+  #     dockerfile: simulator/Dockerfile.simulator
+  #   restart: always
+  #   ports:
+  #     - "${SIMULATOR_PORT}:${SIMULATOR_PORT}"
