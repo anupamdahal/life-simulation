@@ -6,14 +6,20 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --experimental-modules --es-module-specifier-resolution=node app.js",
+    "build-proto-sh": "sh build-proto.sh",
+    "build-proto": "grpc_tools_node_protoc     --js_out=import_style=commonjs_strict,binary:./src     --grpc_out=./src     --plugin=protoc-gen-grpc=./node_modules/.bin/grpc_tools_node_protoc_plugin     -I ../     ../protos/*.proto",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/google-protobuf": "^3.15.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "google-protobuf": "^3.20.0-rc.2",
+    "grpc": "^1.24.11",
+    "grpc-tools": "^1.11.2",
     "mongoose": "^6.2.4",
     "nodemon": "^2.0.15"
   }
