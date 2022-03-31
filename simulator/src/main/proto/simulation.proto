@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "grpc";
+option java_outer_classname = "SimulationProto";
+option objc_class_prefix = "SIM";
+
+import "google/protobuf/struct.proto";
+
+package simulation;
+
+message InitialConditions {
+  google.protobuf.Struct conditions = 1;
+}
+
+message Results {
+  google.protobuf.Struct result = 1;
+}
+
+service Simulation {
+  rpc RunSimulation (InitialConditions) returns (Results);
+}
