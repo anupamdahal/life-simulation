@@ -1,15 +1,25 @@
-FROM node:12
-
-WORKDIR /life-simulation
+FROM node:12-slim
 
 ENV DIR=server
+
+WORKDIR /life-simu/${DIR}
 
 COPY $DIR/package*.json ./
 
 RUN npm install
 
-COPY $DIR/. ./
+ENV PROTOS_DIR=protos
+
+COPY ${PROTOS_DIR} ../${PROTOS_DIR}/
+
+COPY ${DIR}/build-proto.sh .
+
+RUN npm run build-proto-sh
+
+COPY ${DIR}/. ./
 
 COPY .env ../
 
-CMD [ "npm", "start" ]
+EXPOSE $SERVER_PORT
+
+CMD ["npm", "start"]

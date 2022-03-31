@@ -63,24 +63,15 @@ sourceSets {
 
 startScripts.enabled = false
 
-// task simulatorServer(type: CreateStartScripts) {
-//     mainClass = 'io.grpc.SimulatorServer'
-//     applicationName = 'simulator-server'
-//     outputDir = new File(project.buildDir, 'tmp/scripts/' + name)
-//     classpath = startScripts.classpath
-// }
+task simulatorServer(type: CreateStartScripts) {
+    mainClass = 'SimulatorServer'
+    applicationName = 'simulator-server'
+    outputDir = new File(project.buildDir, 'tmp/scripts/' + name)
+    classpath = startScripts.classpath
+}
 
-// task simulatorClient(type: CreateStartScripts) {
-//     mainClass = 'io.grpc.SimulatorClient'
-//     applicationName = 'simulator-client'
-//     outputDir = new File(project.buildDir, 'tmp/scripts/' + name)
-//     classpath = startScripts.classpath
-// }
+applicationDistribution.into('bin') {
+    from(simulatorServer)
 
-
-// applicationDistribution.into('bin') {
-//     from(simulatorServer)
-//     from(simulatorClient)
-
-//     fileMode = 0755
-// }
+    fileMode = 0755
+}

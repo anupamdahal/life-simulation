@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import grpc.*;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
@@ -85,6 +86,7 @@ public class SimulatorServer {
     private Simulator simulator;
 
     public void RunSimulation(InitialConditions req, StreamObserver<Results> responseObserver) {
+      simulator.run();
       // simulator.run(req.getConditions());
       // Results result = Results.newBuilder().setResult();
       // responseObserver.onNext(reply);
