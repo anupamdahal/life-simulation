@@ -1,17 +1,16 @@
 syntax = "proto3";
+import "google/protobuf/struct.proto";
 
 package simulation;
 
-message simulationParams{
-  int id 1;
+message InitialConditions {
+  google.protobuf.Struct conditions = 1;
 }
 
-message simulationObject{
-  int id 1;
-  int timestamp 2;
-  string object 3;
+message Results {
+  google.protobuf.Struct result = 1;
 }
 
-service Simulator{
-  rpc run (simulationParams) returns (simulationObject);
+service Simulation {
+  rpc RunSimulation (InitialConditions) returns (Results);
 }
