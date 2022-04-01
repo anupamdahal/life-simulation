@@ -33,7 +33,6 @@ public class SimulatorServer {
   private static final Logger logger = Logger.getLogger(SimulatorServer.class.getName());
 
   private Server server;
-  private Simulator simulator;
 
   private void start() throws IOException {
     /* The port on which the server should run */
@@ -88,7 +87,7 @@ public class SimulatorServer {
 
     @Override
     public void runSimulation(InitialConditions req, StreamObserver<Results> responseObserver) {
-
+      logger.info("Got a request" + " " + req.toString());
       Results result = Results.newBuilder().getDefaultInstanceForType();
       responseObserver.onNext(result);
       responseObserver.onCompleted();

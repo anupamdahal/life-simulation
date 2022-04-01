@@ -1,7 +1,7 @@
 const { Struct } = require('google-protobuf/google/protobuf/struct_pb')
 const { simulationClient } = require('./simulationClient')
 const { InitialConditions } = require('../protos/simulation_pb')
-const { SIMULATOR_HOST } = require('../../config')
+const { SIMULATOR_URL } = require('../../config')
 
 exports.runSimulation = (condition) => 
   new Promise((resolve, reject) => {
@@ -9,7 +9,7 @@ exports.runSimulation = (condition) =>
     const initialConditions = new InitialConditions()
     initialConditions.setConditions(struct)
     
-    const client = simulationClient(SIMULATOR_HOST)
+    const client = simulationClient(SIMULATOR_URL)
     client.runSimulation( initialConditions, (err, res) =>
       err ? console.error(err) : resolve(res.result)    
     )

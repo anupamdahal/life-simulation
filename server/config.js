@@ -12,10 +12,9 @@ const DB_HOST = process.env.MONGODB_HOST || process.env.LOCAL_HOST || 'localhost
 const DB_PORT = process.env.MONGODB_PORT || 27017
 const DB = process.env.MONGO_INITDB_DATABASE || 'simulation'
 exports.DB_URL = `mongodb://${DB_HOST}:${DB_PORT}/${DB}`
-console.log(this.DB_URL)
-
 exports.PORT = process.env.SERVER_PORT || 8080
-exports.SIMULATOR_HOST = `localhost:${SIMULATOR_PORT}`
+const SIMULATOR_HOST = process.env.SIMULATOR_HOST || process.env.LOCAL_HOST || 'localhost'
+exports.SIMULATOR_URL = `${SIMULATOR_HOST}:${SIMULATOR_PORT}`
 
 exports.DB_CONFIG = {
   useNewUrlParser: true

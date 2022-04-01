@@ -5,7 +5,14 @@ const SimulationResultSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  result : Object
+  error: {
+    type: Object,
+    required: false
+  },
+  result : {
+    type: Object,
+    required: false
+  }
 })
 
 exports.SimulationResult = mongoose.model('SimulationResult', SimulationResultSchema)

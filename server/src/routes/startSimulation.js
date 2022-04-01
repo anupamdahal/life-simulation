@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
     return
   }
   res.status(OK).send(entry)
-  console.log(entry)
+
   return createSimulationRequest(req.body, entry)
 })
 
