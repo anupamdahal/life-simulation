@@ -1,6 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const { PORT, DB_URL } = require('./config')
+const { PORT, DB_URL, DB_CONFIG } = require('./config')
 
 const { getSimulationResultRouter } = require('./src/routes/getSimulationResult')
 const { startSimulationRouter } = require('./src/routes/startSimulation')
@@ -8,11 +8,10 @@ const app = express()
 
 mongoose.connect(
   DB_URL,
-  {
-    useNewUrlParser: true
-  },
-  () => {
-    console.log(`Connected to DB`)
+  DB_CONFIG,
+  (err) => {
+    err ? console.error(err) 
+    : console.log(`Connected to DB`)
   })
 
 app.use(express.json())

@@ -1,22 +1,33 @@
-const express = require('express');
-const uuid = require("uuid")
+const express = require('express')
 
-const { OK } = require('../const/httpStatus')
+const { SimulationResult } = require('../models/SimulationResult')
+const { OK, INTERNAL_SERVER_ERROR } = require('../const/httpStatus')
 const { PENDING } = require('../const/resultStatus')
+const { DB_ERROR } = require('../const/error')
 
+const {safeResolve} = require('../utils/safeResolve')
 const {createSimulationRequest} = require('../utils/createSimulationRequest')
+
 const router = express.Router()
 
 router.post('/', async (req, res) => {
-  const id = uuid.v4()
-  const result = {
-    id,
+
+  const simulationResult = new SimulationResult({
     status : PENDING,
     simulation : {},
+  })
+  const [entry, err] = await safeResolve(simulationResult.save())
+
+  if(err){
+    res
+      .status(INTERNAL_SERVER_ERROR)
+      .send(DB_ERROR)
+    console.log(err)
+    return
   }
-  
-  res.status(OK).send(result)
-  return createSimulationRequest(req.body, result)
+  res.status(OK).send(entry)
+  console.log(entry)
+  return createSimulationRequest(req.body, entry)
 })
 
 exports.startSimulationRouter = router

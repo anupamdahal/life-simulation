@@ -10,6 +10,6 @@ RUN npm install
 
 COPY $DIR/. ./
 
-COPY .env ../
+COPY .env* ../
 
 CMD [ "npm", "start" ]

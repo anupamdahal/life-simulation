@@ -2,22 +2,25 @@ version: '3.3'
 
 services:
   
-  database:
+  mongo:
     image: mongo
     restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_USERNAME}
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+    #   MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_USERNAME}
+    #   MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
     ports:
       - "${MONGODB_PORT}:27017"
   
-  # server:
-  #   build:
-  #     context: .
-  #     dockerfile: server/Dockerfile.server
-  #   restart: always
-  #   ports:
-  #     - "${SERVER_PORT}:${SERVER_PORT}"
+  server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile.server
+    restart: always
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    depends_on:
+      - mongo
   
   # client:
   #   build:

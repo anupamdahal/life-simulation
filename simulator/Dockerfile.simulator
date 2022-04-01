@@ -6,7 +6,7 @@ WORKDIR /life-simulation/${DIR}
 
 COPY ${DIR}/. ./
 
-COPY .env ../
+COPY .env* ../
 
 RUN gradle --no-daemon installDist
 

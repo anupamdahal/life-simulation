@@ -18,8 +18,6 @@ RUN npm run build-proto-sh
 
 COPY ${DIR}/. ./
 
-COPY .env ../
-
-EXPOSE $SERVER_PORT
+COPY .env* ../
 
 CMD ["npm", "start"]
