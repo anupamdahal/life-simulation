@@ -8,9 +8,8 @@ exports.runSimulation = (condition) =>
     const struct = Struct.fromJavaScript(condition)
     const initialConditions = new InitialConditions()
     initialConditions.setConditions(struct)
-    console.log(SIMULATOR_HOST)
+    
     const client = simulationClient(SIMULATOR_HOST)
-    console.log(client)
     client.runSimulation( initialConditions, (err, res) =>
       err ? console.error(err) : resolve(res.result)    
     )
