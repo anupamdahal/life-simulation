@@ -18,6 +18,8 @@ import grpc.*;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
+
+import java.io.Console;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
@@ -47,7 +49,6 @@ public class SimulatorServer {
         // Use stderr here since the logger may have been reset by its JVM shutdown hook.
         System.err.println("*** shutting down gRPC server since JVM is shutting down");
         try {
-          simulator.run();
           SimulatorServer.this.stop();
         } catch (InterruptedException e) {
           e.printStackTrace(System.err);
@@ -82,15 +83,15 @@ public class SimulatorServer {
   }
 
   static class SimulationImpl extends SimulationGrpc.SimulationImplBase {
-
+    private static final Logger logger = Logger.getLogger(SimulationImpl.class.getName());
     private Simulator simulator;
 
-    public void RunSimulation(InitialConditions req, StreamObserver<Results> responseObserver) {
-      simulator.run();
-      // simulator.run(req.getConditions());
-      // Results result = Results.newBuilder().setResult();
-      // responseObserver.onNext(reply);
-      // responseObserver.onCompleted();
+    @Override
+    public void runSimulation(InitialConditions req, StreamObserver<Results> responseObserver) {
+
+      Results result = Results.newBuilder().getDefaultInstanceForType();
+      responseObserver.onNext(result);
+      responseObserver.onCompleted();
     }
   }
 

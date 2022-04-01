@@ -7,8 +7,6 @@ option objc_class_prefix = "SIM";
 
 import "google/protobuf/struct.proto";
 
-package simulation;
-
 message InitialConditions {
   google.protobuf.Struct conditions = 1;
 }

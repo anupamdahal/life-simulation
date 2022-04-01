@@ -5,40 +5,40 @@ var grpc = require('grpc');
 var protos_simulation_pb = require('../protos/simulation_pb.js');
 var google_protobuf_struct_pb = require('google-protobuf/google/protobuf/struct_pb.js');
 
-function serialize_simulation_InitialConditions(arg) {
+function serialize_InitialConditions(arg) {
   if (!(arg instanceof protos_simulation_pb.InitialConditions)) {
-    throw new Error('Expected argument of type simulation.InitialConditions');
+    throw new Error('Expected argument of type InitialConditions');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_simulation_InitialConditions(buffer_arg) {
+function deserialize_InitialConditions(buffer_arg) {
   return protos_simulation_pb.InitialConditions.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_simulation_Results(arg) {
+function serialize_Results(arg) {
   if (!(arg instanceof protos_simulation_pb.Results)) {
-    throw new Error('Expected argument of type simulation.Results');
+    throw new Error('Expected argument of type Results');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_simulation_Results(buffer_arg) {
+function deserialize_Results(buffer_arg) {
   return protos_simulation_pb.Results.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 
 var SimulationService = exports.SimulationService = {
   runSimulation: {
-    path: '/simulation.Simulation/RunSimulation',
+    path: '/Simulation/RunSimulation',
     requestStream: false,
     responseStream: false,
     requestType: protos_simulation_pb.InitialConditions,
     responseType: protos_simulation_pb.Results,
-    requestSerialize: serialize_simulation_InitialConditions,
-    requestDeserialize: deserialize_simulation_InitialConditions,
-    responseSerialize: serialize_simulation_Results,
-    responseDeserialize: deserialize_simulation_Results,
+    requestSerialize: serialize_InitialConditions,
+    requestDeserialize: deserialize_InitialConditions,
+    responseSerialize: serialize_Results,
+    responseDeserialize: deserialize_Results,
   },
 };
 

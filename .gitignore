@@ -103,6 +103,10 @@ dist
 # TernJS port file
 .tern-port
 
+# Java
 */build
 */.gradle
 */bin
+
+# Editors
+.vscode

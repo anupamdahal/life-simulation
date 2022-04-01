@@ -1,11 +1,10 @@
 {
   "name": "server",
-  "type": "module",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --experimental-modules --es-module-specifier-resolution=node app.js",
+    "start": "nodemon app.js",
     "build-proto-sh": "sh build-proto.sh",
     "build-proto": "grpc_tools_node_protoc     --js_out=import_style=commonjs_strict,binary:./src     --grpc_out=./src     --plugin=protoc-gen-grpc=./node_modules/.bin/grpc_tools_node_protoc_plugin     -I ../     ../protos/*.proto",
     "test": "echo \"Error: no test specified\" && exit 1"

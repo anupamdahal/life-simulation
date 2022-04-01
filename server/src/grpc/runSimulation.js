@@ -1,12 +1,17 @@
-const { client } = require('./client')
-const proto = require('../protos/solution_pb')
+const { Struct } = require('google-protobuf/google/protobuf/struct_pb')
+const { simulationClient } = require('./simulationClient')
+const { InitialConditions } = require('../protos/simulation_pb')
 const { SIMULATOR_HOST } = require('../../config')
 
 exports.runSimulation = (condition) => 
   new Promise((resolve, reject) => {
-    const initialConditions = new proto.InitialConditions()
-    initialConditions.setCondition(condition)
-    client(SIMULATOR_HOST).runSimulation(initialConditions, (err, result) =>
-      err ? console.error(err) : resolve(result)    
+    const struct = Struct.fromJavaScript(condition)
+    const initialConditions = new InitialConditions()
+    initialConditions.setConditions(struct)
+    console.log(SIMULATOR_HOST)
+    const client = simulationClient(SIMULATOR_HOST)
+    console.log(client)
+    client.runSimulation( initialConditions, (err, res) =>
+      err ? console.error(err) : resolve(res.result)    
     )
 })

@@ -1,7 +1,11 @@
 syntax = "proto3";
-import "google/protobuf/struct.proto";
 
-package simulation;
+option java_multiple_files = true;
+option java_package = "grpc";
+option java_outer_classname = "SimulationProto";
+option objc_class_prefix = "SIM";
+
+import "google/protobuf/struct.proto";
 
 message InitialConditions {
   google.protobuf.Struct conditions = 1;
