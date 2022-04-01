@@ -11,13 +11,13 @@ services:
     ports:
       - "${MONGODB_PORT}:27017"
   
-  server:
-    build:
-      context: .
-      dockerfile: server/Dockerfile.server
-    restart: always
-    ports:
-      - "${SERVER_PORT}:${SERVER_PORT}"
+  # server:
+  #   build:
+  #     context: .
+  #     dockerfile: server/Dockerfile.server
+  #   restart: always
+  #   ports:
+  #     - "${SERVER_PORT}:${SERVER_PORT}"
   
   # client:
   #   build:
@@ -27,10 +27,10 @@ services:
   #   ports:
   #     - "${CLIENT_PORT}:${CLIENT_PORT}"
   
-  simulator:
-    build:
-      context: .
-      dockerfile: simulator/Dockerfile.simulator
-    restart: always
-    ports:
-      - "${SIMULATOR_PORT}:${SIMULATOR_PORT}"
+  # simulator:
+  #   build:
+  #     context: .
+  #     dockerfile: simulator/Dockerfile.simulator
+  #   restart: always
+  #   ports:
+  #     - "${SIMULATOR_PORT}:${SIMULATOR_PORT}"
