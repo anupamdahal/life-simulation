@@ -244,7 +244,8 @@ proto.Results.prototype.toObject = function(opt_includeInstance) {
  */
 proto.Results.toObject = function(includeInstance, msg) {
   var f, obj = {
-    result: (f = msg.getResult()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f)
+    result: (f = msg.getResult()) && google_protobuf_struct_pb.Struct.toObject(includeInstance, f),
+    error: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -286,6 +287,10 @@ proto.Results.deserializeBinaryFromReader = function(msg, reader) {
       reader.readMessage(value,google_protobuf_struct_pb.Struct.deserializeBinaryFromReader);
       msg.setResult(value);
       break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setError(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -321,6 +326,13 @@ proto.Results.serializeBinaryToWriter = function(message, writer) {
       1,
       f,
       google_protobuf_struct_pb.Struct.serializeBinaryToWriter
+    );
+  }
+  f = message.getError();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
+      f
     );
   }
 };
@@ -360,6 +372,24 @@ proto.Results.prototype.clearResult = function() {
  */
 proto.Results.prototype.hasResult = function() {
   return jspb.Message.getField(this, 1) != null;
+};
+
+
+/**
+ * optional string error = 2;
+ * @return {string}
+ */
+proto.Results.prototype.getError = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.Results} returns this
+ */
+proto.Results.prototype.setError = function(value) {
+  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 

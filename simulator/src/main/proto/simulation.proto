@@ -8,11 +8,12 @@ option objc_class_prefix = "SIM";
 import "google/protobuf/struct.proto";
 
 message InitialConditions {
-  google.protobuf.Struct conditions = 1;
+  google.protobuf.Struct  conditions  = 1;
 }
 
 message Results {
-  google.protobuf.Struct result = 1;
+  google.protobuf.Struct  result      = 1;
+  string                  error       = 2;
 }
 
 service Simulation {
