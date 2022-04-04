@@ -1,3 +1,4 @@
+package simulator.entity;
 import java.util.Random;
 
 public class Entity_Movement {
