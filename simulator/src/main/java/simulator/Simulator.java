@@ -4,12 +4,15 @@ import java.util.*;
 import simulator.entity.*;
 
 public class Simulator{
-  public ArrayList<Entity> entities;
+  private Map map;
   private int simulation_time;
 
   public Simulator(){}
 
   public void init(){
+    // initialize the map
+    map = map.getInstance();
+
     // initialize simulation time to 0
     this.simulation_time = 0;
 
@@ -27,7 +30,7 @@ public class Simulator{
     for (int i=0; i < obstacleCount; i++) {
       if(lsdp.getObstacleData())
       {
-        entities.add(new Obstacle(lsdp.ObstacleX, lsdp.ObstacleY,
+        map.entities.add(new Obstacle(lsdp.ObstacleX, lsdp.ObstacleY,
            lsdp.ObstacleDiameter, lsdp.ObstacleHeight));
       }
     }
@@ -37,7 +40,7 @@ public class Simulator{
     for (int i=0; i < plantCount; i++) {
       if(lsdp.getPlantData())
       {
-        entities.add(new Plant(lsdp.PlantX, lsdp.PlantY, lsdp.PlantDiameter, lsdp.getMaxPlantSize(),
+        map.entities.add(new Plant(lsdp.PlantX, lsdp.PlantY, lsdp.PlantDiameter, lsdp.getMaxPlantSize(),
           lsdp.getMaxSeedCastDistance(), lsdp.getMaxSeedNumber(), lsdp.getPlantGrowthRate(),
           lsdp.getSeedViability()));
       }
@@ -48,7 +51,7 @@ public class Simulator{
     for (int i=0; i < grazerCount; i++) {
       if (lsdp.getGrazerData())
       {
-        entities.add(new Grazer(lsdp.GrazerX, lsdp.GrazerY, lsdp.GrazerEnergy,
+        map.entities.add(new Grazer(lsdp.GrazerX, lsdp.GrazerY, lsdp.GrazerEnergy,
           lsdp.getGrazerMaintainSpeedTime(), lsdp.getGrazerMaxSpeed(), lsdp.getGrazerEnergyInputRate(),
           lsdp.getGrazerEnergyOutputRate(), lsdp.getGrazerEnergyToReproduce()));
       }
@@ -59,7 +62,7 @@ public class Simulator{
     for (int i=0; i < predatorCount; i++) {
       if (lsdp.getPredatorData())
       {
-        entities.add(new Predator(lsdp.PredatorX, lsdp.PredatorY, lsdp.PredatorEnergy,
+        map.entities.add(new Predator(lsdp.PredatorX, lsdp.PredatorY, lsdp.PredatorEnergy,
           lsdp.PredatorGenotype, lsdp.getPredatorMaxSpeedHOD(), lsdp.getPredatorMaxSpeedHED(),
           lsdp.getPredatorMaxSpeedHOR(), lsdp.getPredatorMaintainSpeedTime(), lsdp.getPredatorEnergyOutputRate(),
           lsdp.getPredatorEnergyToReproduce(), lsdp.getPredatorMaxOffspring(), lsdp.getPredatorOffspringEnergyLevel(),
