@@ -17,4 +17,15 @@ public class Plant extends Entity {
         this.seedViability = seedViability;
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getDiameter() {
+        return diameter;
+    }
 }

@@ -32,4 +32,8 @@ public class Obstacle extends Entity {
     public double getY() {
         return y;
     }
+
+    public double getDiameter() {
+        return diameter;
+    }
 }

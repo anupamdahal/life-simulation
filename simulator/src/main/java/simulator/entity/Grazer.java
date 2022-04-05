@@ -16,4 +16,12 @@ public class Grazer extends Entity {
         this.energyOutputRate = energyOutputRate;
         this.energyToReproduce = energyToReproduce;
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }

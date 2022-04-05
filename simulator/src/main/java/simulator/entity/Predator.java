@@ -27,4 +27,12 @@ public class Predator extends Entity {
         this.offspringEnergyLevel = offspringEnergyLevel;
         this.gestationPeriod = gestationPeriod;
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }
