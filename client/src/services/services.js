@@ -1,15 +1,54 @@
 import axios from 'axios'
+import { safeResolve } from './safeResolve'
+import { SERVER_URL } from '../config'
+import { START_SIMULATION, GET_SIMULATION_RESULT } from '../const/enumAPIEndPoints'
+import { PENDING } from '../const/enumAPIStatus'
 
-const baseURL = "https://locahost:3001/"
+const postData = (URI, body) => {
+  const data = JSON.stringify(body);
 
-const getScores = () => {
-  const req = axios.get("/api/scores")
-  return req.then(res => res.data)
+  const config = {
+    method: 'post',
+    url: URI,
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: data
+  };
+
+  return axios(config)
+    .then(res => res.data)
+}
+
+export const getSimulationResult = (id) => (
+  axios.get(`${SERVER_URL}/${GET_SIMULATION_RESULT}/${id}`)
+    .then(res => res.body)
+)
+
+const getScores = (id) => {
+  return new Promise(async (resolve, reject) => {
+    const getResult = async () => {
+      const [res, err] = await safeResolve(getSimulationResult(id))
+      if (err){
+        reject(err)
+        return
+      }
+      if (res.status !== PENDING){
+        resolve(res.result)
+      }
+      else{
+        setTimeout(getResult, getResult)
+      }
+    }
+    getResult()
+  })
 }
 
 const postConfigs = configs => {
-  const req = axios.post(`${baseURL}/api/simulation`, configs)
-  return req.then(res => res.data)
+  const initialConditions = {
+    initialConditions: configs
+  }
+  return postData(`${SERVER_URL}/${START_SIMULATION}`, initialConditions)
 }
 
 const services = { getScores, postConfigs }
