@@ -5,10 +5,6 @@ services:
   mongo:
     image: mongo
     restart: always
-    # environment:
-    #   MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-    #   MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_USERNAME}
-    #   MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
     ports:
       - "${MONGODB_PORT}:27017"
   
@@ -19,16 +15,16 @@ services:
     restart: always
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
-    # depends_on:
-    #   - mongo
+    depends_on:
+      - mongo
   
-  # client:
-  #   build:
-  #     context: .
-  #     dockerfile: client/Dockerfile.client
-  #   restart: always
-  #   ports:
-  #     - "${CLIENT_PORT}:${CLIENT_PORT}"
+  client:
+    build:
+      context: .
+      dockerfile: client/Dockerfile.client
+    restart: always
+    ports:
+      - "${CLIENT_PORT}:${CLIENT_PORT}"
   
   simulator:
     build:
