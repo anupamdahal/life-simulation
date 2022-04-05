@@ -24,4 +24,21 @@ public class Grazer extends Entity {
     public int getY() {
         return y;
     }
+
+    // implement all grazer behaviors in here
+    // return false if the grazer starved to death
+    @Override
+    public boolean update() {
+        if (energy <= 0) {
+            // starved to death
+            return false;
+        }
+        if (energy < 15) {
+            // cannot move, but doesn't die yet
+            return true;
+        }
+        // TODO: check for predators
+        // TODO: check for food
+        return true;
+    }
 }
