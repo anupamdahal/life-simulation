@@ -1,6 +1,5 @@
 package simulator.entity;
 
-import simulator.Map;
 import java.util.Random;
 
 public class Plant extends Entity {
@@ -56,10 +55,17 @@ public class Plant extends Entity {
                     // this seed doesn't germinate
                     continue;
                 }
-                double angle = 2.0 * Math.PI * rand.nextDouble();
-                double radius = castDistance * rand.nextDouble();
-                int newX = (int)(x + radius * Math.cos(angle));
-                int newY = (int)(y + radius * Math.sin(angle));
+                int newX = 0;
+                int newY = 0;
+                // throw the seed to a random spot inside the cast distance
+                // retry until it lands inside the map bounds
+                do {
+                    double angle = 2.0 * Math.PI * rand.nextDouble();
+                    double radius = castDistance * rand.nextDouble();
+                    newX = (int)(x + radius * Math.cos(angle));
+                    newY = (int)(y + radius * Math.sin(angle));
+                } while (!map.isPointInBounds(newX, newY));
+
                 map.entities.add(new Plant(newX, newY, 1, maxSize, castDistance,
                 maxSeedNumber, growthRate, seedViability));
             }
