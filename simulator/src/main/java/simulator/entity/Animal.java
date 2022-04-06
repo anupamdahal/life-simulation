@@ -2,8 +2,9 @@ package simulator.entity;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import javafx.util.Pair;
 import java.util.Random;
+
+import simulator.Pair;
 
 public abstract class Animal extends Entity {
     private GrazerConfig grazerConfig;

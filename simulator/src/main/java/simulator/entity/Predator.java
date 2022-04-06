@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.EnumSet;
 import java.util.Random;
-import javafx.util.Pair;
+
+import simulator.Pair;
 
 public class Predator extends Animal {
     private PredatorConfig predatorConfig;

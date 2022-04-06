@@ -1,7 +1,6 @@
 package simulator;
 
 import java.util.*;
-import javafx.util.Pair;
 import simulator.entity.*;
 
 public class Map {
@@ -58,7 +57,7 @@ public class Map {
             double distance = Math.sqrt(Math.pow(source.getX() - target.getX(), 2)
                 + Math.pow(source.getY() - target.getY(), 2));
             if (distance <= range) {
-                result.add(new Pair<>(distance, target));
+                result.add(new Pair<Double, Entity>(distance, target));
             }
         }
         return result;
