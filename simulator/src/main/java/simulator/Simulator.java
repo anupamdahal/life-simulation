@@ -5,6 +5,9 @@ import simulator.entity.*;
 public class Simulator{
   private Map map;
   private int simulation_time;
+  private GrazerConfig grazerConfig;
+  private PredatorConfig predatorConfig;
+  private PlantConfig plantConfig;
 
   public Simulator(){}
 
@@ -34,38 +37,54 @@ public class Simulator{
       }
     }
 
+    // initialize config files
+    grazerConfig = grazerConfig.getInstance();
+    predatorConfig = predatorConfig.getInstance();
+    plantConfig = plantConfig.getInstance();
+
     // initialize plants
+    plantConfig.setMaxPlantSize(lsdp.getMaxPlantSize());
+    plantConfig.setMaxSeedCastDistance(lsdp.getMaxSeedCastDistance());
+    plantConfig.setMaxSeedNumber(lsdp.getMaxSeedNumber());
+    plantConfig.setPlantGrowthRate(lsdp.getPlantGrowthRate());
+    plantConfig.setSeedViability(lsdp.getSeedViability());
     int plantCount = lsdp.getInitialPlantCount();
     for (int i=0; i < plantCount; i++) {
       if(lsdp.getPlantData())
       {
-        map.entities.add(new Plant(lsdp.PlantX, lsdp.PlantY, lsdp.PlantDiameter, lsdp.getMaxPlantSize(),
-          lsdp.getMaxSeedCastDistance(), lsdp.getMaxSeedNumber(), lsdp.getPlantGrowthRate(),
-          lsdp.getSeedViability()));
+        map.entities.add(new Plant(lsdp.PlantX, lsdp.PlantY, lsdp.PlantDiameter);
       }
     }
 
     // initialize grazers
+    grazerConfig.setGrazerMaintainSpeedTime(lsdp.getGrazerMaintainSpeedTime());
+    grazerConfig.setGrazerMaxSpeed(lsdp.getGrazerMaxSpeed());
+    grazerConfig.setGrazerEnergyInputRate(lsdp.getGrazerEnergyInputRate());
+    grazerConfig.setGrazerEnergyOutputRate(lsdp.getGrazerEnergyOutputRate());
+    grazerConfig.setGrazerEnergyToReproduce(lsdp.getGrazerEnergyToReproduce());
     int grazerCount = lsdp.getInitialGrazerCount();
     for (int i=0; i < grazerCount; i++) {
       if (lsdp.getGrazerData())
       {
-        map.entities.add(new Grazer(lsdp.GrazerX, lsdp.GrazerY, lsdp.GrazerEnergy,
-          lsdp.getGrazerMaintainSpeedTime(), lsdp.getGrazerMaxSpeed(), lsdp.getGrazerEnergyInputRate(),
-          lsdp.getGrazerEnergyOutputRate(), lsdp.getGrazerEnergyToReproduce()));
+        map.entities.add(new Grazer(lsdp.GrazerX, lsdp.GrazerY, lsdp.GrazerEnergy));
       }
     }
 
     // initialize predators
+    predatorConfig.setPredatorMaxSpeedHOD(lsdp.getPredatorMaxSpeedHOD());
+    predatorConfig.setPredatorMaxSpeedHED(lsdp.getPredatorMaxSpeedHED());
+    predatorConfig.setPredatorMaxSpeedHOR(lsdp.getPredatorMaxSpeedHOR());
+    predatorConfig.setPredatorMaintainSpeedTime(lsdp.getPredatorMaintainSpeedTime());
+    predatorConfig.setPredatorEnergyOutputRate(lsdp.getPredatorEnergyOutputRate());
+    predatorConfig.setPredatorEnergyToReproduce(lsdp.getPredatorEnergyToReproduce());
+    predatorConfig.setPredatorMaxOffspring(lsdp.getPredatorMaxOffspring());
+    predatorConfig.setPredatorOffspringEnergyLevel(lsdp.getPredatorOffspringEnergyLevel());
+    predatorConfig.setPredatorGestationPeriod(lsdp.getPredatorGestationPeriod());
     int predatorCount = lsdp.getInitialPredatorCount();
     for (int i=0; i < predatorCount; i++) {
       if (lsdp.getPredatorData())
       {
-        map.entities.add(new Predator(lsdp.PredatorX, lsdp.PredatorY, lsdp.PredatorEnergy,
-          lsdp.PredatorGenotype, lsdp.getPredatorMaxSpeedHOD(), lsdp.getPredatorMaxSpeedHED(),
-          lsdp.getPredatorMaxSpeedHOR(), lsdp.getPredatorMaintainSpeedTime(), lsdp.getPredatorEnergyOutputRate(),
-          lsdp.getPredatorEnergyToReproduce(), lsdp.getPredatorMaxOffspring(), lsdp.getPredatorOffspringEnergyLevel(),
-          lsdp.getPredatorGestationPeriod()));
+        map.entities.add(new Predator(lsdp.PredatorX, lsdp.PredatorY, lsdp.PredatorEnergy, lsdp.PredatorGenotype));
       }
     }
   }

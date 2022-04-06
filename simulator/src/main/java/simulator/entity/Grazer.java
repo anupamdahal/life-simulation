@@ -6,22 +6,16 @@ import javafx.util.Pair;
 import java.util.Random;
 
 public class Grazer extends Animal {
-    private int energyInputRate, energyToReproduce;
-    private double maintainSpeedTime, maxSpeed;
+    private GrazerConfig grazerConfig;
 
     static Random rand = new Random();
 
-    public Grazer(int x, int y, int energy, double maintainSpeedTime, double maxSpeed,
-        int energyInputRate, int energyOutputRate, int energyToReproduce)
+    public Grazer(int x, int y, int energy)
     {
+        grazerConfig = grazerConfig.getInstance();
         this.x = x;
         this.y = y;
         this.energy = energy;
-        this.maintainSpeedTime = maintainSpeedTime;
-        this.maxSpeed = maxSpeed;
-        this.energyInputRate = energyInputRate;
-        this.energyOutputRate = energyOutputRate;
-        this.energyToReproduce = energyToReproduce;
         type = EntityType.GRAZER;
     }
 
@@ -86,7 +80,7 @@ public class Grazer extends Animal {
         }
         
         // reproduce
-        if (energy >= energyToReproduce) {
+        if (energy >= grazerConfig.getEnergyToReproduce()) {
             // half the energy
             energy /= 2;
             // add a new grazer in a random direction 5 DU away
@@ -99,8 +93,7 @@ public class Grazer extends Animal {
                 newY = (int)(y + radius * Math.sin(angle));
             } while (!map.isPointInBounds(newX, newY));
 
-            map.entities.add(new Grazer(newX, newY, energy, maintainSpeedTime, maxSpeed,
-                energyInputRate, energyOutputRate, energyToReproduce));
+            map.entities.add(new Grazer(newX, newY, energy));
         }
         return true;
     }
