@@ -33,7 +33,6 @@ public class Predator extends Animal {
         // check for predators
         ArrayList<Pair<Double, Entity>> nearbyPredators = map.search(this, EntityType.PREDATOR, 150);
         if (!nearbyPredators.isEmpty()) {
-            //flee
             Predator nearestPredator = (Predator)nearbyPredators.get(0).getValue();
             double smallestDistance = Double.MAX_VALUE;
             Iterator<Pair<Double, Entity>> iter = nearbyPredators.iterator();
