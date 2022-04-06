@@ -22,8 +22,8 @@ public class Simulator{
 		lsdp.initDataParser(DATAFILE);
 
     // initialize the map
-    System.out.println("World width = " + lsdp.getWorldWidth());
-    System.out.println("World height= " + lsdp.getWorldHeight());
+    map.setWidth((int)lsdp.getWorldWidth());
+    map.setHeight((int)lsdp.getWorldHeight());
 
     // initialize obstacles
     int obstacleCount = lsdp.getObstacleCount();
