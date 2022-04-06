@@ -43,16 +43,16 @@ public class Simulator{
     plantConfig = plantConfig.getInstance();
 
     // initialize plants
-    plantConfig.setMaxPlantSize(lsdp.getMaxPlantSize());
+    plantConfig.setMaxSize(lsdp.getMaxPlantSize());
     plantConfig.setMaxSeedCastDistance(lsdp.getMaxSeedCastDistance());
     plantConfig.setMaxSeedNumber(lsdp.getMaxSeedNumber());
-    plantConfig.setPlantGrowthRate(lsdp.getPlantGrowthRate());
+    plantConfig.setGrowthRate(lsdp.getPlantGrowthRate());
     plantConfig.setSeedViability(lsdp.getSeedViability());
     int plantCount = lsdp.getInitialPlantCount();
     for (int i=0; i < plantCount; i++) {
       if(lsdp.getPlantData())
       {
-        map.entities.add(new Plant(lsdp.PlantX, lsdp.PlantY, lsdp.PlantDiameter);
+        map.entities.add(new Plant(lsdp.PlantX, lsdp.PlantY, lsdp.PlantDiameter));
       }
     }
 
@@ -91,6 +91,17 @@ public class Simulator{
 
   public void run(){
     System.out.println("Running the Server");
+    while(map.shouldSimulationContinue()) {
+      update();
+    }
+  }
+
+  public void update(){
+    for (int i=0; i < map.entities.size(); i++) {
+      map.entities.get(i).update();
+    }
+    this.simulation_time += 1;
+    // TODO: send a snapshot of the simulation back to the server
   }
 
   public static void main() {
