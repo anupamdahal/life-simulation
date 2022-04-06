@@ -22,6 +22,7 @@ public class Plant extends Entity {
         this.maxSeedNumber = maxSeedNumber;
         this.growthRate = growthRate;
         this.seedViability = seedViability;
+        type = EntityType.PLANT;
     }
 
     public int getX() {

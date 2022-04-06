@@ -26,6 +26,7 @@ public class Predator extends Entity {
         this.maxOffspring = maxOffspring;
         this.offspringEnergyLevel = offspringEnergyLevel;
         this.gestationPeriod = gestationPeriod;
+        type = EntityType.PREDATOR;
     }
 
     public int getX() {

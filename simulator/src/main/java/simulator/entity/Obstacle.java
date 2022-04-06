@@ -1,13 +1,14 @@
 package simulator.entity;
 
 public class Obstacle extends Entity {
-    private double x, y, diameter, height;
+    private double diameter, height;
 
     public Obstacle(double x, double y, double diameter, double height) {
-        this.x = x;
-        this.y = y;
+        this.x = (int)x;
+        this.y = (int)y;
         this.diameter = diameter;
         this.height = height;
+        type = EntityType.OBSTACLE;
     }
 
     // TODO: is this obstacle in the path of a planned movement?
@@ -23,14 +24,6 @@ public class Obstacle extends Entity {
         else {
             return false;
         }
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
     }
 
     public double getDiameter() {
