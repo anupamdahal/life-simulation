@@ -3,10 +3,13 @@ package simulator.entity;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javafx.util.Pair;
+import java.util.Random;
 
 public class Grazer extends Entity {
     private int energy, energyInputRate, energyOutputRate, energyToReproduce;
     private double maintainSpeedTime, maxSpeed;
+
+    static Random rand = new Random();
 
     public Grazer(int x, int y, int energy, double maintainSpeedTime, double maxSpeed,
         int energyInputRate, int energyOutputRate, int energyToReproduce)
@@ -86,10 +89,17 @@ public class Grazer extends Entity {
         if (energy >= energyToReproduce) {
             // half the energy
             energy /= 2;
-            // add a new grazer
-            // TODO: the new grazer should be spawned some small distance away from the original
-            // TODO: need to add boundary checking in order for that to happen
-            map.entities.add(new Grazer(x, y, energy, maintainSpeedTime, maxSpeed,
+            // add a new grazer in a random direction 5 DU away
+            int newX = 0;
+            int newY = 0;
+            do {
+                double angle = 2.0 * Math.PI * rand.nextDouble();
+                double radius = 5.0 * rand.nextDouble();
+                newX = (int)(x + radius * Math.cos(angle));
+                newY = (int)(y + radius * Math.sin(angle));
+            } while (!map.isPointInBounds(newX, newY));
+            
+            map.entities.add(new Grazer(newX, newY, energy, maintainSpeedTime, maxSpeed,
                 energyInputRate, energyOutputRate, energyToReproduce));
         }
         return true;
