@@ -28,26 +28,25 @@ public class Grazer extends Animal {
             map.entities.remove(this);
             return false;
         }
-        if (energy < 25) {
-            // unable to move more than 10 DU because of weakness
-            // TODO: movement
-            return true;
-        }
+        
         // TODO: check for predators
         ArrayList<Pair<Double, Entity>> nearbyPredators = map.search(this, EntityType.PREDATOR, 25);
         if (!nearbyPredators.isEmpty()) {
             //flee
-            Entity nearestPredator;
+            Entity nearestPredator = nearbyPredators.get(0).getValue();
             double smallestDistance = Double.MAX_VALUE;
             Iterator<Pair<Double, Entity>> iter = nearbyPredators.iterator();
             while (iter.hasNext()) {
                 Pair<Double, Entity> predatorPair = iter.next();
                 double distance = predatorPair.getKey();
-                Entity predator = predatorPair.getValue();
                 if (distance < smallestDistance) {
                     smallestDistance = distance;
-                    nearestPredator = predator;
+                    nearestPredator = predatorPair.getValue();
                 }
+            }
+            if (!this.fleeFrom(nearestPredator)) {
+                // we've hit an obstacle, move in a random direction to avoid it
+                this.moveRand();
             }
             return true;
         }
@@ -55,7 +54,7 @@ public class Grazer extends Animal {
         // TODO: check for food
         ArrayList<Pair<Double, Entity>> nearbyPlants = map.search(this, EntityType.PLANT, 25);
         if (!nearbyPlants.isEmpty()) {
-            Entity nearestPlant;
+            Entity nearestPlant = nearbyPlants.get(0).getValue();
             double smallestDistance = Double.MAX_VALUE;
             Iterator<Pair<Double, Entity>> iter = nearbyPlants.iterator();
             while (iter.hasNext()) {
@@ -69,14 +68,17 @@ public class Grazer extends Animal {
             }
             // is the grazer within eating range of the nearest plant?
             if (smallestDistance <= 5) {
-                // eat
+                // TODO: eat
             }
             else {
-                // move towards the nearest plant
+                if (!this.moveTowards(nearestPlant)) {
+                    this.moveRand();
+                }
             }
         }
         else {
             // move in a random direction to find a plant
+            this.moveRand();
         }
         
         // reproduce
