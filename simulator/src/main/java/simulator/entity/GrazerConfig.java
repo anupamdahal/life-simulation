@@ -11,35 +11,43 @@ public class GrazerConfig {
         return theInstance;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public int getEnergy(){
-        return energy;
-    }
-
     public double getMaintainSpeedTime(){
         return maintainSpeedTime;
+    }
+
+    public void setMaintainSpeedTime(double maintainSpeedTime){
+        this.maintainSpeedTime = maintainSpeedTime;
     }
 
     public double getMaxSpeed(){
         return maxSpeed;
     }
 
+    public void setMaxSpeed(double maxSpeed){
+        this.maxSpeed = maxSpeed;
+    }
+
     public int getEnergyInputRate(){
         return energyInputRate;
+    }
+
+    public void setEnergyInputRate(int energyInputRate){
+        this.energyInputRate = energyInputRate;
     }
 
     public int getEnergyOutputRate(){
         return energyOutputRate;
     }
 
+    public void setEnergyOutputRate(int energyOutputRate){
+        this.energyOutputRate = energyOutputRate;
+    }
+
     public int getEnergyToReproduce(){
         return energyToReproduce;
-    } 
+    }
+
+    public void setEnergyToReproduce(int energyToReproduce){
+        this.energyToReproduce = energyToReproduce;
+    }
 }

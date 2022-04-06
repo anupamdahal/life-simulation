@@ -4,7 +4,7 @@ package simulator.entity;
 public class PredatorConfig {
     private static PredatorConfig theInstance = new PredatorConfig();
 
-    private int energy, maxOffspring, offspringEnergyLevel, energyToReproduce, energyOutputRate;
+    private int maxOffspring, offspringEnergyLevel, energyToReproduce, energyOutputRate;
     private double gestationPeriod, maxSpeedHOD, maxSpeedHED, maxSpeedHOR, maintainSpeedTime;
     private String genotype;
 
@@ -12,19 +12,11 @@ public class PredatorConfig {
         return theInstance;
     }
 
-    public int getEnergy(){
-        return energy;
-    }
-
-    public void getEnergy(int energy){
-        this.energy = energy;
-    }
-
     public String getGenotype(){
         return genotype;
     }
 
-    public void getGenotype(String genotype){
+    public void setGenotype(String genotype){
         this.genotype = genotype;
     }
 
@@ -32,7 +24,7 @@ public class PredatorConfig {
         return maxSpeedHOD;
     }
 
-    public void getMaxSpeedHOD(double maxSpeedHOD){
+    public void setMaxSpeedHOD(double maxSpeedHOD){
         this.maxSpeedHOD = maxSpeedHOD;
     }
 
@@ -40,7 +32,7 @@ public class PredatorConfig {
         return maxSpeedHED;
     }
 
-    public void getMaxSpeedHED(double maxSpeedHED){
+    public void setMaxSpeedHED(double maxSpeedHED){
         this.maxSpeedHED = maxSpeedHED;
     }
 
@@ -48,7 +40,7 @@ public class PredatorConfig {
         return maxSpeedHOR;
     }
 
-    public void getMaxSpeedHOR(double maxSpeedHOR){
+    public void setMaxSpeedHOR(double maxSpeedHOR){
         this.maxSpeedHOR = maxSpeedHOR;
     }
 
@@ -56,7 +48,7 @@ public class PredatorConfig {
         return maintainSpeedTime;
     }
 
-    public void getMaintainSpeedTime(double maintainSpeedTime){
+    public void setMaintainSpeedTime(double maintainSpeedTime){
         this.maintainSpeedTime = maintainSpeedTime;
     }
 
@@ -64,7 +56,7 @@ public class PredatorConfig {
         return energyOutputRate;
     }
 
-    public void getEnergyOutputRate(int energyOutputRate){
+    public void setEnergyOutputRate(int energyOutputRate){
         this.energyOutputRate = energyOutputRate;
     }
 
@@ -72,7 +64,7 @@ public class PredatorConfig {
         return energyToReproduce;
     }
 
-    public void getEnergyToReproduce(int energyToReproduce){
+    public void setEnergyToReproduce(int energyToReproduce){
         this.energyToReproduce = energyToReproduce;
     }
 
@@ -80,7 +72,7 @@ public class PredatorConfig {
         return maxOffspring;
     }
 
-    public void getMaxOffspring(int maxOffspring){
+    public void setMaxOffspring(int maxOffspring){
         this.maxOffspring = maxOffspring;
     }
 
@@ -88,7 +80,7 @@ public class PredatorConfig {
         return offspringEnergyLevel;
     }
 
-    public void getOffspringEnergyLevel(int offspringEnergyLevel){
+    public void setOffspringEnergyLevel(int offspringEnergyLevel){
         this.offspringEnergyLevel = offspringEnergyLevel;
     }
 
@@ -96,7 +88,7 @@ public class PredatorConfig {
         return gestationPeriod;
     }
 
-    public void getGestationPeriod(int gestationPeriod){
+    public void setGestationPeriod(int gestationPeriod){
         this.gestationPeriod = gestationPeriod;
     }
 }
