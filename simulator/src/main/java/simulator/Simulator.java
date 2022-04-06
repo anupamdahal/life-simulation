@@ -1,6 +1,5 @@
 package simulator;
 
-import java.util.*;
 import simulator.entity.*;
 
 public class Simulator{
