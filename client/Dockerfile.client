@@ -10,6 +10,4 @@ RUN npm install
 
 COPY $DIR/. ./
 
-COPY .env* ../
-
-CMD [ "npm", "start" ]
+CMD [ "npm","run", "start-prod" ]
