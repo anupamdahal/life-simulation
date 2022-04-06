@@ -27,11 +27,11 @@ public class Entity_Movement extends Entity {
     private int current_Entity;
     private int direction;
     private int g_Energy;
-    private int p_Energy = predatorsList.get(current_Entity).getEnergy();
-    private int g_Energy_To_Reproduce = grazersList.get(current_Entity).getEnergyToReproduce();
+    private int p_Energy;
+    private int g_Energy_To_Reproduce;
     private double g_Speed; // speed of grazer
     private double p_Speed; // speed of predator
-    private double g_Max_Speed = grazersList.get(current_Entity).getMaxSpeed();
+    private double g_Max_Speed;
     private int chance; // used for determining if an entity is killed in combat
     
     private int space_Moved; // once units moved is >= 5, energy is taken away (fatigue)
@@ -42,8 +42,6 @@ public class Entity_Movement extends Entity {
     private boolean chase; 
     private boolean flee;
 
-    // Need to be able to determine which entity is using the code **************************************
-    // REMOVE EXCESS FROM ENTITY
 
     void entityCount(){
         obstacle_Count = obstaclesList.size();
@@ -66,8 +64,6 @@ public class Entity_Movement extends Entity {
     void move(){ // basic movement 
         if(entity_Type == "grazer"){
             if(direction == 0){
-                // Don't know if the getter is necessary, was just trying various methods
-                // because my coding knowledge isn't exactly the greatest
                 x = grazersList.get(current_Entity).getX() + (int) g_Speed; // use "this" here?
             }
             else if(direction == 1){
@@ -86,8 +82,6 @@ public class Entity_Movement extends Entity {
                 space_Moved = 0;
             }
         }
-        // Ideally I would like to have just one "speed" instead of having to separate 
-        // between grazer and predator but I just have this for the time being
         else if(entity_Type == "predator"){
             if(direction == 0){
                 x = predatorsList.get(current_Entity).getX() + (int) p_Speed;
@@ -163,8 +157,6 @@ public class Entity_Movement extends Entity {
 
     }
 
-    // Also needs loop to traverse whatever Ethan used so that it searches 
-    // all the entities of that target type (Array, Linked List, etc.?)
     void search(int x1, int x2, int y1, int y2, int target, boolean visible){
 
         // checks if the target is within very close range
@@ -395,26 +387,127 @@ public class Entity_Movement extends Entity {
     void combat(){ // Needs to take into account predator genes
         if(genotype == "SS"){
             if(target == 2){
-                
+                chance = rand.nextInt(19);
+                if(chance != 19){
+                    // grazer dies
+                }
+                else{
+                    // grazer escapes
+                }
             }
-            else if(target_Genotype == "SS"){
-                chance = rand.nextInt
+            else if(target_Genotype == "SS"){ // 50% chance of running and 25% of killing
+                chance = rand.nextInt(3);
+                if(chance == 3){
+                    // enemy dies
+                }
+                else if(chance == 0){
+                    // this entity dies
+                }
+                else{
+                    // both flee
+                }
             }
             else if(target_Genotype == "Ss"){
+                chance = rand.nextInt(3); // 75% chance of killing
+                if(chance != 3){
+                    // enemy dies
+                }
+                else{
+                    // this entity dies
+                }
+            }   
+            else{
+                chance = rand.nextInt(19); // 95% chance of killing
+                if(chance != 19){
+                    // enemy dies
+                }
+                else{
+                    // this entity dies
+                }
+            }
+        }
 
+        else if(genotype == "Ss"){
+            if(target == 2){
+                if(chance != 3){
+                    // grazer dies
+                }
+                else{
+                    // grazer escapes
+                }
+            }
+            else if(target_Genotype == "SS"){ // 25% chance of killing
+                chance = rand.nextInt(3);
+                if(chance == 3){
+                    // enemy dies
+                }
+                else{
+                    // this entity dies
+                }
+            }
+            else if(target_Genotype == "Ss"){ // 50% chance of running and 25% of killing
+                chance = rand.nextInt(3);
+                if(chance == 3){
+                    // enemy dies
+                }
+                else if(chance == 0){
+                    // this entity dies
+                }
+                else{
+                    // both flee
+                }
+            }   
+            else{
+                chance = rand.nextInt(3); // 75% chance of killing
+                if(chance != 3){
+                    // enemy dies
+                }
+                else{
+                    // this entity dies
+                }
+            }
+        }
+
+        else{
+            if(target == 2){
+                chance = rand.nextInt(1);
+                if(chance == 1){
+                    // grazer dies
+                }
+                else{
+                    // grazer escapes
+                }
+            }
+            else if(target_Genotype == "SS"){ // 5% chance of killing
+                chance = rand.nextInt(19); 
+                if(chance == 19){
+                    // enemy dies
+                }
+                else{
+                    // this entity dies
+                }
+            }
+            else if(target_Genotype == "Ss"){
+                chance = rand.nextInt(3); // 25% chance of killing
+                if(chance == 3){
+                    // enemy dies
+                }
+                else{
+                    // this entity dies
+                }
             }   
             else{
 
-            }
-        }
-        else if(genotype == "Ss"){
-            if(target == 2){
-                
-            }
-        }
-        else{
-            if(target == 2){
-
+                chance = rand.nextInt(3); // 50% chance of running and 25% of killing
+                if(chance == 3){
+                    // enemy dies
+                }
+                else if(chance == 0){
+                    // this entity dies
+                }
+                else{
+                    // both flee
+                }
             }
         }
     }
