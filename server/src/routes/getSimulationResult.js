@@ -1,15 +1,16 @@
 const {SimulationResult} = require('../models/SimulationResult')
 const express = require('express');
 const { NOT_FOUND, OK } = require('../const/httpStatus')
-const { INVALID_ID } = require('../const/error')
+const { INVALID_ID } = require('../const/error');
+const { safeResolve } = require('../utils/safeResolve');
 
 const router = express.Router()
 
 router.get('/:id', async (req, res) => {
   const { id } = req.params
-  const simulationResult = await SimulationResult.findById(id)
+  const [simulationResult, err] = await safeResolve(SimulationResult.findById(id))
 
-  if(!simulationResult){
+  if(err){
     res.status(NOT_FOUND).send(INVALID_ID)
     return
   }
