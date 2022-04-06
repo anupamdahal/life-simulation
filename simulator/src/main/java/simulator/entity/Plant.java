@@ -56,7 +56,7 @@ public class Plant extends Entity {
                 // retry until it lands inside the map bounds
                 do {
                     double angle = 2.0 * Math.PI * rand.nextDouble();
-                    double radius = plantConfig.getCastDistance() * rand.nextDouble();
+                    double radius = plantConfig.getMaxSeedCastDistance() * rand.nextDouble();
                     newX = (int)(x + radius * Math.cos(angle));
                     newY = (int)(y + radius * Math.sin(angle));
                 } while (!map.isPointInBounds(newX, newY));
