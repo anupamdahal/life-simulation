@@ -2,7 +2,7 @@ package simulator.entity;
 
 import simulator.Map;
 
-public class Entity {
+public abstract class Entity {
     public Map map;
     public EntityType type;
 

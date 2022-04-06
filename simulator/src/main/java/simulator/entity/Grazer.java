@@ -5,8 +5,8 @@ import java.util.Iterator;
 import javafx.util.Pair;
 import java.util.Random;
 
-public class Grazer extends Entity {
-    private int energy, energyInputRate, energyOutputRate, energyToReproduce;
+public class Grazer extends Animal {
+    private int energyInputRate, energyToReproduce;
     private double maintainSpeedTime, maxSpeed;
 
     static Random rand = new Random();
@@ -98,7 +98,7 @@ public class Grazer extends Entity {
                 newX = (int)(x + radius * Math.cos(angle));
                 newY = (int)(y + radius * Math.sin(angle));
             } while (!map.isPointInBounds(newX, newY));
-            
+
             map.entities.add(new Grazer(newX, newY, energy, maintainSpeedTime, maxSpeed,
                 energyInputRate, energyOutputRate, energyToReproduce));
         }

@@ -1,10 +1,10 @@
 package simulator.entity;
 
-public class Predator extends Entity {
-    private int x, y, energy;
+public class Predator extends Animal {
+    private int x, y;
     private String genotype;
     private double maxSpeedHOD, maxSpeedHED, maxSpeedHOR, maintainSpeedTime;
-    private int energyOutputRate, energyToReproduce;
+    private int energyToReproduce;
     private int maxOffspring, offspringEnergyLevel;
     private double gestationPeriod;
 

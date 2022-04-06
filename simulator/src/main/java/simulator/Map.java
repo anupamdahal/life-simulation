@@ -49,6 +49,23 @@ public class Map {
         return result;
     }
 
+    // override the search method to accept an x, y coordinate source as well
+    public ArrayList<Pair<Double, Entity>> search(int x, int y, Entity.EntityType type, int range) {
+        ArrayList<Pair<Double, Entity>> result = new ArrayList<Pair<Double, Entity>>();
+        for (int i=0; i < entities.size(); i++) {
+            if (entities.get(i).type != type) {
+                continue;
+            }
+            Entity target = entities.get(i);
+            double distance = Math.sqrt(Math.pow(x - target.getX(), 2)
+                + Math.pow(y - target.getY(), 2));
+            if (distance <= range) {
+                result.add(new Pair<>(distance, target));
+            }
+        }
+        return result;
+    }
+
     public void setWidth(int width) {
         this.width = width;
     }
