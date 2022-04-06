@@ -37,7 +37,7 @@ const getScores = (id) => {
         resolve(res.result)
       }
       else{
-        setTimeout(getResult, getResult)
+        setTimeout(getResult, 200)
       }
     }
     getResult()
