@@ -15,7 +15,7 @@ Furthermore, the simulation will have a focus on competition, with user configur
 
 ## Deploy
 
-First the copy the .env files
+First copy the .env files
 
 Copy .env.example as .env and .env.dev.example as .env.dev
 
