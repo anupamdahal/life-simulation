@@ -19,6 +19,21 @@ public class Map {
         return theInstance;
     }
 
+    // return false if there are 0 members remaining of either grazers,
+    // predators, or plants
+    public boolean shouldSimulationContinue() {
+        int numGrazers = 0;
+        int numPredators = 0;
+        int numPlants = 0;
+        for (int i=0; i < entities.size(); i++) {
+            Entity.EntityType type = entities.get(i).type;
+            if (type == Entity.EntityType.PLANT) { numPlants++; }
+            else if (type == Entity.EntityType.GRAZER) { numGrazers++; }
+            else if (type == Entity.EntityType.PREDATOR) { numPredators++; }
+        }
+        return (numGrazers > 0 && numPredators > 0 && numPlants > 0);
+    }
+
     // return true if a given point is within the map confines
     public boolean isPointInBounds(int x, int y) {
         if (0 < x && x < this.width && 0 < y && y < this.height) {
