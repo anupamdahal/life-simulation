@@ -10,6 +10,8 @@ public class Grazer extends Animal {
 
     static Random rand = new Random();
 
+    private int secondsSpentEatingFood;
+
     public Grazer(int x, int y, int energy)
     {
         grazerConfig = grazerConfig.getInstance();
@@ -28,7 +30,7 @@ public class Grazer extends Animal {
             map.entities.remove(this);
             return false;
         }
-        
+
         // TODO: check for predators
         ArrayList<Pair<Double, Entity>> nearbyPredators = map.search(this, EntityType.PREDATOR, 25);
         if (!nearbyPredators.isEmpty()) {
@@ -68,7 +70,16 @@ public class Grazer extends Animal {
             }
             // is the grazer within eating range of the nearest plant?
             if (smallestDistance <= 5) {
-                // TODO: eat
+                secondsSpentEatingFood++;
+                if (secondsSpentEatingFood % 60 == 0) {
+                    energy += grazerConfig.getEnergyInputRate();
+                }
+                if (secondsSpentEatingFood % 300 == 0) {
+                    // ate all the food
+                    map.entities.remove(nearestPlant);
+                    secondsSpentEatingFood = 0;
+                }
+                return true;
             }
             else {
                 if (!this.moveTowards(nearestPlant)) {
