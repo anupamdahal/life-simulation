@@ -11,6 +11,7 @@ public abstract class Animal extends Entity {
     private static Random rand = new Random();
 
     public int energy;
+    public String genotype;
 
     public boolean moveTowards(int desiredX, int desiredY) {
         // actual point the animal will attempt to move to considering its speed
@@ -34,6 +35,16 @@ public abstract class Animal extends Entity {
         // get the speed of the move and energy drain
         else if (this.type == EntityType.PREDATOR) {
             predatorConfig = predatorConfig.getInstance();
+            if (this.genotype.contains("FF")) {
+                speed = predatorConfig.getMaxSpeedHOD();
+            }
+            if (this.genotype.contains("Ff")) {
+                speed = predatorConfig.getMaxSpeedHED();
+            }
+            if (this.genotype.contains("ff")) {
+                speed = predatorConfig.getMaxSpeedHOR();
+            }
+            energyDrain = (int)(speed * (double)predatorConfig.getEnergyOutputRate() / 5.0);
         }
         else {
             return false; // you're trying to move something that can't move somehow
