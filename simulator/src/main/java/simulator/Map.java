@@ -48,10 +48,10 @@ public class Map {
     // of a source entity
     // return a list of range, object pairs
     // TODO: make this more efficient
-    public ArrayList<Pair<Double, Entity>> search(Entity source, Entity.EntityType type, int range) {
+    public ArrayList<Pair<Double, Entity>> search(Entity source, EnumSet<Entity.EntityType> types, int range) {
         ArrayList<Pair<Double, Entity>> result = new ArrayList<Pair<Double, Entity>>();
         for (int i=0; i < entities.size(); i++) {
-            if (entities.get(i).type != type) {
+            if (!types.contains(entities.get(i).type)) {
                 continue;
             }
             Entity target = entities.get(i);
