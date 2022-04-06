@@ -2,8 +2,9 @@ package simulator.entity;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import javafx.util.Pair;
+import java.util.EnumSet;
 import java.util.Random;
+import javafx.util.Pair;
 
 public class Grazer extends Animal {
     private GrazerConfig grazerConfig;
@@ -32,7 +33,7 @@ public class Grazer extends Animal {
         }
 
         // check for predators
-        ArrayList<Pair<Double, Entity>> nearbyPredators = map.search(this, EntityType.PREDATOR, 25);
+        ArrayList<Pair<Double, Entity>> nearbyPredators = map.search(this, EnumSet.of(EntityType.PREDATOR), 25);
         if (!nearbyPredators.isEmpty()) {
             //flee
             Entity nearestPredator = nearbyPredators.get(0).getValue();
@@ -54,7 +55,7 @@ public class Grazer extends Animal {
         }
         
         // TODO: check for food
-        ArrayList<Pair<Double, Entity>> nearbyPlants = map.search(this, EntityType.PLANT, 25);
+        ArrayList<Pair<Double, Entity>> nearbyPlants = map.search(this, EnumSet.of(EntityType.PLANT), 25);
         if (!nearbyPlants.isEmpty()) {
             Entity nearestPlant = nearbyPlants.get(0).getValue();
             double smallestDistance = Double.MAX_VALUE;
