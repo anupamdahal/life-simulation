@@ -10,4 +10,44 @@ public class PlantConfig {
     public PlantConfig getInstance() {
         return theInstance;
     }
+
+    public int getMaxSize() {
+        return maxSize;
+    }
+
+    public void setMaxSize(int maxSize) {
+        this.maxSize = maxSize;
+    }
+
+    public int getMaxSeedCastDistance() {
+        return castDistance;
+    }
+
+    public void setMaxSeedCastDistance(int maxSeedCastDistance) {
+        this.castDistance = maxSeedCastDistance;
+    }
+
+    public int getMaxSeedNumber() {
+        return maxSeedNumber;
+    }
+
+    public void setMaxSeedNumber(int maxSeedNumber) {
+        this.maxSeedNumber = maxSeedNumber;
+    }
+
+    public double getGrowthRate() {
+        return growthRate;
+    }
+
+    public void setGrowthRate(double growthRate) {
+        this.growthRate = growthRate;
+    }
+
+    public double getSeedViability() {
+        return seedViability;
+    }
+
+    public void setSeedViability(double seedViability) {
+        this.seedViability = seedViability;
+    }
 }
