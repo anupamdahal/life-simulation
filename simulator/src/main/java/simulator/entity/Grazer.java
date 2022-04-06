@@ -31,7 +31,7 @@ public class Grazer extends Animal {
             return false;
         }
 
-        // TODO: check for predators
+        // check for predators
         ArrayList<Pair<Double, Entity>> nearbyPredators = map.search(this, EntityType.PREDATOR, 25);
         if (!nearbyPredators.isEmpty()) {
             //flee
