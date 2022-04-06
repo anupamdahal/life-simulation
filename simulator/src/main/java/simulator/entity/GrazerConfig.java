@@ -10,4 +10,36 @@ public class GrazerConfig {
     public GrazerConfig getInstance() {
         return theInstance;
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getEnergy(){
+        return energy;
+    }
+
+    public double getMaintainSpeedTime(){
+        return maintainSpeedTime;
+    }
+
+    public double getMaxSpeed(){
+        return maxSpeed;
+    }
+
+    public int getEnergyInputRate(){
+        return energyInputRate;
+    }
+
+    public int getEnergyOutputRate(){
+        return energyOutputRate;
+    }
+
+    public int getEnergyToReproduce(){
+        return energyToReproduce;
+    } 
 }

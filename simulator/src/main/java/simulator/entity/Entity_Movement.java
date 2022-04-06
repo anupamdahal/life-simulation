@@ -1,28 +1,19 @@
 package simulator.entity;
+import java.util.ArrayList;
 import java.util.Random;
 
-public class Entity_Movement {
+public class Entity_Movement extends Entity {
 
-    static Random rand = new Random();
-
-    // These are here purely to remove the errors for now but ideally wouldn't be initialized within Entity_Movement
-    private int energy;
-    private int g_Energy_Level;
-    private int g_Energy_Output;
-    private int energy_Output;
-    private double max_Speed_Grazer;
-    private int energy_To_Reproduce;
-    // *************************************************************************************************************
-
+    static Random rand = new Random();    
     
-    // Not sure if I need these since it might already be in Ethan's code
+    // Not sure if I need these since it might end up in entity
     int x_Bound = 1000;
     int y_Bound = 750;
 
-    private int obstacle_Count = 15;
-    private int plant_Count = 28;
-    private int grazer_Count = 15;
-    private int predator_Count = 6;
+    private int obstacle_Count;
+    private int plant_Count;
+    private int grazer_Count;
+    private int predator_Count;
 
     private int north_Wall = y_Bound;
     private int south_Wall = -y_Bound;
@@ -30,40 +21,68 @@ public class Entity_Movement {
     private int west_Wall = -x_Bound;
     // ***********************************************************************
     
-
     private String entity_Type;
+    private int x;
+    private int y;
+    private int current_Entity;
     private int direction;
+    private int g_Energy;
+    private int p_Energy = predatorsList.get(current_Entity).getEnergy();
+    private int g_Energy_To_Reproduce = grazersList.get(current_Entity).getEnergyToReproduce();
     private double g_Speed; // speed of grazer
     private double p_Speed; // speed of predator
+    private double g_Max_Speed = grazersList.get(current_Entity).getMaxSpeed();
+    private int chance; // used for determining if an entity is killed in combat
     
     private int space_Moved; // once units moved is >= 5, energy is taken away (fatigue)
     private int target; // whatever the entity is searching for (obstacle to hide behind, food, etc.)
+    private int target_Tracker;
     private boolean visible; // this one might be a little scuffed but it's for noting if an entity is hidden behind an obstacle
     private boolean target_Nearby; // Once a target has been spotted, this is used to trigger various events
     private boolean chase; 
     private boolean flee;
+
+    // Need to be able to determine which entity is using the code **************************************
+    // REMOVE EXCESS FROM ENTITY
+
+    void entityCount(){
+        obstacle_Count = obstaclesList.size();
+        for(int c = 0; c < obstacle_Count ; c++){
+        }
+
+        plant_Count = plantsList.size();
+        for(int c = 0; c < plant_Count ; c++){
+        }
+
+        grazer_Count = grazersList.size();
+        for(int c = 0; c < grazer_Count ; c++){
+        }
+
+        predator_Count = predatorsList.size();
+        for(int c = 0; c < predator_Count ; c++){
+        }
+    }
 
     void move(){ // basic movement 
         if(entity_Type == "grazer"){
             if(direction == 0){
                 // Don't know if the getter is necessary, was just trying various methods
                 // because my coding knowledge isn't exactly the greatest
-                this.x_pos = getX_Pos() + (int) g_Speed; 
+                x = grazersList.get(current_Entity).getX() + (int) g_Speed; // use "this" here?
             }
             else if(direction == 1){
-                this.x_pos = getX_Pos() - (int) g_Speed;
+                x = grazersList.get(current_Entity).getX() - (int) g_Speed;
             }
             else if(direction == 2){
-                this.y_pos = getY_Pos() + (int) g_Speed;
+                y = grazersList.get(current_Entity).getY() + (int) g_Speed;
             }
             else {
-                this.y_pos = getY_Pos() - (int) g_Speed;
+                y = grazersList.get(current_Entity).getY() - (int) g_Speed;
             }
 
             space_Moved = space_Moved + (int) g_Speed;
             if(space_Moved >= 5){
-                // This was my other idea if getters aren't needed
-                this.g_Energy_Level = this.g_Energy_Level - g_Energy_Output;
+                g_Energy = grazersList.get(current_Entity).getEnergy() - grazersList.get(current_Entity).getEnergyOutputRate();
                 space_Moved = 0;
             }
         }
@@ -71,21 +90,21 @@ public class Entity_Movement {
         // between grazer and predator but I just have this for the time being
         else if(entity_Type == "predator"){
             if(direction == 0){
-                this.x_pos = getX_Pos() + (int) p_Speed;
+                x = predatorsList.get(current_Entity).getX() + (int) p_Speed;
             }
             else if(direction == 1){
-                this.x_pos = getX_Pos() - (int) p_Speed;
+                x = predatorsList.get(current_Entity).getX() - (int) p_Speed;
             }
             else if(direction == 2){
-                this.y_pos = getY_Pos() + (int) p_Speed;
+                y = predatorsList.get(current_Entity).getY() + (int) p_Speed;
             }
             else {
-                this.y_pos = getY_Pos() - (int) p_Speed;
+                y = predatorsList.get(current_Entity).getY() - (int) p_Speed;
             }
-            this.space_Moved = this.space_Moved + (int) g_Speed;
+            space_Moved = space_Moved + (int) g_Speed;
             if(space_Moved >= 5){
-                this.energy = this.energy - energy_Output;
-                this.space_Moved = 0;
+                p_Energy = predatorsList.get(current_Entity).getEnergy() - predatorsList.get(current_Entity).getEnergyOutputRate();
+                space_Moved = 0;
             }
         }
     }
@@ -95,50 +114,47 @@ public class Entity_Movement {
      to be just the default but the latter would make more sense in a standard scenario obviously */
 
         if(entity_Type == "grazer") { // Only grazers can do this
-            if(this.g_Energy_Level > max_Speed_Grazer){
-                g_Speed = max_Speed_Grazer;
+            if(g_Energy > g_Max_Speed){
+                g_Speed = g_Max_Speed;
             }
             else{
-                g_Speed = (int)(max_Speed_Grazer * .75); // once the grazer isn't feeling really energetic, it returns to "normal"
+                g_Speed = (int)(g_Max_Speed * .75); // once the grazer isn't feeling really energetic, it returns to "normal"
             }
         }
     }
 
     void lowEnergy(){ // for when the grazer gets fatigued
-        if(energy <= 25){
-            if(entity_Type == "grazer"){
-                this.g_Speed = g_Speed / 2; 
+            if(entity_Type == "grazer" && g_Energy <= 25){
+                g_Speed = g_Speed / 2; 
             }
-            else if(entity_Type == "predator"){
-                this.p_Speed = this.p_Speed / 2; 
+            else if(entity_Type == "predator" && p_Energy <= 25){
+                p_Speed = p_Speed / 2; 
             }
 
-            if(energy <= 15) {
-                if(entity_Type == "grazer"){ // grazer got big tired and can't move
-                    g_Speed = 0;
-                }
-                else if(entity_Type == "predator"){ // predator got big tired and can't move
-                    p_Speed = 0;
-                }
+            if(entity_Type == "grazer" && g_Energy <= 5){ // grazer got big tired and can't move
+                g_Speed = 0;
+            }
+            else if(entity_Type == "predator" && g_Energy <= 15){ // predator got big tired and can't move
+                p_Speed = 0;
+            }
     
-                if(energy <= 0) {
-                    // this part should remove the entity from the simulation ***********
-                }
+            if(energy <= 0) {
+                // this part should remove the entity from the simulation ***********
             }
         }
     }
 
     void wall(){ // avoids running into walls
-        if(this.y_pos <= (south_Wall + 5)){
+        if(y <= (south_Wall + 5)){
             direction = 0; //makes the entity rotate north
         }
-        if(this.y_pos >= (north_Wall - 5)){
+        if(y >= (north_Wall - 5)){
             direction = 1; //makes the entity rotate south
         }
-        if(this.x_pos <= (west_Wall + 5)){ 
+        if(x <= (west_Wall + 5)){ 
             direction = 2; //makes the entity rotate east
         }
-        if(this.x_pos >= (east_Wall - 5)){
+        if(x >= (east_Wall - 5)){
             direction = 3; //makes the entity rotate west
         }
     } 
@@ -186,7 +202,7 @@ public class Entity_Movement {
         target = 0; // Sets the target to obstacle
 
         // was pretty confused on how to implement this properly, same with the other 3 class-level checks below 
-        entityCheck(this.x_pos, obstacle.x_pos, y_pos, obstacle.y_pos, target, visible);
+        entityCheck(x, obstacle.x, y, obstacle.y, target, visible);
 
         if((target_Nearby == true) && (flee == true)){ // can be used by grazers and predators
             hide();
@@ -198,7 +214,7 @@ public class Entity_Movement {
 
     void grazerFoodCheck(){ // GRAZER ONLY, checks for nearby plants
         target = 1; // Sets the target to plant
-        entityCheck(x_pos, plant.x_pos, y_pos, plant.y_pos, target, visible);
+        entityCheck(x, plant.x, y, plant.y, target, visible);
         if(target_Nearby == true){
             fightOrFlight();
         }
@@ -206,7 +222,7 @@ public class Entity_Movement {
 
     void predatorGrazerCheck(){ // PREDATOR ONLY, checks for nearby grazers
         target = 2; // Sets the target to grazer
-        entityCheck(x_pos, grazer.x_pos, y_pos, grazer.y_pos, target, visible);
+        entityCheck(x, grazer.x, y, grazer.y, target, visible);
         if(target_Nearby == true){
             fightOrFlight();
         }
@@ -214,7 +230,7 @@ public class Entity_Movement {
 
     void predatorCheck(){ // checks for nearby predators
         target = 3; // Sets the target to predator
-        entityCheck(x_pos, predator.x_pos, y_pos, predator.y_pos, target, visible);
+        entityCheck(x, predator.x, y, predator.y, target, visible);
         if(target_Nearby == true){
             fightOrFlight();
         }
@@ -228,21 +244,21 @@ public class Entity_Movement {
         if(chase = true){
             if(target == 1) // checks for plant target
             {
-                pursue(x_pos, plant.x_pos, y_pos, plant.y_pos);
+                pursue(x, plant.x, y, plant.y);
             }
             else if(target == 2) // checks for grazer target
             {
-                pursue(x_pos, grazer.x_pos, y_pos, grazer.y_pos);
+                pursue(x, grazer.x, y, grazer.y);
             }
             else if(target == 3)// checks for predator target
             {
-                pursue(x_pos, predator.x_pos, y_pos, predator.y_pos);
+                pursue(x, predator.x, y, predator.y);
             }
         }  
 
         // haven't focused much on mating yet **
         if(mate == true){ 
-            pursue(x_pos, predator.x_pos, y_pos, predator.y_pos);
+            pursue(x, predator.x, y, predator.y);
         }
     }
     
@@ -286,7 +302,7 @@ public class Entity_Movement {
     void escape(){ // INCOMPLETE **********************************
         if(flee == true)
         {
-            if((x_pos <= predator.x_pos) && (y_pos <= predator.y_pos)){ 
+            if((x <= predator.x) && (y <= predator.y)){ 
                 if(rand.nextInt(1) == 0){ // 50% chance for the entity to flee north
                     direction = 0;
                 }
@@ -294,7 +310,7 @@ public class Entity_Movement {
                     direction = 3;
                 }
             }
-            if((x_pos >= predator.x_pos) && (y_pos >= predator.y_pos)){
+            if((x >= predator.x) && (y >= predator.y)){
                 if(rand.nextInt(1) == 0){ // 50% chance for the entity to flee south
                     direction = 1;
                 }
@@ -302,7 +318,7 @@ public class Entity_Movement {
                     direction = 2;
                 }
             }
-            if((x_pos < predator.x_pos) && (y_pos > predator.y_pos)){
+            if((x < predator.x) && (y > predator.y)){
                 if(rand.nextInt(1) == 0){ // 50% chance for the entity to flee south
                     direction = 1;
                 }
@@ -310,7 +326,7 @@ public class Entity_Movement {
                     direction = 3;
                 }
             }
-            if((x_pos > predator.x_pos) && (y_pos < predator.y_pos)){
+            if((x > predator.x) && (y < predator.y)){
                 if(rand.nextInt(1) == 0){ // 50% chance for the entity to flee north
                     direction = 0;
                 }
@@ -323,30 +339,26 @@ public class Entity_Movement {
         }
     }
 
-    void hide(){ // Used for hiding behind obstacles
-
-    }
-
-    void walkAround(){ // Used for getting around obstacles when not trying to hide (should apply to both grazer and predator)
-
-    }
-
-    void combat(){ // Needs to take into account predator genes
-
-    }
-
     void eat(){
-        if(entityType == "grazer"){ // Grazers eating plants only
-            energy = energy + target_Energy;
+        if(entity_Type == "grazer"){ // Grazers eating plants only
+            g_Energy = g_Energy + target_Energy;
         }
-        if(entityType == "predator"){ // Predators eating only (target food can be either grazer or predator) 
-            energy = (int)(target_Energy * .9);
+        if(entity_Type == "predator"){ // Predators eating only (target food can be either grazer or predator) 
+            g_Energy = (int)(target_Energy * .9);
         }
-        // target dies
+
+        if(target == 1){
+            plantsList.remove(target_Tracker);
+        }
+        else if(target == 2){
+            grazersList.remove(target_Tracker);
+        }
+        else{
+            predatorsList.remove(target_Tracker);
+        }
         target_Nearby = false;
 
-        if(energy >= energy_To_Reproduce){
-            if(entity_Type == "grazer"){ // grazer reproduction is asexual
+        if(entity_Type == "grazer") && (g_Energy >= g_Energy_To_Reproduce)) { // grazer reproduction is asexual
                 reproduce();
             }
             if(entity_Type == "predator"){ 
@@ -369,6 +381,41 @@ public class Entity_Movement {
         }
         if(entity_Type == "predator"){
             // predators are produced 
+        }
+    }
+
+    void hide(){ // Used for hiding behind obstacles
+
+    }
+
+    void walkAround(){ // Used for getting around obstacles when not trying to hide (should apply to both grazer and predator)
+
+    }
+
+    void combat(){ // Needs to take into account predator genes
+        if(genotype == "SS"){
+            if(target == 2){
+                
+            }
+            else if(target_Genotype == "SS"){
+                chance = rand.nextInt
+            }
+            else if(target_Genotype == "Ss"){
+
+            }   
+            else{
+
+            }
+        }
+        else if(genotype == "Ss"){
+            if(target == 2){
+                
+            }
+        }
+        else{
+            if(target == 2){
+
+            }
         }
     }
 
