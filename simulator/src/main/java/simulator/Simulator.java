@@ -57,11 +57,11 @@ public class Simulator{
     }
 
     // initialize grazers
-    grazerConfig.setGrazerMaintainSpeedTime(lsdp.getGrazerMaintainSpeedTime());
-    grazerConfig.setGrazerMaxSpeed(lsdp.getGrazerMaxSpeed());
-    grazerConfig.setGrazerEnergyInputRate(lsdp.getGrazerEnergyInputRate());
-    grazerConfig.setGrazerEnergyOutputRate(lsdp.getGrazerEnergyOutputRate());
-    grazerConfig.setGrazerEnergyToReproduce(lsdp.getGrazerEnergyToReproduce());
+    grazerConfig.setMaintainSpeedTime(lsdp.getGrazerMaintainSpeedTime());
+    grazerConfig.setMaxSpeed(lsdp.getGrazerMaxSpeed());
+    grazerConfig.setEnergyInputRate(lsdp.getGrazerEnergyInputRate());
+    grazerConfig.setEnergyOutputRate(lsdp.getGrazerEnergyOutputRate());
+    grazerConfig.setEnergyToReproduce(lsdp.getGrazerEnergyToReproduce());
     int grazerCount = lsdp.getInitialGrazerCount();
     for (int i=0; i < grazerCount; i++) {
       if (lsdp.getGrazerData())
@@ -71,15 +71,15 @@ public class Simulator{
     }
 
     // initialize predators
-    predatorConfig.setPredatorMaxSpeedHOD(lsdp.getPredatorMaxSpeedHOD());
-    predatorConfig.setPredatorMaxSpeedHED(lsdp.getPredatorMaxSpeedHED());
-    predatorConfig.setPredatorMaxSpeedHOR(lsdp.getPredatorMaxSpeedHOR());
-    predatorConfig.setPredatorMaintainSpeedTime(lsdp.getPredatorMaintainSpeedTime());
-    predatorConfig.setPredatorEnergyOutputRate(lsdp.getPredatorEnergyOutputRate());
-    predatorConfig.setPredatorEnergyToReproduce(lsdp.getPredatorEnergyToReproduce());
-    predatorConfig.setPredatorMaxOffspring(lsdp.getPredatorMaxOffspring());
-    predatorConfig.setPredatorOffspringEnergyLevel(lsdp.getPredatorOffspringEnergyLevel());
-    predatorConfig.setPredatorGestationPeriod(lsdp.getPredatorGestationPeriod());
+    predatorConfig.setMaxSpeedHOD(lsdp.getPredatorMaxSpeedHOD());
+    predatorConfig.setMaxSpeedHED(lsdp.getPredatorMaxSpeedHED());
+    predatorConfig.setMaxSpeedHOR(lsdp.getPredatorMaxSpeedHOR());
+    predatorConfig.setMaintainSpeedTime(lsdp.getPredatorMaintainSpeedTime());
+    predatorConfig.setEnergyOutputRate(lsdp.getPredatorEnergyOutputRate());
+    predatorConfig.setEnergyToReproduce(lsdp.getPredatorEnergyToReproduce());
+    predatorConfig.setMaxOffspring(lsdp.getPredatorMaxOffspring());
+    predatorConfig.setOffspringEnergyLevel(lsdp.getPredatorOffspringEnergyLevel());
+    predatorConfig.setGestationPeriod((int)lsdp.getPredatorGestationPeriod()); // should this be a double?
     int predatorCount = lsdp.getInitialPredatorCount();
     for (int i=0; i < predatorCount; i++) {
       if (lsdp.getPredatorData())
