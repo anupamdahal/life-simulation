@@ -100,16 +100,19 @@ input {
   text-align: center;
 }
 
-.config-form-container {
+.config-container {
   display: flex;
-  justify-content: center;
   align-items: center;
+  flex-grow: 1;
+  gap: 1rem;
 }
 
 .config-form {
-  width: min(35rem, 50%);
+  width: max(30rem, 50%);
+  height: 73vh;
   padding: 1rem;
   box-shadow: 0 .15rem .15rem .15rem lightgray;
+  overflow-y: scroll;
 }
 
 .config-header {
@@ -190,6 +193,8 @@ input {
   width: 90%;
   border-bottom: .25px solid gray;
 }
+
+.grid
 
 .submit {
   border: 1px solid black;
