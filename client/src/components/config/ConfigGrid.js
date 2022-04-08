@@ -34,9 +34,6 @@ const ConfigGrid = ({ grid, setGridRef, entityKind }) => {
     overflow: "scroll"
   }
 
-  console.log(grid.length)
-  console.log(grid[0].length)
-
   return (
     <div style={gridStyle}>
       {grid.map((rows, x) =>
