@@ -377,11 +377,48 @@ public class Entity_Movement extends Entity {
     }
 
     void hide(){ // Used for hiding behind obstacles
-
+        if(flee == true){
+            if((target == 0) && (target_Nearby == true)){
+                if((x <= predator.x) && (y <= predator.y)){ 
+                    if((x == obstacle.x){ 
+                        direction = 3; // makes the entity rotate west
+                    }
+                    else if(y == obstacle.y){
+                        direction = 1; // makes the entity rotate south
+                    }
+                }
+                if((x >= predator.x) && (y >= predator.y)){
+                    if((x == obstacle.x){ 
+                        direction = 2; // makes the entity rotate east
+                    }
+                    else if(y == obstacle.y){
+                        direction = 0; // makes the entity rotate north
+                    }
+                }
+                if((x < predator.x) && (y > predator.y)){
+                    if((x == obstacle.x){
+                        direction = 3; // makes the entity rotate west
+                    }
+                    else if(y == obstacle.y){
+                        direction = 0; // makes the entity rotate north
+                    }
+                }
+                if((x > predator.x) && (y < predator.y)){
+                    if((x == obstacle.x){ 
+                        direction = 2; // makes the entity rotate east
+                    }
+                    else if(y == obstacle.y){
+                        direction = 1; // makes the entity rotate south
+                    }
+                }
+            }
+        }
     }
 
     void walkAround(){ // Used for getting around obstacles when not trying to hide (should apply to both grazer and predator)
+        if(flee != true){
 
+        }
     }
 
     void combat(){ // Needs to take into account predator genes
