@@ -98,7 +98,7 @@ const ConfigForm = ({ newGridSizeRef, handleSubmitRef }) => {
 
   const handleObstacleChange = event => {
     const temp = {
-      ...predatorConfig
+      ...obstacleConfig
     }
 
     temp[event.target.name] = +event.target.value
