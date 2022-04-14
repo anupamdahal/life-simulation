@@ -32,7 +32,7 @@ const ConfigWrapper = () => {
       entities: grid
     }
 
-    console.log(temp)
+    console.log(JSON.stringify(temp))
 
     services
       .postConfigs(temp)

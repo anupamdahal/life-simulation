@@ -26,6 +26,18 @@ const Plant = ({configs, handler}) => {
         />
       </div>
       <div>
+        <label>Plant Diameter: </label>
+        <input 
+          type="number" 
+          min="10" 
+          max="100" 
+          step="5"
+          name="diameter"
+          value={configs.diameter}
+          onChange={handler}
+        />
+      </div>
+      <div>
         <label>Max size: </label>
         <input 
           type="number" 

@@ -62,6 +62,18 @@ const Predator = ({configs, handler}) => {
         />
       </div>
       <div>
+        <label>Mantain Speed Time: </label>
+        <input
+          type="number"
+          min="1"
+          max="10"
+          step="1"
+          name="maintainSpeedTime"
+          value={configs.maintainSpeedTime}
+          onChange={handler}
+        />
+      </div>
+      <div>
         <label>Base Speed: </label>
         <input
           type="number"

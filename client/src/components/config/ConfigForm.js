@@ -20,6 +20,7 @@ const ConfigForm = ({ newGridSizeRef, handleSubmitRef }) => {
     maxSeedCastDist: 250,
     maxSeedCount: 10,
     seedVariability: .50,
+    diameter: 25,
   })
 
   const [grazerConfig, setGrazerConfig] = useState({
@@ -30,6 +31,7 @@ const ConfigForm = ({ newGridSizeRef, handleSubmitRef }) => {
     energyToReproduce: 100,
     baseSpeed: 3,
     maxSpeed: 20,
+    maintainSpeedTime: 3,
   })
 
   const [predatorConfig, setPredatorConfig] = useState({
@@ -44,9 +46,14 @@ const ConfigForm = ({ newGridSizeRef, handleSubmitRef }) => {
     maxOffspring: 3,
     gestationPeriod: 5,
     offspringEnergy: 150,
+    maintainSpeedTime: 5
   })
 
-  const [obstacleConfig, setObstacleConfig] = useState(15)
+  const [obstacleConfig, setObstacleConfig] = useState({
+    initialCount: 15,
+    diameter: 50,
+    height: 10,
+  })
 
   const handleLandChange = event => {
     const temp = {
@@ -90,7 +97,13 @@ const ConfigForm = ({ newGridSizeRef, handleSubmitRef }) => {
   }
 
   const handleObstacleChange = event => {
-    setObstacleConfig(+event.target.value)
+    const temp = {
+      ...predatorConfig
+    }
+
+    temp[event.target.name] = +event.target.value
+
+    setObstacleConfig(temp)
   }
 
   const [hideConfigs, setHideConfigs] = useState({
@@ -116,11 +129,11 @@ const ConfigForm = ({ newGridSizeRef, handleSubmitRef }) => {
   const submitHelper = (event) => {
     event.preventDefault()
     handleSubmitRef({
-      ...landConfig,
-      ...plantConfig,
-      ...predatorConfig,
-      ...obstacleConfig,
-      ...grazerConfig
+      landConfig,
+      plantConfig,
+      predatorConfig,
+      obstacleConfig,
+      grazerConfig
     })
   }
 

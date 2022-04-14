@@ -85,6 +85,18 @@ const Grazer = ({configs, handler}) => {
           onChange={handler}
         />
       </div>
+      <div>
+        <label>Mantain Speed Time: </label>
+        <input
+          type="number"
+          min="1"
+          max="10"
+          step="1"
+          name="maintainSpeedTime"
+          value={configs.maintainSpeedTime}
+          onChange={handler}
+        />
+      </div>
     </div>
   )
 }
