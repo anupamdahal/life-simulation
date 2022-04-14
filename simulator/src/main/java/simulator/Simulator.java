@@ -1,9 +1,16 @@
 package simulator;
 
+import java.util.List;
+import java.util.Random;
+
+import com.google.protobuf.Struct;
+import com.google.protobuf.Value;
+
+import simulator.fields.InitialConditionsFields;
 import simulator.entity.*;
 
 public class Simulator{
-  private Map map;
+  private simulator.Map map;
   private int simulation_time;
   private GrazerConfig grazerConfig;
   private PredatorConfig predatorConfig;
@@ -86,6 +93,96 @@ public class Simulator{
       {
         map.entities.add(new Predator(lsdp.PredatorX, lsdp.PredatorY, lsdp.PredatorEnergy, lsdp.PredatorGenotype));
       }
+    }
+  }
+
+  public void init(Struct ic){
+        // initialize the map
+    // map = map.getInstance();
+
+    // // initialize simulation time to 0
+    // this.simulation_time = 0;
+
+    // // import the given data file to test the entity behaviors
+    java.util.Map<String, Value> world = ic.getFieldsMap().get(InitialConditionsFields.WORLD).getStructValue().getFieldsMap();
+    java.util.Map<String, Value> plant = ic.getFieldsMap().get(InitialConditionsFields.PLANT).getStructValue().getFieldsMap();
+    java.util.Map<String, Value> grazer = ic.getFieldsMap().get(InitialConditionsFields.GRAZER).getStructValue().getFieldsMap();
+    java.util.Map<String, Value> predator = ic.getFieldsMap().get(InitialConditionsFields.PREDATOR).getStructValue().getFieldsMap();
+    java.util.Map<String, Value> obstacle = ic.getFieldsMap().get(InitialConditionsFields.OBSTACLE).getStructValue().getFieldsMap();
+    List<Value> rows = ic.getFieldsMap().get(InitialConditionsFields.ENTITIES).getListValue().getValuesList();
+    int i=0;
+    int j=0;
+    Random random = new Random();
+    // // initialize the map
+    // map.setWidth((int)world.get(InitialConditionsFields.WORLD_WIDTH).getNumberValue());
+    // map.setHeight((int)world.get(InitialConditionsFields.WORLD_HEIGHT).getNumberValue());
+
+
+    // // initialize config files
+    // grazerConfig = grazerConfig.getInstance();
+    // predatorConfig = predatorConfig.getInstance();
+    // plantConfig = plantConfig.getInstance();
+
+
+    // // initialize plants
+    // plantConfig.setMaxSize((int) plant.get(InitialConditionsFields.MAX_PLANT_SIZE).getNumberValue());
+    // plantConfig.setMaxSeedCastDistance((int) plant.get(InitialConditionsFields.MAX_PLANT_SIZE).getNumberValue());
+    // plantConfig.setMaxSeedNumber((int) plant.get(InitialConditionsFields.MAX_PLANT_SIZE).getNumberValue());
+    // plantConfig.setGrowthRate((int) plant.get(InitialConditionsFields.MAX_PLANT_SIZE).getNumberValue());
+    // plantConfig.setSeedViability((int) plant.get(InitialConditionsFields.MAX_PLANT_SIZE).getNumberValue());
+
+    
+    // // // initialize grazers
+    // grazerConfig.setMaintainSpeedTime((int) grazer.get(InitialConditionsFields.GRAZER_MAINTAIN_SPEED_TIME).getNumberValue());
+    // grazerConfig.setMaxSpeed((int) grazer.get(InitialConditionsFields.GRAZER_MAX_SPEED).getNumberValue());
+    // grazerConfig.setEnergyInputRate((int) grazer.get(InitialConditionsFields.GRAZER_ENERGY_INPUT_RATE).getNumberValue());
+    // grazerConfig.setEnergyOutputRate((int) grazer.get(InitialConditionsFields.GRAZER_ENERGY_OUTPUT_RATE).getNumberValue());
+    // grazerConfig.setEnergyToReproduce((int) grazer.get(InitialConditionsFields.GRAZER_ENERGY_TO_REPRODUCE).getNumberValue());
+
+
+    // // // initialize predators
+    // predatorConfig.setMaxSpeedHOD((int) predator.get(InitialConditionsFields.PREDATOR_MAX_SPEED_HOD).getNumberValue());
+    // predatorConfig.setMaxSpeedHED((int) predator.get(InitialConditionsFields.PREDATOR_MAX_SPEED_HED).getNumberValue());
+    // predatorConfig.setMaxSpeedHOR((int) predator.get(InitialConditionsFields.PREDATOR_MAX_SPEED_HOR).getNumberValue());
+    // predatorConfig.setMaintainSpeedTime((int) predator.get(InitialConditionsFields.PREDATOR_MAINTAIN_SPEED_TIME).getNumberValue());
+    // predatorConfig.setEnergyOutputRate((int) predator.get(InitialConditionsFields.PREDATOR_ENERGY_OUTPUT_RATE).getNumberValue());
+    // predatorConfig.setEnergyToReproduce((int) predator.get(InitialConditionsFields.PREDATOR_ENERGY_TO_REPRODUCE).getNumberValue());
+    // predatorConfig.setMaxOffspring((int) predator.get(InitialConditionsFields.PREDATOR_MAX_OFFSPRING).getNumberValue());
+    // predatorConfig.setOffspringEnergyLevel((int) predator.get(InitialConditionsFields.PREDATOR_OFFSPRING_ENERGY_LEVEL).getNumberValue());
+    // predatorConfig.setGestationPeriod((int) predator.get(InitialConditionsFields.PREDATOR_GESTATION_PERIOD).getNumberValue());
+
+  
+
+    for(Value row: rows){
+      List<Value> cols = row.getListValue().getValuesList();
+      for(Value col: cols){
+        int entityType = (int) col.getNumberValue();
+        // switch (entityType) {
+        //   case InitialConditionsFields.PREDATOR_TYPE:
+        //       map.entities.add(new Predator(i, j,
+        //             (int) predator.get(InitialConditionsFields.PREDATOR_INITIAL_ENERGY).getNumberValue(),
+        //             InitialConditionsFields.PREDATOR_GENOTYPES[random.nextInt(InitialConditionsFields.PREDATOR_GENOTYPES.length)]));
+        //       break;
+        //   case InitialConditionsFields.GRAZER_TYPE:
+        //     map.entities.add(new Grazer(i, j,
+        //             (int) grazer.get(InitialConditionsFields.GRAZER_INITIAL_ENERGY).getNumberValue()));  
+        //       break;
+        //   case InitialConditionsFields.PLANT_TYPE:
+        //       map.entities.add(new Plant(i, j,
+        //               (int) plant.get(InitialConditionsFields.PLANT_DIAMETER).getNumberValue()));
+        //       break;
+        //   case InitialConditionsFields.OBSTACLE_TYPE:
+        //       map.entities.add(new Obstacle(i, j,
+        //         (int) obstacle.get(InitialConditionsFields.OBSTACLE_DIAMETER).getNumberValue(),
+        //         (int) obstacle.get(InitialConditionsFields.OBSTACLE_HEIGHT).getNumberValue()));
+        //       break;
+        
+        //   default:
+        //     break;
+        // }
+        j++;
+      }
+      i++;
     }
   }
 

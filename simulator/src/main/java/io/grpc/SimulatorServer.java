@@ -89,7 +89,11 @@ public class SimulatorServer {
 
     @Override
     public void runSimulation(InitialConditions req, StreamObserver<Results> responseObserver) {
-      logger.info("Got a request" + " " + req.toString());
+      for(String key : req.getConditions().getFieldsMap().keySet()){
+          logger.info("Got a request" + " " + key );
+      }
+      simulator = new Simulator();
+      simulator.init(req.getConditions());
       Results result = Results.newBuilder().getDefaultInstanceForType();
       responseObserver.onNext(result);
       responseObserver.onCompleted();
