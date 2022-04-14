@@ -112,3 +112,5 @@ dist
 
 # Editors
 .vscode
+
+server/app.debug.js
