@@ -6,6 +6,7 @@
   "scripts": {
     "start-dev": "NODE_ENV=dev nodemon app.js",
     "start": "nodemon app.js",
+    "start-debug": "NODE_ENV=dev nodemon app.debug.js",
     "build-proto-sh": "sh build-proto.sh",
     "build-proto": "grpc_tools_node_protoc     --js_out=import_style=commonjs_strict,binary:./src     --grpc_out=./src     --plugin=protoc-gen-grpc=./node_modules/.bin/grpc_tools_node_protoc_plugin     -I ../     ../protos/*.proto",
     "test": "echo \"Error: no test specified\" && exit 1"
