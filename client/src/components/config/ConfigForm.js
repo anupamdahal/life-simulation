@@ -14,7 +14,6 @@ const ConfigForm = ({ newGridSizeRef, handleSubmitRef }) => {
   })
 
   const [plantConfig, setPlantConfig] = useState({
-    initialCount: 25,
     growthRate: 0.1,
     maxSize: 100,
     maxSeedCastDist: 250,
@@ -24,7 +23,6 @@ const ConfigForm = ({ newGridSizeRef, handleSubmitRef }) => {
   })
 
   const [grazerConfig, setGrazerConfig] = useState({
-    initialCount: 10,
     initialEnergy: 50,
     energyInput: 5,
     energyOutput: 1,
@@ -35,7 +33,6 @@ const ConfigForm = ({ newGridSizeRef, handleSubmitRef }) => {
   })
 
   const [predatorConfig, setPredatorConfig] = useState({
-    initialCount: 5,
     initialEnergy: 150,
     maxSpeedHOD: 20,
     maxSpeedHED: 18,
@@ -50,7 +47,6 @@ const ConfigForm = ({ newGridSizeRef, handleSubmitRef }) => {
   })
 
   const [obstacleConfig, setObstacleConfig] = useState({
-    initialCount: 15,
     diameter: 50,
     height: 10,
   })
@@ -129,11 +125,11 @@ const ConfigForm = ({ newGridSizeRef, handleSubmitRef }) => {
   const submitHelper = (event) => {
     event.preventDefault()
     handleSubmitRef({
-      land: landConfig,
-      plants: plantConfig,
-      predators: predatorConfig,
-      obstacles: obstacleConfig,
-      grazers: grazerConfig
+      landConfig,
+      plantConfig,
+      predatorConfig,
+      obstacleConfig,
+      grazerConfig
     })
   }
 

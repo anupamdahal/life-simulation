@@ -39,12 +39,6 @@ const ConfigWrapper = () => {
 
   const [grid, setGrid] = useState(initGrid(25, 40))
   const [entity, setEntity] = useState("plant")
-  const [entityCount, setEntityCount] = useState({
-    plants: 0,
-    grazers: 0,
-    predators: 0,
-    obstacles: 0
-  })
 
   const newGridSize = (rows, cols) => {
     setGrid(resizeGrid(rows, cols))
@@ -54,53 +48,12 @@ const ConfigWrapper = () => {
     setEntity(event.target.value)
   }
 
-  const updateEntityCount = (cellKind, prevCellKind) => {
-    let temp = {
-      ...entityCount
-    }
-
-    if (prevCellKind !== null && prevCellKind !== cellKind) {
-      temp[prevCellKind] = temp[prevCellKind] - 1
-    }
-
-    temp[cellKind] = cellKind === prevCellKind ?
-      temp[cellKind] - 1
-      : temp[cellKind] + 1
-
-    setEntityCount(temp)
-    console.log(temp)
-  }
-
   const navigate = useNavigate()
 
   const handleSubmit = configs => {
 
-    let plants = {
-      ...configs.plants,
-      initialCount: entityCount.plants
-    }
-
-    let obstacles = {
-      ...configs.obstacles,
-      initialCount: entityCount.obstacles
-    }
-
-    let predators = {
-      ...configs.predators,
-      initialCount: entityCount.predators
-    }
-
-    let grazers = {
-      ...configs.grazers,
-      initialCount: entityCount.grazers
-    }
-
     const temp = {
-      land: configs.land,
-      plants: plants,
-      predators: predators,
-      grazers: grazers,
-      obstacles: obstacles,
+      ...configs,
       entities: grid
     }
 
@@ -122,7 +75,6 @@ const ConfigWrapper = () => {
           grid={grid}
           setGridRef={setGrid}
           entityKind={entity}
-          updateEntityCountRef={updateEntityCount}
         />
       </div>
     </div>
