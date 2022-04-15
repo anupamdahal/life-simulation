@@ -204,6 +204,27 @@ public class Simulator{
     this.simulation_time += 1;
     System.out.println(simulation_time);
     // TODO: send a snapshot of the simulation back to the server
+    int[][] frame = new int[map.getWidth()][map.getHeight()];
+    // fill the frame with positions of entities
+    // initialize all values to 0
+    for (int x=0; x < map.getWidth(); x++) {
+      for (int y=0; y < map.getHeight(); y++) {
+        frame[x][y] = 0;
+      }
+    }
+    // TODO: fill width of plants and obstacles
+    // TODO: ensure that grazers/predators take precedence over plants
+    for (int i=0; i < map.entities.size(); i++) {
+      Entity entity = map.entities.get(i);
+      int type = 0;
+      if (entity.type == EntityType.PREDATOR) { type = 1; }
+      else if (entity.type == EntityType.GRAZER)   { type = 2; }
+      else if (entity.type == EntityType.PLANT)    { type = 3; }
+      else if (entity.type == EntityType.OBSTACLE) { type = 4; }
+      frame[entity.x][entity.y] = type;
+    }
+    // add the frame to the report
+    report.add(frame);
   }
 
   public static void main(String[] args) {
