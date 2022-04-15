@@ -2,7 +2,6 @@ package simulator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
 import java.util.Random;
 
 import com.google.protobuf.ListValue;
@@ -10,11 +9,8 @@ import com.google.protobuf.Struct;
 import com.google.protobuf.Value;
 import com.google.protobuf.Value.Builder;
 
-import org.checkerframework.checker.units.qual.m;
-
 import grpc.InitialConditions;
 import grpc.Results;
-import grpc.ResultsOrBuilder;
 import simulator.fields.InitialConditionsFields;
 import simulator.entity.*;
 import simulator.entity.Entity.EntityType;
@@ -31,6 +27,7 @@ public class Simulator{
 
   public void init(){
     // initialize the map
+    this.report = new ArrayList<>();
     Map map = Map.getInstance();
     this.map = map;
 
@@ -38,7 +35,7 @@ public class Simulator{
     this.simulation_time = 0;
 
     // import the given data file to test the entity behaviors
-    String DATAFILE = new String(System.getProperty("user.dir") + "/simulator/src/LifeSimDataParserJava/LifeSimulation01.xml");
+    String DATAFILE = new String("/home/anupam/files/school/programs/CS499/life-simulation/simulator/src/main/java/simulator/Simulator.java");
     LifeSimDataParser lsdp = LifeSimDataParser.getInstance();	// Get the singleton
 		lsdp.initDataParser(DATAFILE);
 
@@ -111,38 +108,55 @@ public class Simulator{
     }
   }
 
+  private void generateDummyReport(){
+    map.setWidth(5);
+    map.setHeight(5);
+    Random rand = new Random();
+    for(int i = 0; i < 2; i++){
+      int[][] temp = new int[map.getWidth()][map.getHeight()];
+      for(int j = 0; j < map.getWidth(); j++){
+        for (int k = 0; k < map.getHeight(); k++){
+          temp[j][k]= rand.nextInt(5);
+        }
+      }
+      this.report.add(temp);
+    }
+  }
+
   public Results getSimulationResults(){
-    System.out.println("Converting results");
-    java.util.List<Value> entities = new java.util.ArrayList<Value>();
+
+    java.util.List<Value> entities;
 
     Builder builder = Value.newBuilder();
     ListValue.Builder rows = ListValue.newBuilder();
-    ListValue.Builder grid = ListValue.newBuilder();
     Struct.Builder structBuilder = Struct.newBuilder();
     
     int k = 0;
 
-    for(int[][] r: this.report){
-      for(int i = 0; i < r.length; i++){
-        for(int j = 0; j < r[0].length; j++){
-          entities.add(builder.setNumberValue(r[i][j]).build());
+    for(int a = 0; a < this.report.size(); a++){
+      ListValue.Builder grid = ListValue.newBuilder();
+      for(int i = 0; i < map.getWidth(); i++){
+        rows = ListValue.newBuilder();
+        entities = new java.util.ArrayList();
+        for(int j = 0; j < map.getHeight(); j++){
+          entities.add(builder.setNumberValue(this.report.get(a)[i][j]).build());
+          builder.clear();
         }
         rows.addAllValues(entities);
-        grid.setValues(i, builder.setListValue(rows.build()).build());
-        rows.clear();
-        builder.clear();
+        grid.addValues(builder.setListValue(rows.build()));
       }
       structBuilder.putFields(String.valueOf(k), builder.setListValue(grid.build()).build());
-      grid.clear();
-      builder.clear();
       k++;
     }
 
     Results results = Results.newBuilder().setResult(structBuilder.build()).setError(String.valueOf(this.report.size())).build();
+    structBuilder.clear();
     return results;
   }
 
   public void init(Struct ic){
+    this.report = new ArrayList<>();
+
     Map map = Map.getInstance();
     this.map = map;
 
@@ -161,6 +175,7 @@ public class Simulator{
     int j=0;
     Random random = new Random();
     // initialize the map
+    
     map.setWidth((int)world.get(InitialConditionsFields.WORLD_WIDTH).getNumberValue());
     map.setHeight((int)world.get(InitialConditionsFields.WORLD_HEIGHT).getNumberValue());
 
@@ -232,20 +247,27 @@ public class Simulator{
       }
       i++;
     }
+    for(Entity e :map.entities){
+      System.out.println(e);
+    }
   }
 
   public void run(){
     report = new ArrayList<int[][]>();
     while(map.shouldSimulationContinue()) {
+      System.out.print("Running");
       update();
-      System.out.println("Updating");
     }
     // Anupam: this.report should now have the grid
   }
 
   public void update(){
+
     for (int i=0; i < map.entities.size(); i++) {
+      System.out.println(map.entities.get(i).type);
       map.entities.get(i).update();
+      System.out.print("Up");
+
     }
     this.simulation_time += 1;
     System.out.println(simulation_time);
@@ -271,6 +293,7 @@ public class Simulator{
     }
     // add the frame to the report
     report.add(frame);
+    
   }
   public static void main(String[] args) {
     Simulator lifesim = new Simulator();

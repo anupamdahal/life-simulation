@@ -89,18 +89,11 @@ public class SimulatorServer {
 
     @Override
     public void runSimulation(InitialConditions req, StreamObserver<Results> responseObserver) {
-      // for(String key : req.getConditions().getFieldsMap().keySet()){
-      //     logger.info("Got a request" + " " + key );
-      // }
+
       simulator = new Simulator();
       simulator.init(req.getConditions());
       simulator.run();
       Results results = simulator.getSimulationResults();
-
-      for(String key : results.getResult().getFieldsMap().keySet()){
-          logger.info("Got a request" + " " + key );
-      }
-      logger.info(results.toString());
       responseObserver.onNext(results);
       responseObserver.onCompleted();
     }
