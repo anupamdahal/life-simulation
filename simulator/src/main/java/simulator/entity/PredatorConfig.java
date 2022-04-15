@@ -8,7 +8,7 @@ public class PredatorConfig {
     private double gestationPeriod, maxSpeedHOD, maxSpeedHED, maxSpeedHOR, maintainSpeedTime;
     private String genotype;
 
-    public PredatorConfig getInstance() {
+    public static PredatorConfig getInstance() {
         return theInstance;
     }
 

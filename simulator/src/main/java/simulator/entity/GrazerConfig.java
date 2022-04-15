@@ -7,7 +7,7 @@ public class GrazerConfig {
     private int energyOutputRate, energyInputRate, energyToReproduce;
     private double maintainSpeedTime, maxSpeed;
 
-    public GrazerConfig getInstance() {
+    public static GrazerConfig getInstance() {
         return theInstance;
     }
 

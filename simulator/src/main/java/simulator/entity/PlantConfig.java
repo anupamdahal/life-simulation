@@ -7,7 +7,7 @@ public class PlantConfig {
     private int maxSize, castDistance, maxSeedNumber;
     private double growthRate, seedViability;
 
-    public PlantConfig getInstance() {
+    public static PlantConfig getInstance() {
         return theInstance;
     }
 
