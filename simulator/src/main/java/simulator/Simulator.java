@@ -13,13 +13,14 @@ public class Simulator{
 
   public void init(){
     // initialize the map
-    map = map.getInstance();
+    Map map = Map.getInstance();
+    this.map = map;
 
     // initialize simulation time to 0
     this.simulation_time = 0;
 
     // import the given data file to test the entity behaviors
-    String DATAFILE = new String(System.getProperty("user.dir") + "/LifeSimulation01.xml");
+    String DATAFILE = new String(System.getProperty("user.dir") + "/simulator/src/LifeSimDataParserJava/LifeSimulation01.xml");
     LifeSimDataParser lsdp = LifeSimDataParser.getInstance();	// Get the singleton
 		lsdp.initDataParser(DATAFILE);
 
@@ -38,9 +39,12 @@ public class Simulator{
     }
 
     // initialize config files
-    grazerConfig = grazerConfig.getInstance();
-    predatorConfig = predatorConfig.getInstance();
-    plantConfig = plantConfig.getInstance();
+    GrazerConfig grazerConfig = GrazerConfig.getInstance();
+    PredatorConfig predatorConfig = PredatorConfig.getInstance();
+    PlantConfig plantConfig = PlantConfig.getInstance();
+    this.grazerConfig = grazerConfig;
+    this.predatorConfig = predatorConfig;
+    this.plantConfig = plantConfig;
 
     // initialize plants
     plantConfig.setMaxSize(lsdp.getMaxPlantSize());
@@ -101,10 +105,11 @@ public class Simulator{
       map.entities.get(i).update();
     }
     this.simulation_time += 1;
+    System.out.println(simulation_time);
     // TODO: send a snapshot of the simulation back to the server
   }
 
-  public static void main() {
+  public static void main(String[] args) {
     Simulator lifesim = new Simulator();
     lifesim.init();
     lifesim.run();

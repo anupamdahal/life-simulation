@@ -3,7 +3,7 @@ package simulator.entity;
 import simulator.Map;
 
 public abstract class Entity {
-    public Map map;
+    public static Map map = Map.getInstance();
     public EntityType type;
 
     public int x, y;

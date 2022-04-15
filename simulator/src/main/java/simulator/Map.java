@@ -11,10 +11,10 @@ public class Map {
     private static Map theInstance = new Map();
 
     private Map() {
-        entities = new ArrayList<Entity>(entities);
+        entities = new ArrayList<Entity>();
     }
 
-    public Map getInstance() {
+    public static Map getInstance() {
         return theInstance;
     }
 
