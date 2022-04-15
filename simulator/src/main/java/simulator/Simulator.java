@@ -1,6 +1,9 @@
 package simulator;
 
 import simulator.entity.*;
+import simulator.entity.Entity.EntityType;
+
+import java.util.ArrayList;
 
 public class Simulator{
   private Map map;
@@ -8,6 +11,7 @@ public class Simulator{
   private GrazerConfig grazerConfig;
   private PredatorConfig predatorConfig;
   private PlantConfig plantConfig;
+  private ArrayList<int[][]> report;
 
   public Simulator(){}
 
@@ -95,9 +99,11 @@ public class Simulator{
 
   public void run(){
     System.out.println("Running the Server");
+    report = new ArrayList<int[][]>();
     while(map.shouldSimulationContinue()) {
       update();
     }
+    // Anupam: this.report should now have the grid
   }
 
   public void update(){
@@ -107,6 +113,21 @@ public class Simulator{
     this.simulation_time += 1;
     System.out.println(simulation_time);
     // TODO: send a snapshot of the simulation back to the server
+    int[][] frame = new int[map.getWidth()][map.getHeight()];
+    // fill the frame with positions of entities
+    // TODO: fill width of plants and obstacles
+    // TODO: ensure that grazers/predators take precedence over plants
+    for (int i=0; i < map.entities.size(); i++) {
+      Entity entity = map.entities.get(i);
+      int type = 0;
+      if (entity.type == EntityType.PREDATOR) { type = 1; }
+      if (entity.type == EntityType.GRAZER)   { type = 2; }
+      if (entity.type == EntityType.PLANT)    { type = 3; }
+      if (entity.type == EntityType.OBSTACLE) { type = 4; }
+      frame[entity.x][entity.y] = type;
+    }
+    // add the frame to the report
+    report.add(frame);
   }
 
   public static void main(String[] args) {
