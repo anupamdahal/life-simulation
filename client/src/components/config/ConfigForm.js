@@ -129,11 +129,11 @@ const ConfigForm = ({ newGridSizeRef, handleSubmitRef }) => {
   const submitHelper = (event) => {
     event.preventDefault()
     handleSubmitRef({
-      landConfig,
-      plantConfig,
-      predatorConfig,
-      obstacleConfig,
-      grazerConfig
+      land: landConfig,
+      plants: plantConfig,
+      predators: predatorConfig,
+      obstacles: obstacleConfig,
+      grazers: grazerConfig
     })
   }
 

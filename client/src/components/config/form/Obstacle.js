@@ -1,18 +1,6 @@
-const Obstacle = ({configs, handler}) => {
+const Obstacle = ({ configs, handler }) => {
   return (
     <div className="configs">
-      <div>
-        <label>Obstacle Count: </label>
-        <input
-          type="number"
-          min="1"
-          max="25"
-          step="1"
-          name="initialCount"
-          value={configs.initialCount}
-          onChange={handler}
-        />
-      </div>
       <div>
         <label>Obstacle Diameter: </label>
         <input

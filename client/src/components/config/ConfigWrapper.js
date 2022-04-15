@@ -39,6 +39,12 @@ const ConfigWrapper = () => {
 
   const [grid, setGrid] = useState(initGrid(25, 40))
   const [entity, setEntity] = useState("plant")
+  const [entityCount, setEntityCount] = useState({
+    plants: 0,
+    grazers: 0,
+    predators: 0,
+    obstacles: 0
+  })
 
   const newGridSize = (rows, cols) => {
     setGrid(resizeGrid(rows, cols))
@@ -46,15 +52,55 @@ const ConfigWrapper = () => {
 
   const newEntity = event => {
     setEntity(event.target.value)
-    console.log(entity)
+  }
+
+  const updateEntityCount = (cellKind, prevCellKind) => {
+    let temp = {
+      ...entityCount
+    }
+
+    if (prevCellKind !== null && prevCellKind !== cellKind) {
+      temp[prevCellKind] = temp[prevCellKind] - 1
+    }
+
+    temp[cellKind] = cellKind === prevCellKind ?
+      temp[cellKind] - 1
+      : temp[cellKind] + 1
+
+    setEntityCount(temp)
+    console.log(temp)
   }
 
   const navigate = useNavigate()
 
   const handleSubmit = configs => {
 
+    let plants = {
+      ...configs.plants,
+      initialCount: entityCount.plants
+    }
+
+    let obstacles = {
+      ...configs.obstacles,
+      initialCount: entityCount.obstacles
+    }
+
+    let predators = {
+      ...configs.predators,
+      initialCount: entityCount.predators
+    }
+
+    let grazers = {
+      ...configs.grazers,
+      initialCount: entityCount.grazers
+    }
+
     const temp = {
-      ...configs,
+      land: configs.land,
+      plants: plants,
+      predators: predators,
+      grazers: grazers,
+      obstacles: obstacles,
       entities: grid
     }
 
@@ -72,7 +118,12 @@ const ConfigWrapper = () => {
       <ConfigForm newGridSizeRef={newGridSize} handleSubmitRef={handleSubmit} />
       <div>
         <Selection newEntityRef={newEntity} />
-        <ConfigGrid grid={grid} setGridRef={setGrid} entityKind={entity} />
+        <ConfigGrid
+          grid={grid}
+          setGridRef={setGrid}
+          entityKind={entity}
+          updateEntityCountRef={updateEntityCount}
+        />
       </div>
     </div>
   )
