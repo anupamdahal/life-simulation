@@ -121,9 +121,10 @@ public class Simulator{
       Entity entity = map.entities.get(i);
       int type = 0;
       if (entity.type == EntityType.PREDATOR) { type = 1; }
-      if (entity.type == EntityType.GRAZER)   { type = 2; }
-      if (entity.type == EntityType.PLANT)    { type = 3; }
-      if (entity.type == EntityType.OBSTACLE) { type = 4; }
+      else if (entity.type == EntityType.GRAZER)   { type = 2; }
+      else if (entity.type == EntityType.PLANT)    { type = 3; }
+      else if (entity.type == EntityType.OBSTACLE) { type = 4; }
+      else { type = 0; }
       frame[entity.x][entity.y] = type;
     }
     // add the frame to the report
