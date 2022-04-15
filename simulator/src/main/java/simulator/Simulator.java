@@ -10,6 +10,7 @@ import com.google.protobuf.Value;
 import com.google.protobuf.Value.Builder;
 
 import grpc.InitialConditions;
+import grpc.Report;
 import grpc.Results;
 import simulator.fields.InitialConditionsFields;
 import simulator.entity.*;
@@ -108,7 +109,7 @@ public class Simulator{
     }
   }
 
-  private void generateDummyReport(){
+  public void generateDummyReport(){
     map.setWidth(5);
     map.setHeight(5);
     Random rand = new Random();
@@ -154,6 +155,27 @@ public class Simulator{
     return results;
   }
 
+  public Report getSimulationReport(){
+    ArrayList<Integer> report = new ArrayList<>();
+    for(int a = 0; a < this.report.size(); a++){
+      for(int i = 0; i < map.getWidth(); i++){
+        for(int j = 0; j < map.getHeight(); j++){
+          report.add(this.report.get(a)[i][j]);
+        }    
+      }
+    }
+
+    Report.Builder builder = Report.newBuilder();
+    builder.addAllEntities(report);
+    builder.setLength(this.report.size());
+    builder.setWidth(map.getWidth());
+    builder.setHeight(map.getHeight());
+    builder.setError("None");
+
+    assert(report.size() == this.report.size()*map.getWidth()*map.getHeight());
+    return builder.build();
+  }
+
   public void init(Struct ic){
     this.report = new ArrayList<>();
 
@@ -170,7 +192,6 @@ public class Simulator{
     java.util.Map<String, Value> predator = ic.getFieldsMap().get(InitialConditionsFields.PREDATOR).getStructValue().getFieldsMap();
     java.util.Map<String, Value> obstacle = ic.getFieldsMap().get(InitialConditionsFields.OBSTACLE).getStructValue().getFieldsMap();
     List<Value> rows = ic.getFieldsMap().get(InitialConditionsFields.ENTITIES).getListValue().getValuesList();
-    System.out.println(rows.size());
     int i=0;
     int j=0;
     Random random = new Random();
@@ -247,15 +268,11 @@ public class Simulator{
       }
       i++;
     }
-    for(Entity e :map.entities){
-      System.out.println(e);
-    }
   }
 
   public void run(){
     report = new ArrayList<int[][]>();
     while(map.shouldSimulationContinue()) {
-      System.out.print("Running");
       update();
     }
     // Anupam: this.report should now have the grid
@@ -264,9 +281,7 @@ public class Simulator{
   public void update(){
 
     for (int i=0; i < map.entities.size(); i++) {
-      System.out.println(map.entities.get(i).type);
       map.entities.get(i).update();
-      System.out.print("Up");
 
     }
     this.simulation_time += 1;

@@ -88,14 +88,17 @@ public class SimulatorServer {
     private Simulator simulator;
 
     @Override
-    public void runSimulation(InitialConditions req, StreamObserver<Results> responseObserver) {
-
+    public void runSimulation(InitialConditions req, StreamObserver<Report> responseObserver) {
+      logger.info("Received a request");
       simulator = new Simulator();
       simulator.init(req.getConditions());
-      simulator.run();
-      Results results = simulator.getSimulationResults();
-      responseObserver.onNext(results);
+      simulator.generateDummyReport();
+      // Report results = simulator.getSimulationResults();
+      Report report = simulator.getSimulationReport();
+      responseObserver.onNext(report);
       responseObserver.onCompleted();
+      logger.info("Response sent");
+
     }
   }
 

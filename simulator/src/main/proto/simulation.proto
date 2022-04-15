@@ -16,6 +16,14 @@ message Results {
   string                  error       = 2;
 }
 
+message Report {
+  repeated int32 entities     = 1;
+  int32 length                = 2;
+  int32 width                 = 3;
+  int32 height                = 4;
+  string  error               = 5;
+}
+
 service Simulation {
-  rpc RunSimulation (InitialConditions) returns (Results);
+  rpc RunSimulation (InitialConditions) returns (Report);
 }

@@ -16,15 +16,15 @@ function deserialize_InitialConditions(buffer_arg) {
   return protos_simulation_pb.InitialConditions.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_Results(arg) {
-  if (!(arg instanceof protos_simulation_pb.Results)) {
-    throw new Error('Expected argument of type Results');
+function serialize_Report(arg) {
+  if (!(arg instanceof protos_simulation_pb.Report)) {
+    throw new Error('Expected argument of type Report');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_Results(buffer_arg) {
-  return protos_simulation_pb.Results.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_Report(buffer_arg) {
+  return protos_simulation_pb.Report.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 
@@ -34,12 +34,13 @@ var SimulationService = exports.SimulationService = {
     requestStream: false,
     responseStream: false,
     requestType: protos_simulation_pb.InitialConditions,
-    responseType: protos_simulation_pb.Results,
+    responseType: protos_simulation_pb.Report,
     requestSerialize: serialize_InitialConditions,
     requestDeserialize: deserialize_InitialConditions,
-    responseSerialize: serialize_Results,
-    responseDeserialize: deserialize_Results,
+    responseSerialize: serialize_Report,
+    responseDeserialize: deserialize_Report,
   },
+  // rpc RunSimulation (InitialConditions) returns (Results);
 };
 
 exports.SimulationClient = grpc.makeGenericClientConstructor(SimulationService);

@@ -11,6 +11,6 @@ exports.runSimulation = (condition) =>
     
     const client = simulationClient(SIMULATOR_URL)
     client.runSimulation( initialConditions, (err, res) =>
-      err ? console.error(err) : resolve(res.getResult().toObject())    
+      err ? reject(err) : resolve(res.toObject())    
     )
 })
