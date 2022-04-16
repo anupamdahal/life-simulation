@@ -192,8 +192,6 @@ public class Simulator{
     java.util.Map<String, Value> predator = ic.getFieldsMap().get(InitialConditionsFields.PREDATOR).getStructValue().getFieldsMap();
     java.util.Map<String, Value> obstacle = ic.getFieldsMap().get(InitialConditionsFields.OBSTACLE).getStructValue().getFieldsMap();
     List<Value> rows = ic.getFieldsMap().get(InitialConditionsFields.ENTITIES).getListValue().getValuesList();
-    int i=0;
-    int j=0;
     Random random = new Random();
     // initialize the map
     
@@ -237,8 +235,10 @@ public class Simulator{
     predatorConfig.setOffspringEnergyLevel((int) predator.get(InitialConditionsFields.PREDATOR_OFFSPRING_ENERGY_LEVEL).getNumberValue());
     predatorConfig.setGestationPeriod((int) predator.get(InitialConditionsFields.PREDATOR_GESTATION_PERIOD).getNumberValue());
 
+    int i=0;
     for(Value row: rows){
       List<Value> cols = row.getListValue().getValuesList();
+      int j=0;
       for(Value col: cols){
         int entityType = (int) col.getNumberValue();
         switch (entityType) {
@@ -268,11 +268,12 @@ public class Simulator{
       }
       i++;
     }
+    //~assert(i==map.getWidth() && j ==map.getHeight());
   }
 
   public void run(){
     report = new ArrayList<int[][]>();
-    while(map.shouldSimulationContinue()) {
+    while(map.shouldSimulationContinue() && this.simulation_time < 100) {
       update();
     }
     // Anupam: this.report should now have the grid
@@ -304,7 +305,13 @@ public class Simulator{
       else if (entity.type == EntityType.GRAZER)   { type = 2; }
       else if (entity.type == EntityType.PLANT)    { type = 3; }
       else if (entity.type == EntityType.OBSTACLE) { type = 4; }
-      frame[entity.x][entity.y] = type;
+      try {
+        frame[entity.x][entity.y] = type;
+      } catch (Exception e) {
+        //TODO: handle exception
+        System.out.println("Entity out of bounds: " + (type) + ", " + entity.x + ", " + entity.y);
+      }
+      
     }
     // add the frame to the report
     report.add(frame);

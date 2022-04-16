@@ -92,7 +92,8 @@ public class SimulatorServer {
       logger.info("Received a request");
       simulator = new Simulator();
       simulator.init(req.getConditions());
-      simulator.generateDummyReport();
+      simulator.run();
+      // simulator.generateDummyReport();
       // Report results = simulator.getSimulationResults();
       Report report = simulator.getSimulationReport();
       responseObserver.onNext(report);

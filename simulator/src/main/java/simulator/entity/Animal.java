@@ -103,7 +103,7 @@ public abstract class Animal extends Entity {
         do {
             retVal = moveTowards(newX, newY);
             i++;
-        } while (retVal == false || i > 15);
+        } while (retVal == false && i < 15);
         return retVal;
     }
 
