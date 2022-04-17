@@ -57,8 +57,6 @@ const ConfigWrapper = () => {
       entities: grid
     }
 
-    console.log(JSON.stringify(temp))
-
     services
       .postConfigs(temp)
       .then(res => console.log(res))
