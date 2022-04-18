@@ -1,7 +1,6 @@
 const reshapeArray = (arr, r, c) => {
 
   if (r * c !== arr.length) {
-     console.log("error")
      return arr
   }
    const newArr = []

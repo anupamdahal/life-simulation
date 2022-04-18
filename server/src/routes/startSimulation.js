@@ -22,7 +22,6 @@ router.post('/', async (req, res) => {
     res
       .status(INTERNAL_SERVER_ERROR)
       .send(DB_ERROR)
-    console.log(err)
     return
   }
   res.status(OK).send(entry)

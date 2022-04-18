@@ -1,11 +1,14 @@
 import produce from "immer"
 import { useState, useRef, useCallback } from "react"
+import { useLocation } from "react-router-dom"
 import SimCell from "./SimCell"
 
 const numRows = 25
 const numCols = 25
 
 const Simulation = () => {
+  const location = useLocation()
+  const entities = location?.state?.entities
 
   // this is not the final result we still need to
   // fetch the simulation result from the backend

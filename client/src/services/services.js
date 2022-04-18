@@ -22,7 +22,7 @@ const postData = (URI, body) => {
 
 export const getSimulationResult = (id) => (
   axios.get(`${SERVER_URL}/${GET_SIMULATION_RESULT}/${id}`)
-    .then(res => res.body)
+    .then(res => res.data)
 )
 
 const getScores = (id) => {
@@ -53,3 +53,4 @@ const postConfigs = configs => {
 
 const services = { getScores, postConfigs }
 export default services
+export { getScores }
