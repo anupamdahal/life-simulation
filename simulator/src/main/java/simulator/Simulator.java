@@ -160,7 +160,7 @@ public class Simulator{
     for(int a = 0; a < this.report.size(); a++){
       for(int i = 0; i < map.getWidth(); i++){
         for(int j = 0; j < map.getHeight(); j++){
-          report.add(this.report.get(a)[i][j]);
+          report.add(this.report.get(a)[j][i]);
         }    
       }
     }
@@ -168,8 +168,10 @@ public class Simulator{
     Report.Builder builder = Report.newBuilder();
     builder.addAllEntities(report);
     builder.setLength(this.report.size());
-    builder.setWidth(map.getWidth());
-    builder.setHeight(map.getHeight());
+    
+    //this looks incorrect but isnt
+    builder.setWidth(map.getHeight());
+    builder.setHeight(map.getWidth());
     builder.setError("None");
 
     assert(report.size() == this.report.size()*map.getWidth()*map.getHeight());
@@ -191,7 +193,6 @@ public class Simulator{
     java.util.Map<String, Value> grazer = ic.getFieldsMap().get(InitialConditionsFields.GRAZER).getStructValue().getFieldsMap();
     java.util.Map<String, Value> predator = ic.getFieldsMap().get(InitialConditionsFields.PREDATOR).getStructValue().getFieldsMap();
     java.util.Map<String, Value> obstacle = ic.getFieldsMap().get(InitialConditionsFields.OBSTACLE).getStructValue().getFieldsMap();
-    List<Value> rows = ic.getFieldsMap().get(InitialConditionsFields.ENTITIES).getListValue().getValuesList();
     Random random = new Random();
     // initialize the map
     
@@ -234,13 +235,11 @@ public class Simulator{
     predatorConfig.setMaxOffspring((int) predator.get(InitialConditionsFields.PREDATOR_MAX_OFFSPRING).getNumberValue());
     predatorConfig.setOffspringEnergyLevel((int) predator.get(InitialConditionsFields.PREDATOR_OFFSPRING_ENERGY_LEVEL).getNumberValue());
     predatorConfig.setGestationPeriod((int) predator.get(InitialConditionsFields.PREDATOR_GESTATION_PERIOD).getNumberValue());
-
-    int i=0;
-    for(Value row: rows){
-      List<Value> cols = row.getListValue().getValuesList();
-      int j=0;
-      for(Value col: cols){
-        int entityType = (int) col.getNumberValue();
+    List<Value> rows = ic.getFieldsMap().get(InitialConditionsFields.ENTITIES).getListValue().getValuesList();
+    for(int i = 0; i < map.getWidth(); i++){
+      for(int j = 0; j < map.getHeight(); j++){
+        List<Value> cols = rows.get(j).getListValue().getValuesList();
+        int entityType = (int) cols.get(i).getNumberValue();
         switch (entityType) {
           case InitialConditionsFields.PREDATOR_TYPE:
               map.entities.add(new Predator(i, j,
@@ -263,12 +262,10 @@ public class Simulator{
         
           default:
             break;
-        }
-        j++;
+          }
       }
-      i++;
+
     }
-    //~assert(i==map.getWidth() && j ==map.getHeight());
   }
 
   public void run(){
@@ -286,14 +283,13 @@ public class Simulator{
 
     }
     this.simulation_time += 1;
-    System.out.println(simulation_time);
     // TODO: send a snapshot of the simulation back to the server
-    int[][] frame = new int[map.getWidth()][map.getHeight()];
+        int[][] frame = new int[map.getHeight()][map.getWidth()];
     // fill the frame with positions of entities
     // initialize all values to 0
     for (int x=0; x < map.getWidth(); x++) {
       for (int y=0; y < map.getHeight(); y++) {
-        frame[x][y] = 0;
+        frame[y][x] = 0;
       }
     }
     // TODO: fill width of plants and obstacles
@@ -306,10 +302,10 @@ public class Simulator{
       else if (entity.type == EntityType.PLANT)    { type = 3; }
       else if (entity.type == EntityType.OBSTACLE) { type = 4; }
       try {
-        frame[entity.x][entity.y] = type;
+        frame[entity.y][entity.x] = type;
       } catch (Exception e) {
         //TODO: handle exception
-        System.out.println("Entity out of bounds: " + (type) + ", " + entity.x + ", " + entity.y);
+        System.out.println("Entity out of bounds: Simulation time - " + this.simulation_time + ", " + (type) + ", " + entity.x + ", " + entity.y);
       }
       
     }
