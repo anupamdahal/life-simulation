@@ -1,18 +1,6 @@
-const Grazer = ({configs, handler}) => {
+const Grazer = ({ configs, handler }) => {
   return (
     <div className="configs">
-      <div>
-        <label>Initial Count: </label>
-        <input
-          type="number"
-          min="1"
-          max="25"
-          step="1"
-          name="initialCount"
-          value={configs.initialCount}
-          onChange={handler}
-        />
-      </div>
       <div>
         <label>Initial Energy: </label>
         <input

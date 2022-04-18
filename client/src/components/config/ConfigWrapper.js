@@ -46,7 +46,6 @@ const ConfigWrapper = () => {
 
   const newEntity = event => {
     setEntity(event.target.value)
-    console.log(entity)
   }
 
   const navigate = useNavigate()
@@ -57,8 +56,6 @@ const ConfigWrapper = () => {
       ...configs,
       entities: grid
     }
-
-    console.log(JSON.stringify(temp))
 
     services
       .postConfigs(temp)
@@ -72,7 +69,11 @@ const ConfigWrapper = () => {
       <ConfigForm newGridSizeRef={newGridSize} handleSubmitRef={handleSubmit} />
       <div>
         <Selection newEntityRef={newEntity} />
-        <ConfigGrid grid={grid} setGridRef={setGrid} entityKind={entity} />
+        <ConfigGrid
+          grid={grid}
+          setGridRef={setGrid}
+          entityKind={entity}
+        />
       </div>
     </div>
   )
