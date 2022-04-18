@@ -3,40 +3,16 @@ import { useState, useRef, useCallback } from "react"
 import { useLocation } from "react-router-dom"
 import SimCell from "./SimCell"
 
-const numRows = 25
-const numCols = 25
-
 const Simulation = () => {
   const location = useLocation()
   const entities = location?.state?.entities
+  console.log(entities)
 
-  // this is not the final result we still need to
-  // fetch the simulation result from the backend
-  // and then loop over it instead of this dummy data
-
-  const generateRandGrid = () => {
-    const rows = []
-    for (let i = 0; i < numRows; i++) {
-      rows.push(Array.from(Array(numCols), () => Math.floor(Math.random() * 5)))
-    }
-    return rows
-  }
-
-  const generateEmptyGrid = () => {
-    const rows = []
-    for (let i = 0; i < numRows; i++) {
-      rows.push(Array.from(Array(numCols), () => 0))
-    }
-
-    return rows
-  }
-
-  let sim = []
-  for (let i = 0; i < 10; i++) {
-    sim.push(generateRandGrid())
-  }
-
-  const [grid, setGrid] = useState(generateEmptyGrid())
+  // grid needs to be set to the first generation of the entities grid
+  // I can't tell what the shape of entities is, so change this code below to
+  // correctly set the initial generation (aka the user configured grid from the prev page)
+  // if the following isn't working
+  const [grid, setGrid] = useState(entities[0])
 
   const [running, setRunning] = useState(false)
 
@@ -48,7 +24,10 @@ const Simulation = () => {
       return
     }
 
-    if (gen === 10) {
+    // I'm unsure whether entites.length is the right call here, again
+    // I'm not sure what the shape is. But, the idea here is to check to see
+    // if we have looped over every generation, and if so return
+    if (gen === entities.length) {
       runningRef.current = false
       return
     }
@@ -67,8 +46,8 @@ const Simulation = () => {
 
   const gridStyle = {
     display: "grid",
-    gridTemplateColumns: `repeat(${numCols}, 20px)`,
-    gridTemplateRows: `repeat(${numRows}, 20px)`,
+    gridTemplateColumns: `repeat(${entities[0].length}, 20px)`, // again, may not be right
+    gridTemplateRows: `repeat(${[entities.lenght]}, 20px)`,     // again, may not be right
     width: "60rem",
     height: "73vh",
     overflow: "scroll"
@@ -81,12 +60,12 @@ const Simulation = () => {
           setRunning(!running)
           if (!running) {
             runningRef.current = true
-            runSimulation(0)
+            runSimulation(1)
           }
         }}>
-        {running ? "stop" : "start"}
+
       </button>
-      <div style={gridStyle}>
+      <div>
         {grid.map((rows, x) =>
           rows.map((col, y) =>
             <SimCell
