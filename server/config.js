@@ -8,7 +8,8 @@ exports.ENV = dotenv.config({path})
 
 const SIMULATOR_PORT = process.env.SIMULATOR_PORT || 50051
 
-const DB_HOST = process.env.MONGODB_HOST || process.env.LOCAL_HOST || 'localhost'
+// const DB_HOST = process.env.MONGODB_HOST || process.env.LOCAL_HOST || 'localhost'
+const DB_HOST = 'localhost'
 const DB_PORT = process.env.MONGODB_PORT || 27017
 const DB = process.env.MONGO_INITDB_DATABASE || 'simulation'
 exports.DB_URL = `mongodb://${DB_HOST}:${DB_PORT}/${DB}`

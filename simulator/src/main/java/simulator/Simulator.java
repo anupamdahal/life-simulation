@@ -109,19 +109,39 @@ public class Simulator{
     }
   }
 
-  public void generateDummyReport(){
-    map.setWidth(5);
-    map.setHeight(5);
-    Random rand = new Random();
-    for(int i = 0; i < 2; i++){
-      int[][] temp = new int[map.getWidth()][map.getHeight()];
-      for(int j = 0; j < map.getWidth(); j++){
-        for (int k = 0; k < map.getHeight(); k++){
-          temp[j][k]= rand.nextInt(5);
-        }
+  public void generateIdenticalReport(Struct ic){
+
+    this.report = new ArrayList<>();
+
+    Map map = Map.getInstance();
+    this.map = map;
+
+    // initialize simulation time to 0
+    this.simulation_time = 0;
+
+    // // import the given data file to test the entity behaviors
+    java.util.Map<String, Value> world = ic.getFieldsMap().get(InitialConditionsFields.WORLD).getStructValue().getFieldsMap();
+    java.util.Map<String, Value> plant = ic.getFieldsMap().get(InitialConditionsFields.PLANT).getStructValue().getFieldsMap();
+    java.util.Map<String, Value> grazer = ic.getFieldsMap().get(InitialConditionsFields.GRAZER).getStructValue().getFieldsMap();
+    java.util.Map<String, Value> predator = ic.getFieldsMap().get(InitialConditionsFields.PREDATOR).getStructValue().getFieldsMap();
+    java.util.Map<String, Value> obstacle = ic.getFieldsMap().get(InitialConditionsFields.OBSTACLE).getStructValue().getFieldsMap();
+    Random random = new Random();
+    // initialize the map
+    
+    map.setWidth((int)world.get(InitialConditionsFields.WORLD_WIDTH).getNumberValue());
+    map.setHeight((int)world.get(InitialConditionsFields.WORLD_HEIGHT).getNumberValue());
+
+    
+    List<Value> rows = ic.getFieldsMap().get(InitialConditionsFields.ENTITIES).getListValue().getValuesList();
+    int[][] frame = new int[map.getHeight()][map.getWidth()];
+    for(int i = 0; i < map.getWidth(); i++){
+      for(int j = 0; j < map.getHeight(); j++){
+        List<Value> cols = rows.get(j).getListValue().getValuesList();
+        int entityType = (int) cols.get(i).getNumberValue();
+        frame[j][i] = entityType;
       }
-      this.report.add(temp);
     }
+    report.add(frame);
   }
 
   public Results getSimulationResults(){
@@ -174,7 +194,9 @@ public class Simulator{
     builder.setHeight(map.getWidth());
     builder.setError("None");
 
-    assert(report.size() == this.report.size()*map.getWidth()*map.getHeight());
+    if(report.size() != this.report.size()*map.getWidth()*map.getHeight()){
+      System.out.println("oops!");
+    }
     return builder.build();
   }
 
@@ -235,6 +257,12 @@ public class Simulator{
     predatorConfig.setMaxOffspring((int) predator.get(InitialConditionsFields.PREDATOR_MAX_OFFSPRING).getNumberValue());
     predatorConfig.setOffspringEnergyLevel((int) predator.get(InitialConditionsFields.PREDATOR_OFFSPRING_ENERGY_LEVEL).getNumberValue());
     predatorConfig.setGestationPeriod((int) predator.get(InitialConditionsFields.PREDATOR_GESTATION_PERIOD).getNumberValue());
+
+    int g = 0;
+    int pd = 0;
+    int o = 0;
+    int pl = 0;
+
     List<Value> rows = ic.getFieldsMap().get(InitialConditionsFields.ENTITIES).getListValue().getValuesList();
     for(int i = 0; i < map.getWidth(); i++){
       for(int j = 0; j < map.getHeight(); j++){
@@ -242,19 +270,23 @@ public class Simulator{
         int entityType = (int) cols.get(i).getNumberValue();
         switch (entityType) {
           case InitialConditionsFields.PREDATOR_TYPE:
+            pd++;
               map.entities.add(new Predator(i, j,
                     (int) predator.get(InitialConditionsFields.PREDATOR_INITIAL_ENERGY).getNumberValue(),
                     InitialConditionsFields.PREDATOR_GENOTYPES[random.nextInt(InitialConditionsFields.PREDATOR_GENOTYPES.length)]));
               break;
           case InitialConditionsFields.GRAZER_TYPE:
+          g++;
             map.entities.add(new Grazer(i, j,
                     (int) grazer.get(InitialConditionsFields.GRAZER_INITIAL_ENERGY).getNumberValue()));  
               break;
           case InitialConditionsFields.PLANT_TYPE:
+          pl++;
               map.entities.add(new Plant(i, j,
                       (int) plant.get(InitialConditionsFields.PLANT_DIAMETER).getNumberValue()));
               break;
           case InitialConditionsFields.OBSTACLE_TYPE:
+          o++;
               map.entities.add(new Obstacle(i, j,
                 (int) obstacle.get(InitialConditionsFields.OBSTACLE_DIAMETER).getNumberValue(),
                 (int) obstacle.get(InitialConditionsFields.OBSTACLE_HEIGHT).getNumberValue()));
@@ -265,7 +297,14 @@ public class Simulator{
           }
       }
 
+
+
     }
+    
+    System.out.println("g :"+ g);
+    System.out.println("pl :"+ pl);
+    System.out.println("pd :"+ pd);
+    System.out.println("o :"+ o);
   }
 
   public void run(){

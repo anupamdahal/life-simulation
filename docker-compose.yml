@@ -4,9 +4,13 @@ services:
   
   mongo:
     image: mongo
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongo
     restart: always
     ports:
       - "${MONGODB_PORT}:27017"
+    networks:
+      - life-simulator
   
   server:
     build:
@@ -15,8 +19,11 @@ services:
     restart: always
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
+    networks:
+      - life-simulator
     depends_on:
       - mongo
+      - simulator
   
   client:
     build:
@@ -25,6 +32,8 @@ services:
     restart: always
     ports:
       - "${CLIENT_PORT}:${CLIENT_PORT}"
+    depends_on:
+      - server
   
   simulator:
     build:
@@ -33,3 +42,7 @@ services:
     restart: always
     ports:
       - "${SIMULATOR_PORT}:${SIMULATOR_PORT}"
+  
+networks:
+  life-simulator:
+    driver: brigde
