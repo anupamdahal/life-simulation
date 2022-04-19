@@ -13,12 +13,13 @@ public class Grazer extends Animal {
 
     private int secondsSpentEatingFood;
 
-    public Grazer(int x, int y, int energy)
+    public Grazer(int x, int y, int energy, double maintainSpeedTime)
     {
         grazerConfig = grazerConfig.getInstance();
         this.x = x;
         this.y = y;
         this.energy = energy;
+        this.maintainSpeedTime = maintainSpeedTime;
         type = EntityType.GRAZER;
     }
 

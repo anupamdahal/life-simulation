@@ -11,9 +11,10 @@ public abstract class Animal extends Entity {
     private static Random rand = new Random();
 
     public int energy;
+    public double maintainSpeedTime;
     public String genotype;
 
-    public boolean moveTowards(int desiredX, int desiredY) {
+    public boolean moveTowards(int desiredX, int desiredY, Boolean flee) {
         // actual point the animal will attempt to move to considering its speed
         int x = 0, y = 0;
         // amount of energy the move will take
@@ -27,10 +28,15 @@ public abstract class Animal extends Entity {
                 // slowed because of weakness
                 speed = 10.0;
             }
+            else if ((flee == true) && (maintainSpeedTime > 0)){
+                speed = grazerConfig.getMaxSpeed();
+                maintainSpeedTime =- 1;
+            }
             else {
                 speed = 0.75 * grazerConfig.getMaxSpeed();
             }
             energyDrain = (int)(speed * (double)grazerConfig.getEnergyOutputRate() / 5.0);
+            flee = false;
         }
         // get the speed of the move and energy drain
         else if (this.type == EntityType.PREDATOR) {
@@ -119,8 +125,9 @@ public abstract class Animal extends Entity {
         // TODO: flee at max speed rather than 75%
         int newX = 0;
         int newY = 0;
+        Boolean flee = true;
         newX = this.x - (target.x - this.x);
         newY = this.y - (target.y - this.y);
-        return moveTowards(newX, newY);
+        return moveTowards(newX, newY, flee);
     }
 }
