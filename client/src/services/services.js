@@ -2,7 +2,7 @@ import axios from 'axios'
 import { safeResolve } from './safeResolve'
 import { SERVER_URL } from '../config'
 import { START_SIMULATION, GET_SIMULATION_RESULT } from '../const/enumAPIEndPoints'
-import { PENDING } from '../const/enumAPIStatus'
+import { FAILED, PENDING } from '../const/enumAPIStatus'
 
 const postData = (URI, body) => {
   const data = JSON.stringify(body);
@@ -29,7 +29,7 @@ const getScores = (id) => {
   return new Promise(async (resolve, reject) => {
     const getResult = async () => {
       const [res, err] = await safeResolve(getSimulationResult(id))
-      if (err){
+      if (err || res.status === FAILED){
         reject(err)
         return
       }

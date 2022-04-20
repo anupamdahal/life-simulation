@@ -10,4 +10,6 @@ RUN npm install
 
 COPY $DIR/. ./
 
+EXPOSE $CLIENT_PORT
+
 CMD [ "npm","start" ]

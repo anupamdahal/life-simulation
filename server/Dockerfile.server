@@ -20,4 +20,6 @@ COPY ${DIR}/. ./
 
 COPY .env* ../
 
+EXPOSE $SERVER_PORT
+
 CMD ["npm", "start"]

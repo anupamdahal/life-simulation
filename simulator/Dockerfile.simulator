@@ -10,4 +10,6 @@ COPY .env* ../
 
 RUN gradle --no-daemon installDist
 
+EXPOSE $SIMULATOR_PORT
+
 CMD [ "build/install/simulator/bin/simulator-server" ]
