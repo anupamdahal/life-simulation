@@ -208,13 +208,12 @@ public class Simulator{
     this.predatorConfig = predatorConfig;
     this.plantConfig = plantConfig;
 
-
     // initialize plants
     plantConfig.setMaxSize((int) plant.get(InitialConditionsFields.MAX_PLANT_SIZE).getNumberValue());
-    plantConfig.setMaxSeedCastDistance((int) plant.get(InitialConditionsFields.MAX_PLANT_SIZE).getNumberValue());
-    plantConfig.setMaxSeedNumber((int) plant.get(InitialConditionsFields.MAX_PLANT_SIZE).getNumberValue());
-    plantConfig.setGrowthRate((int) plant.get(InitialConditionsFields.MAX_PLANT_SIZE).getNumberValue());
-    plantConfig.setSeedViability((int) plant.get(InitialConditionsFields.MAX_PLANT_SIZE).getNumberValue());
+    plantConfig.setMaxSeedCastDistance((int) plant.get(InitialConditionsFields.MAX_SEED_CAST_DISTANCE).getNumberValue());
+    plantConfig.setMaxSeedNumber((int) plant.get(InitialConditionsFields.MAX_SEED_NUMBER).getNumberValue());
+    plantConfig.setGrowthRate((int) plant.get(InitialConditionsFields.PLANT_GROWTH_RATE).getNumberValue());
+    plantConfig.setSeedViability((int) plant.get(InitialConditionsFields.MAX_SEED_VIABILITY).getNumberValue());
 
     
     // // initialize grazers
