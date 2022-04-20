@@ -12,6 +12,7 @@ public abstract class Animal extends Entity {
 
     public int energy;
     public double maintainSpeedTime;
+    public Boolean flee;
     public String genotype;
 
     public boolean moveTowards(int desiredX, int desiredY, Boolean flee) {
@@ -106,14 +107,14 @@ public abstract class Animal extends Entity {
         // stuck somewhere it can't get out of somehow
         int i = 0;
         do {
-            retVal = moveTowards(newX, newY);
+            retVal = moveTowards(newX, newY, flee);
             i++;
         } while (retVal == false || i > 15);
         return retVal;
     }
 
     public boolean moveTowards(Entity target) {
-        return moveTowards(target.getX(), target.getY());
+        return moveTowards(target.getX(), target.getY(), flee);
     }
 
     // TODO: chase at max speed
@@ -122,7 +123,6 @@ public abstract class Animal extends Entity {
     }
 
     public boolean fleeFrom(Entity target) {
-        // TODO: flee at max speed rather than 75%
         int newX = 0;
         int newY = 0;
         Boolean flee = true;
