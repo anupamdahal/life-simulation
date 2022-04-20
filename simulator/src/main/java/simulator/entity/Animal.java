@@ -11,6 +11,7 @@ public abstract class Animal extends Entity {
     private static Random rand = new Random();
 
     public int energy;
+    public int counter = 15;
     public double maintainSpeedTime;
     public Boolean flee;
     public String genotype;
@@ -42,14 +43,27 @@ public abstract class Animal extends Entity {
         // get the speed of the move and energy drain
         else if (this.type == EntityType.PREDATOR) {
             predatorConfig = predatorConfig.getInstance();
-            if (this.genotype.contains("FF")) {
-                speed = predatorConfig.getMaxSpeedHOD();
+
+            if(maintainSpeedTime > 0){
+                if (this.genotype.contains("FF")) {
+                    speed = predatorConfig.getMaxSpeedHOD();
+                }
+                if (this.genotype.contains("Ff")) {
+                    speed = predatorConfig.getMaxSpeedHED();
+                }
+                if (this.genotype.contains("ff")) {
+                    speed = predatorConfig.getMaxSpeedHOR();
+                }
+                maintainSpeedTime =- 1;
             }
-            if (this.genotype.contains("Ff")) {
-                speed = predatorConfig.getMaxSpeedHED();
-            }
-            if (this.genotype.contains("ff")) {
-                speed = predatorConfig.getMaxSpeedHOR();
+            else{ // If maintain speed has run out, the predator is 1 DU slower per 15 seconds of sim time until it comes to a stop
+                if(counter > 0){
+                    counter =- 1;
+                }
+                else{
+                    speed =- 1;
+                    counter = 15;
+                }
             }
             energyDrain = (int)(speed * (double)predatorConfig.getEnergyOutputRate() / 5.0);
         }
