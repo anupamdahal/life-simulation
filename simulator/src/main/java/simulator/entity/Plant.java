@@ -17,6 +17,8 @@ public class Plant extends Entity {
         this.y = y;
         this.diameter = diameter;
         type = EntityType.PLANT;
+        System.out.println(this.getClass().getName() + " " + x + " " + y);
+
     }
 
     public int getX() {

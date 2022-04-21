@@ -16,6 +16,7 @@ public class Grazer extends Animal {
 
     public Grazer(int x, int y, int energy)
     {
+        System.out.println(this.getClass().getName() + " " + x + " " + y);
         grazerConfig = grazerConfig.getInstance();
         this.x = x;
         this.y = y;

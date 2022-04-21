@@ -4,6 +4,7 @@ public class Obstacle extends Entity {
     private double diameter, height;
 
     public Obstacle(double x, double y, double diameter, double height) {
+        System.out.println(this.getClass().getName() + " " + x + " " + y);
         this.x = (int)x;
         this.y = (int)y;
         this.diameter = diameter;

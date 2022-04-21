@@ -24,6 +24,8 @@ public class Predator extends Animal {
         this.genotype = genotype;
         gestationTimeLeft = 0;
         type = EntityType.PREDATOR;
+        System.out.println(this.getClass().getName() + " " + x + " " + y);
+
     }
 
     @Override

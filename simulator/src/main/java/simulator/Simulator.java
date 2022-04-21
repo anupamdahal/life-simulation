@@ -158,8 +158,8 @@ public class Simulator{
   public Report getSimulationReport(){
     ArrayList<Integer> report = new ArrayList<>();
     for(int a = 0; a < this.report.size(); a++){
+    for(int j = 0; j < map.getHeight(); j++){
       for(int i = 0; i < map.getWidth(); i++){
-        for(int j = 0; j < map.getHeight(); j++){
           report.add(this.report.get(a)[j][i]);
         }    
       }
@@ -240,48 +240,55 @@ public class Simulator{
       for(int j = 0; j < map.getHeight(); j++){
         List<Value> cols = rows.get(j).getListValue().getValuesList();
         int entityType = (int) cols.get(i).getNumberValue();
-        switch (entityType) {
-          case InitialConditionsFields.PREDATOR_TYPE:
-              map.entities.add(new Predator(i, j,
-                    (int) predator.get(InitialConditionsFields.PREDATOR_INITIAL_ENERGY).getNumberValue(),
-                    InitialConditionsFields.PREDATOR_GENOTYPES[random.nextInt(InitialConditionsFields.PREDATOR_GENOTYPES.length)]));
-              break;
-          case InitialConditionsFields.GRAZER_TYPE:
-            map.entities.add(new Grazer(i, j,
-                    (int) grazer.get(InitialConditionsFields.GRAZER_INITIAL_ENERGY).getNumberValue()));  
-              break;
-          case InitialConditionsFields.PLANT_TYPE:
-              map.entities.add(new Plant(i, j,
-                      (int) plant.get(InitialConditionsFields.PLANT_DIAMETER).getNumberValue()));
-              break;
-          case InitialConditionsFields.OBSTACLE_TYPE:
-              map.entities.add(new Obstacle(i, j,
-                (int) obstacle.get(InitialConditionsFields.OBSTACLE_DIAMETER).getNumberValue(),
-                (int) obstacle.get(InitialConditionsFields.OBSTACLE_HEIGHT).getNumberValue()));
-              break;
-        
-          default:
-            break;
-          }
-      }
 
+        
+        if( entityType == InitialConditionsFields.PREDATOR_TYPE){
+          System.out.print(i+":"+j+ ": " + entityType + "\t");
+          map.entities.add(new Predator(i, j,
+                (int) predator.get(InitialConditionsFields.PREDATOR_INITIAL_ENERGY).getNumberValue(),
+                InitialConditionsFields.PREDATOR_GENOTYPES[random.nextInt(InitialConditionsFields.PREDATOR_GENOTYPES.length)]));
+        }
+        else if( entityType == InitialConditionsFields.GRAZER_TYPE){
+          System.out.print(i+":"+j+ ": " + entityType + "\t");
+          map.entities.add(new Grazer(i, j,
+                  (int) grazer.get(InitialConditionsFields.GRAZER_INITIAL_ENERGY).getNumberValue()));  
+        }
+        else if( entityType == InitialConditionsFields.PLANT_TYPE){
+          System.out.print(i+":"+j+ ": " + entityType + "\t");
+          map.entities.add(new Plant(i, j,
+                  (int) plant.get(InitialConditionsFields.PLANT_DIAMETER).getNumberValue()));
+
+        }
+        else if( entityType == InitialConditionsFields.OBSTACLE_TYPE){
+          System.out.print(i+":"+j+ ": " + entityType + "\t");
+          map.entities.add(new Obstacle(i, j,
+            (int) obstacle.get(InitialConditionsFields.OBSTACLE_DIAMETER).getNumberValue(),
+            (int) obstacle.get(InitialConditionsFields.OBSTACLE_HEIGHT).getNumberValue()));
+
+        }
+
+      }
     }
+    System.out.println(map.entities.size());
+    System.out.println("End init");
   }
 
   public void run(){
+    System.out.println("Begin run");
     report = new ArrayList<int[][]>();
-    while(map.shouldSimulationContinue() && this.simulation_time < 100) {
-      update();
-    }
-    // Anupam: this.report should now have the grid
+    update();
+
+    // do {
+    //   update();
+    // } while(map.shouldSimulationContinue() && this.simulation_time < 100);
   }
 
   public void update(){
 
-    for (int i=0; i < map.entities.size(); i++) {
-      map.entities.get(i).update();
+    // for (int i=0; i < map.entities.size(); i++) {
+    //   map.entities.get(i).update();
 
-    }
+    // }
     this.simulation_time += 1;
     // TODO: send a snapshot of the simulation back to the server
         int[][] frame = new int[map.getHeight()][map.getWidth()];
@@ -295,13 +302,16 @@ public class Simulator{
     // TODO: fill width of plants and obstacles
     // TODO: ensure that grazers/predators take precedence over plants
     for (int i=0; i < map.entities.size(); i++) {
+
       Entity entity = map.entities.get(i);
+
       int type = 0;
       if (entity.type == EntityType.PREDATOR) { type = 1; }
       else if (entity.type == EntityType.GRAZER)   { type = 2; }
       else if (entity.type == EntityType.PLANT)    { type = 3; }
       else if (entity.type == EntityType.OBSTACLE) { type = 4; }
       try {
+        System.out.println(entity.y + " " + entity.x);
         frame[entity.y][entity.x] = type;
       } catch (Exception e) {
         //TODO: handle exception
