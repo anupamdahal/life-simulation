@@ -276,11 +276,11 @@ public class Simulator{
   public void run(){
     System.out.println("Begin run");
     report = new ArrayList<int[][]>();
-    update();
 
-    // do {
-    //   update();
-    // } while(map.shouldSimulationContinue() && this.simulation_time < 100);
+    do {
+      update();
+    } while(map.shouldSimulationContinue() && this.simulation_time < 100);
+    map.entities.clear();
   }
 
   public void update(){
@@ -291,13 +291,16 @@ public class Simulator{
     // }
     this.simulation_time += 1;
     // TODO: send a snapshot of the simulation back to the server
-        int[][] frame = new int[map.getHeight()][map.getWidth()];
+    int[][] frame = new int[map.getHeight()][map.getWidth()];
     // fill the frame with positions of entities
     // initialize all values to 0
     for (int x=0; x < map.getWidth(); x++) {
       for (int y=0; y < map.getHeight(); y++) {
         frame[y][x] = 0;
       }
+    }
+    for (int i=0; i < map.entities.size(); i++) {
+      map.entities.get(i).update();
     }
     // TODO: fill width of plants and obstacles
     // TODO: ensure that grazers/predators take precedence over plants
