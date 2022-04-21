@@ -36,7 +36,7 @@ public class Predator extends Animal {
         }
 
         // check for grazers and predators
-        ArrayList<Pair<Double, Entity>> nearbyTargets = map.search(this, EnumSet.of(EntityType.PREDATOR, EntityType.GRAZER), 150);
+        ArrayList<Pair<Double, Entity>> nearbyTargets = map.search(this, EnumSet.of(EntityType.PREDATOR, EntityType.GRAZER), 15); // lowered search range to 15
         if (!nearbyTargets.isEmpty()) {
             // filter into two lists of predators and grazers
             ArrayList<Pair<Double, Predator>> nearbyPredators = new ArrayList<Pair<Double, Predator>>();
@@ -75,7 +75,7 @@ public class Predator extends Animal {
                 if (!this.moveTowards(nearestPredator)) {
                     this.moveRand();
                 }
-                if (smallestPredatorDistance <= 5) {
+                if (smallestPredatorDistance <= 1) {
                     this.mateWith(nearestPredator);
                 }
                 return true;
@@ -85,7 +85,7 @@ public class Predator extends Animal {
                 if (!this.chase(nearestGrazer)) {
                     this.moveRand();
                 }
-                if (smallestGrazerDistance < 5.0) {
+                if (smallestGrazerDistance < 2.0) {
                     return combat(nearestGrazer);
                 }
                 return true;
@@ -97,7 +97,7 @@ public class Predator extends Animal {
                     this.moveRand();
                 }
                 // if we caught them, attack
-                if (smallestPredatorDistance < 5.0) {
+                if (smallestPredatorDistance < 2.0) {
                     return combat(nearestPredator);
                 }
                 // if we didn't, we moved for this turn anyway
@@ -110,6 +110,7 @@ public class Predator extends Animal {
                 return true;
             }
         }
+        this.moveRand();
         return true;
     }
 
@@ -319,7 +320,7 @@ public class Predator extends Animal {
     }
 
     public void mateWith(Predator mate) {
-        mate.mateWith(this);
+        //mate.mateWith(this);
         int numOffspring = rand.nextInt(predatorConfig.getMaxOffspring() + 1);
         for (int i = 0; i < numOffspring; i++) {
             // TODO: gestation period

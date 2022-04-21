@@ -243,24 +243,24 @@ public class Simulator{
 
         
         if( entityType == InitialConditionsFields.PREDATOR_TYPE){
-          System.out.print(i+":"+j+ ": " + entityType + "\t");
+          //System.out.print(i+":"+j+ ": " + entityType + "\t");
           map.entities.add(new Predator(i, j,
                 (int) predator.get(InitialConditionsFields.PREDATOR_INITIAL_ENERGY).getNumberValue(),
                 InitialConditionsFields.PREDATOR_GENOTYPES[random.nextInt(InitialConditionsFields.PREDATOR_GENOTYPES.length)]));
         }
         else if( entityType == InitialConditionsFields.GRAZER_TYPE){
-          System.out.print(i+":"+j+ ": " + entityType + "\t");
+          //System.out.print(i+":"+j+ ": " + entityType + "\t");
           map.entities.add(new Grazer(i, j,
                   (int) grazer.get(InitialConditionsFields.GRAZER_INITIAL_ENERGY).getNumberValue()));  
         }
         else if( entityType == InitialConditionsFields.PLANT_TYPE){
-          System.out.print(i+":"+j+ ": " + entityType + "\t");
+          //System.out.print(i+":"+j+ ": " + entityType + "\t");
           map.entities.add(new Plant(i, j,
                   (int) plant.get(InitialConditionsFields.PLANT_DIAMETER).getNumberValue()));
 
         }
         else if( entityType == InitialConditionsFields.OBSTACLE_TYPE){
-          System.out.print(i+":"+j+ ": " + entityType + "\t");
+          //System.out.print(i+":"+j+ ": " + entityType + "\t");
           map.entities.add(new Obstacle(i, j,
             (int) obstacle.get(InitialConditionsFields.OBSTACLE_DIAMETER).getNumberValue(),
             (int) obstacle.get(InitialConditionsFields.OBSTACLE_HEIGHT).getNumberValue()));
@@ -279,7 +279,7 @@ public class Simulator{
 
     do {
       update();
-    } while(map.shouldSimulationContinue() && this.simulation_time < 100);
+    } while(map.shouldSimulationContinue() && this.simulation_time < 10000);
     map.entities.clear();
   }
 
@@ -314,7 +314,7 @@ public class Simulator{
       else if (entity.type == EntityType.PLANT)    { type = 3; }
       else if (entity.type == EntityType.OBSTACLE) { type = 4; }
       try {
-        System.out.println(entity.y + " " + entity.x);
+        //System.out.println(entity.y + " " + entity.x);
         frame[entity.y][entity.x] = type;
       } catch (Exception e) {
         //TODO: handle exception

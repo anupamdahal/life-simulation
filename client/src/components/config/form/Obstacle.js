@@ -5,8 +5,8 @@ const Obstacle = ({ configs, handler }) => {
         <label>Obstacle Diameter: </label>
         <input
           type="number"
-          min="25"
-          max="75"
+          min="1"
+          max="5"
           step="5"
           name="diameter"
           value={configs.diameter}
