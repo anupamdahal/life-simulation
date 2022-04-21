@@ -5,7 +5,7 @@ import java.util.Random;
 public class Plant extends Entity {
     private PlantConfig plantConfig;
     private int age = 0; // in seconds
-    private int x, y, diameter;
+    private int diameter;
 
     static Random rand = new Random();
     

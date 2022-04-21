@@ -9,7 +9,6 @@ import simulator.Pair;
 
 public class Predator extends Animal {
     private PredatorConfig predatorConfig;
-    private int x, y;
     public Predator attacker;
     private int gestationTimeLeft;
 
