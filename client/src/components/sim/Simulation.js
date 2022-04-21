@@ -3,12 +3,11 @@ import { useState, useRef, useCallback } from "react"
 import { useLocation } from "react-router-dom"
 import SimCell from "./SimCell"
 
-
 const Simulation = () => {
   const location = useLocation()
+  console.log(location)
   const entities = location?.state?.entities
   const [grid, setGrid] = useState(entities[0])
-  console.log(grid.length, grid[0].length)
 
   const [running, setRunning] = useState(false)
   const [simSpeed, setSimSpeed] = useState(1000)
@@ -23,9 +22,6 @@ const Simulation = () => {
       return
     }
 
-    // I'm unsure whether entites.length is the right call here, again
-    // I'm not sure what the shape is. But, the idea here is to check to see
-    // if we have looped over every generation, and if so return
     if (gen === entities.length) {
       runningRef.current = false
       return
@@ -45,15 +41,16 @@ const Simulation = () => {
 
   const gridStyle = {
     display: "grid",
-    gridTemplateColumns: `repeat(${grid[0].length}, 20px)`, // again, may not be right
-    gridTemplateRows: `repeat(${[grid.length]}, 20px)`,     // again, may not be right
-    width: "60rem",
+    gridTemplateColumns: `repeat(${grid[0].length}, 15px)`,
+    gridTemplateRows: `repeat(${[grid.length]}, 15px)`,
+    width: "70rem",
     height: "73vh",
-    overflow: "scroll"
+    overflow: "scroll",
+    resize: "both"
   }
 
   return (
-    <>
+    <div className="simulation-wrapper">
       <button
         onClick={() => {
           setRunning(!running)
@@ -101,7 +98,7 @@ const Simulation = () => {
             />)
         )}
       </div>
-    </>
+    </div>
   )
 }
 

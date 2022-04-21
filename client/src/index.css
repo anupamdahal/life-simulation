@@ -194,8 +194,6 @@ input {
   border-bottom: .25px solid gray;
 }
 
-.grid
-
 .submit {
   border: 1px solid black;
   border-radius: 5px;
@@ -217,4 +215,10 @@ input {
 .scoreboard-header {
   font-size: var(--header-font-size);
   border-bottom: 1px solid black;
+}
+
+.simulation-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

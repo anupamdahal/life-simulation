@@ -25,8 +25,8 @@ const Cell = ({ isActive, x, y, cellClickRef, entityKind }) => {
   const cellStyle = {
     backgroundColor: `${isActive ? `${color}` : "white"}`,
     border: ".5px solid black",
-    width: "20px",
-    height: "20px"
+    width: "15px",
+    height: "15px"
   }
 
   return <div onClick={() => cellClickRef(x, y)} style={cellStyle}></div>
