@@ -23,8 +23,8 @@ const SimCell = ({ entityKind }) => {
   const cellStyle = {
     backgroundColor: `${color}`,
     border: ".5px solid black",
-    width: "20px",
-    height: "20px"
+    width: "15px",
+    height: "15px"
   }
 
   return <div style={cellStyle}></div>

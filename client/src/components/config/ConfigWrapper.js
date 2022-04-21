@@ -7,7 +7,6 @@ import services, { getScores } from "../../services/services"
 import { produce } from "immer"
 import { safeResolve } from "../../services/safeResolve"
 
-
 const ConfigWrapper = () => {
 
   const initGrid = (rows, cols) => {
@@ -37,7 +36,7 @@ const ConfigWrapper = () => {
     return newGrid
   }
 
-  const [grid, setGrid] = useState(initGrid(25, 40))
+  const [grid, setGrid] = useState(initGrid(75, 100))
   const [entity, setEntity] = useState("plant")
 
   const newGridSize = (rows, cols) => {
@@ -59,27 +58,29 @@ const ConfigWrapper = () => {
 
     const [entities, err] = await safeResolve(
       services
-      .postConfigs(temp)
-      .then(res => {
-        if(!res?._id){
-          return Promise.reject("Request Id Not Received")
-        }
-        return res._id})
-      .then(id => getScores(id))
-      .then(simResult => {
-        if(simResult.error !== "None"){
-          return Promise.reject(simResult.error)
-        }
-        return simResult.entities
-      })
+        .postConfigs(temp)
+        .then(res => {
+          if (!res?._id) {
+            return Promise.reject("Request Id Not Received")
+          }
+          return res._id
+        })
+        .then(id => getScores(id))
+        .then(simResult => {
+          if (simResult.error !== "None") {
+            return Promise.reject(simResult.error)
+          }
+          return simResult.entities
+        })
     )
 
-    if (err){
+    if (err) {
       // TODO: Handle Error
       console.error(err)
       return
     }
-    navigate("/simulation", {state: {entities}})
+
+    navigate("/simulation", { state: { entities } })
   }
 
   return (

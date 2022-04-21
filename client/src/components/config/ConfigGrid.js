@@ -27,8 +27,8 @@ const ConfigGrid = ({ grid, setGridRef, entityKind }) => {
 
   const gridStyle = {
     display: "grid",
-    gridTemplateColumns: `repeat(${grid[0].length}, 20px)`,
-    gridTemplateRows: `repeat(${grid.length}, 20px)`,
+    gridTemplateColumns: `repeat(${grid[0].length}, 15px)`,
+    gridTemplateRows: `repeat(${grid.length}, 15px)`,
     width: "60rem",
     height: "73vh",
     overflow: "scroll"
