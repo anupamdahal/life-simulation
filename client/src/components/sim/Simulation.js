@@ -11,9 +11,12 @@ const Simulation = () => {
   console.log(grid.length, grid[0].length)
 
   const [running, setRunning] = useState(false)
+  const [simSpeed, setSimSpeed] = useState(1000)
 
   const runningRef = useRef(running)
+  const simSpeedRef = useRef(simSpeed)
   runningRef.current = running
+  simSpeedRef.current = simSpeed
 
   const runSimulation = useCallback(gen => {
     if (!runningRef.current) {
@@ -37,7 +40,7 @@ const Simulation = () => {
         }
       })
     })
-    setTimeout(() => runSimulation(gen + 1), 1000)
+    setTimeout(() => runSimulation(gen + 1), simSpeedRef.current)
   }, [])
 
   const gridStyle = {
@@ -60,6 +63,34 @@ const Simulation = () => {
           }
         }}>
         {running ? "stop" : "start"}
+      </button>
+      <button
+        onClick={() => {
+          setSimSpeed(1000)
+          simSpeedRef.current = 1000
+        }}>
+        {"x1"}
+      </button>
+      <button
+        onClick={() => {
+          setSimSpeed(100)
+          simSpeedRef.current = 100
+        }}>
+        {"x10"}
+      </button>
+      <button
+        onClick={() => {
+          setSimSpeed(20)
+          simSpeedRef.current = 20
+        }}>
+        {"x50"}
+      </button>
+      <button
+        onClick={() => {
+          setSimSpeed(10)
+          simSpeedRef.current = 10
+        }}>
+        {"x100"}
       </button>
       <div style={gridStyle}>
         {grid.map((rows, x) =>

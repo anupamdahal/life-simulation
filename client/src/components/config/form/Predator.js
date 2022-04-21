@@ -17,8 +17,8 @@ const Predator = ({ configs, handler }) => {
         <label>Max Speed HOD: </label>
         <input
           type="number"
-          min="10"
-          max="25"
+          min="1"
+          max="10"
           step="1"
           name="maxSpeedHOD"
           value={configs.maxSpeedHOD}
@@ -29,8 +29,8 @@ const Predator = ({ configs, handler }) => {
         <label>Max Speed HED: </label>
         <input
           type="number"
-          min="10"
-          max="23"
+          min="1"
+          max="7"
           step="1"
           name="maxSpeedHED"
           value={configs.maxSpeedHED}
@@ -41,8 +41,8 @@ const Predator = ({ configs, handler }) => {
         <label>Max Speed HOR: </label>
         <input
           type="number"
-          min="10"
-          max="20"
+          min="1"
+          max="5"
           step="1"
           name="maxSpeedHOR"
           value={configs.maxSpeedHOR}

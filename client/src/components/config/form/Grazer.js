@@ -65,8 +65,8 @@ const Grazer = ({ configs, handler }) => {
         <label>Max Speed: </label>
         <input
           type="number"
-          min="5"
-          max="25"
+          min="3"
+          max="15"
           step="1"
           name="maxSpeed"
           value={configs.maxSpeed}

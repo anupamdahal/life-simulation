@@ -41,9 +41,9 @@ const Plant = ({ configs, handler }) => {
         <label>Max Seed Cast Distance: </label>
         <input
           type="number"
-          min="50"
-          max="350"
-          step="50"
+          min="1"
+          max="5"
+          step="1"
           name="maxSeedCastDist"
           value={configs.maxSeedCastDist}
           onChange={handler}

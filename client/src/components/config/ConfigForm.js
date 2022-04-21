@@ -16,7 +16,7 @@ const ConfigForm = ({ newGridSizeRef, handleSubmitRef }) => {
   const [plantConfig, setPlantConfig] = useState({
     growthRate: 0.1,
     maxSize: 100,
-    maxSeedCastDist: 250,
+    maxSeedCastDist: 5,
     maxSeedCount: 10,
     seedVariability: .50,
     diameter: 25,
@@ -28,16 +28,16 @@ const ConfigForm = ({ newGridSizeRef, handleSubmitRef }) => {
     energyOutput: 1,
     energyToReproduce: 100,
     baseSpeed: 3,
-    maxSpeed: 20,
+    maxSpeed: 5,
     maintainSpeedTime: 3,
   })
 
   const [predatorConfig, setPredatorConfig] = useState({
     initialEnergy: 150,
-    maxSpeedHOD: 20,
-    maxSpeedHED: 18,
-    maxSpeedHOR: 15,
-    baseSpeed: 4,
+    maxSpeedHOD: 4,
+    maxSpeedHED: 3,
+    maxSpeedHOR: 2,
+    baseSpeed: 1,
     energyOutput: 10,
     energyToReproduce: 500,
     maxOffspring: 3,
@@ -47,7 +47,7 @@ const ConfigForm = ({ newGridSizeRef, handleSubmitRef }) => {
   })
 
   const [obstacleConfig, setObstacleConfig] = useState({
-    diameter: 50,
+    diameter: 1,
     height: 10,
   })
 
