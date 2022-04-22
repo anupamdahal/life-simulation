@@ -26,7 +26,7 @@ public abstract class Animal extends Entity {
             grazerConfig = grazerConfig.getInstance();
             if (energy < 25) {
                 // slowed because of weakness
-                speed = 10.0;
+                speed = 0.5 * grazerConfig.getMaxSpeed();
             }
             else {
                 speed = 0.75 * grazerConfig.getMaxSpeed();
