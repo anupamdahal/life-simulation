@@ -10,7 +10,7 @@ public class Predator extends Animal {
     private PredatorConfig predatorConfig;
     private int x, y;
     public Predator attacker;
-    private int gestationTimeLeft;
+    private double gestationTimeLeft;
 
     private static Random rand = new Random();
 
@@ -319,11 +319,17 @@ public class Predator extends Animal {
     public void mateWith(Predator mate) {
         mate.mateWith(this);
         int numOffspring = rand.nextInt(predatorConfig.getMaxOffspring() + 1);
-        for (int i = 0; i < numOffspring; i++) {
-            // TODO: gestation period
-            // TODO: birth offspring small distance away
-            // TODO: offspring and parent move away and do not interact for an hour
-            map.entities.add(new Predator(x, y, predatorConfig.getOffspringEnergyLevel(), mixGenes(mate)));
+        //gestation period
+        gestationTimeLeft = predatorConfig.getGestationPeriod();
+        if(gestationTimeLeft > 0){
+            gestationTimeLeft -= 1;
+        }
+        else{
+            for (int i = 0; i < numOffspring; i++) {
+                // TODO: birth offspring small distance away
+                // TODO: offspring and parent move away and do not interact for an hour
+                map.entities.add(new Predator(x, y, predatorConfig.getOffspringEnergyLevel(), mixGenes(mate)));
+            }
         }
     }
 
