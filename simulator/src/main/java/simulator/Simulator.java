@@ -3,6 +3,7 @@ package simulator;
 import simulator.entity.*;
 
 public class Simulator{
+  private final int GENERATION_LIM = 10;
   private Map map;
   private int simulation_time;
   private GrazerConfig grazerConfig;
@@ -93,7 +94,8 @@ public class Simulator{
     System.out.println("Running the Server");
     while(map.shouldSimulationContinue()) {
       update();
-    }
+    } while(map.shouldSimulationContinue() && this.simulation_time < GENERATION_LIM);
+    map.entities.clear();
   }
 
   public void update(){

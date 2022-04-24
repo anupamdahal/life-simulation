@@ -3,9 +3,7 @@ import Selection from "./grid/Selection"
 import ConfigForm from "./ConfigForm"
 import { useState } from "react"
 import { useNavigate } from "react-router"
-import services from "../../services/services"
 import { produce } from "immer"
-
 
 const ConfigWrapper = () => {
 
@@ -52,16 +50,12 @@ const ConfigWrapper = () => {
 
   const handleSubmit = configs => {
 
-    const temp = {
+    const request = {
       ...configs,
       entities: grid
     }
 
-    services
-      .postConfigs(temp)
-      .then(res => console.log(res))
-
-    navigate("/simulation")
+    navigate("/simulation", { state: { request } })
   }
 
   return (
