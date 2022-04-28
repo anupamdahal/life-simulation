@@ -67,13 +67,15 @@ const Simulation = () => {
       const newRequest = cloneDeep(request)
       newRequest.entities = cloneDeep(curEntities.current[curEntities.current.length - 1])
 
-      const [entities, err] = await safeResolve(fetchEntities(newRequest))
-      if(err){
-        // handle error
-        return 
-      }
-      totalGens.current += entities.length
-      newEntities.current = entities
+      fetchEntities(newRequest)
+        .then(entities => {
+          totalGens.current += entities.length
+          newEntities.current = entities
+        })
+        .catch(err => {
+          console.error(err)
+          // handle error
+        })
     }
 
     setGrid(g => {
