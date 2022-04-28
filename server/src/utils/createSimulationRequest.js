@@ -32,7 +32,17 @@ const createSimulationRequest = async (reqBody, {_id}) => {
       }
     }
   }
-  await SimulationResult.findByIdAndUpdate(_id, result)
+  
+  const [res, dbError] = await safeResolve(SimulationResult.findByIdAndUpdate(_id, result))
+  if(dbError){
+    result = {
+      error: err,
+      status: FAILED
+    }
+
+    SimulationResult.findByIdAndUpdate(_id, result)
+    .catch(err => console.error(err))
+  }
 }
 
 exports.createSimulationRequest = createSimulationRequest
