@@ -1,1 +1,1 @@
-export const NO_OF_FRAMES = 10
+export const NO_OF_FRAMES = 50

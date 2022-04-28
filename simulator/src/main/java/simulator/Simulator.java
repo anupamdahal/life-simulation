@@ -17,7 +17,7 @@ import simulator.entity.*;
 import simulator.entity.Entity.EntityType;
 
 public class Simulator{
-  private final int GENERATION_LIM = 10;
+  private final int GENERATION_LIM = 50;
   private Map map;
   private int simulation_time;
   private GrazerConfig grazerConfig;
@@ -277,9 +277,9 @@ public class Simulator{
     System.out.println("Begin run");
     report = new ArrayList<int[][]>();
 
-    do {
+    while(map.shouldSimulationContinue() && this.simulation_time < GENERATION_LIM) {
       update();
-    } while(map.shouldSimulationContinue() && this.simulation_time < GENERATION_LIM);
+    }
     map.entities.clear();
   }
 

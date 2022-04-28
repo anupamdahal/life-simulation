@@ -1,4 +1,5 @@
 import produce from "immer"
+import { cloneDeep } from "lodash"
 import { useState, useRef, useCallback, useEffect } from "react"
 import { useLocation } from "react-router-dom"
 import { fetchEntities } from "../../services/fetchEntities"
@@ -9,11 +10,10 @@ import SimCell from "./SimCell"
 const Simulation = () => {
   const location = useLocation()
   const request = location?.state?.request
-
-  const [totalGens, setTotalGens] = useState([])
-  const [grid, setGrid] = useState([])
-  const [curEntities, setCurEntities] = useState([]) 
-  const [newEntities, setNewEntities] = useState([])
+  const [grid, setGrid] = useState(() => request.entities)
+  const totalGens = useRef(0)
+  const curEntities = useRef([]) 
+  const newEntities = useRef([])
 
   const [start, setStart] = useState(false)
   const [running, setRunning] = useState(false)
@@ -31,58 +31,57 @@ const Simulation = () => {
         // handle error
         return 
       }
-      setTotalGens((prevCount) => prevCount + entities?.length)
-      setCurEntities(entities)
-      setGrid(entities[0])
       setStart(true)
+      if(entities.length === 0) return
+      totalGens.current += entities.length
+      curEntities.current = entities
+      setGrid(entities[0])
     }
     initialFetch()
   }, [])
 
   const runSimulation = useCallback( async gen => {
-    console.log("length")
-    if(curEntities.length === 0) return
+    if(curEntities.current.length === 0) return
 
-    console.log("running")
     if (!runningRef.current) {
       return
     }
 
-    console.log("swap frames")
     if(gen !== 0 && gen % NO_OF_FRAMES === 0){
-      if(newEntities.length === 0){
+      console.log("swap frames")
+      if(newEntities.current.length === 0){
+        runningRef.current = false
         return
       }
-      setCurEntities(newEntities)
-      setNewEntities([])
+      curEntities.current = newEntities.current
+      newEntities.current = []
+      gen = 0
     }
 
-    console.log("ran for specficed gens")
-    if (gen >= totalGens) {
+    if (gen >= totalGens.current) {
       runningRef.current = false
       return
     }
 
-    console.log("get more frames")
+    console.log(totalGens.current, gen, gen % NO_OF_FRAMES)
     if(gen % NO_OF_FRAMES === 1){
-      const newRequest = {
-        ...request,
-        grid: curEntities[curEntities.length - 1]
-      }
-      const [entities, err] = safeResolve(fetchEntities(newRequest))
+      const newRequest = cloneDeep(request)
+      newRequest.entities = cloneDeep(curEntities.current[curEntities.current.length - 1])
+
+      const [entities, err] = await safeResolve(fetchEntities(newRequest))
       if(err){
         // handle error
         return 
       }
-      setTotalGens((prevCount) => prevCount + entities?.length)
-      setNewEntities(entities)
+      totalGens.current += entities.length
+      newEntities.current = entities
     }
 
     setGrid(g => {
       return produce(g, gridCopy => {
-        for (let i = 0; i < curEntities[0].length; i++) {
-          for (let k = 0; k < curEntities[0][0].length; k++) {
-            gridCopy[i][k] = curEntities[gen][i][k]
+        for (let i = 0; i < curEntities.current[0].length; i++) {
+          for (let k = 0; k < curEntities.current[0][0].length; k++) {
+            gridCopy[i][k] = curEntities.current[gen][i][k]
           }
         }
       })
@@ -93,7 +92,7 @@ const Simulation = () => {
   return (
     <div className="simulation-wrapper">
       {
-        start &&
+        start && grid &&
         <>
           <button
             onClick={() => {
