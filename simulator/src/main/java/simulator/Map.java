@@ -35,7 +35,7 @@ public class Map {
 
     // return true if a given point is within the map confines
     public boolean isPointInBounds(int x, int y) {
-        if (0 < x && x < this.width && 0 < y && y < this.height) {
+        if (0 <= x && x < this.width && 0 <= y && y < this.height) {
             return true;
         }
         else {
@@ -54,8 +54,8 @@ public class Map {
                 continue;
             }
             Entity target = entities.get(i);
-            double distance = Math.sqrt(Math.pow(source.getX() - target.getX(), 2)
-                + Math.pow(source.getY() - target.getY(), 2));
+            double distance = Math.sqrt(Math.pow(source.x - target.x, 2)
+                + Math.pow(source.y - target.y, 2));
             if (distance <= range) {
                 result.add(new Pair<Double, Entity>(distance, target));
             }

@@ -71,7 +71,7 @@ public class Predator extends Animal {
                 }
             }
             // attempt to reproduce
-            if (!nearbyPredators.isEmpty() && energy >= predatorConfig.getEnergyToReproduce()) {
+            if (!nearbyPredators.isEmpty() && energy >= predatorConfig.getEnergyToReproduce() && smallestPredatorDistance < Double.MAX_VALUE) {
                 if (!this.moveTowards(nearestPredator)) {
                     this.moveRand();
                 }
@@ -81,7 +81,7 @@ public class Predator extends Animal {
                 return true;
             }
             // else attempt to find food
-            if (!nearbyGrazers.isEmpty()) {
+            if (!nearbyGrazers.isEmpty() && smallestGrazerDistance < Double.MAX_VALUE) {
                 if (!this.chase(nearestGrazer)) {
                     this.moveRand();
                 }
@@ -91,7 +91,7 @@ public class Predator extends Animal {
                 return true;
             }
             // else react to the nearest predator
-            if (!nearbyPredators.isEmpty() && (this.genotype.contains("AA") || (this.genotype.contains("Aa") && energy < 30))) {
+            if (!nearbyPredators.isEmpty() && (this.genotype.contains("AA") || (this.genotype.contains("Aa") && energy < 30 && smallestPredatorDistance < Double.MAX_VALUE))) {
                 notifyAttacking(nearestPredator);
                 if (!this.chase(nearestPredator)) {
                     this.moveRand();
@@ -103,7 +103,7 @@ public class Predator extends Animal {
                 // if we didn't, we moved for this turn anyway
                 return true;
             }
-            if (!nearbyPredators.isEmpty() && this.genotype.contains("aa")) {
+            if (!nearbyPredators.isEmpty() && this.genotype.contains("aa") && smallestPredatorDistance < Double.MAX_VALUE) {
                 if (!this.fleeFrom(nearestPredator)) {
                     this.moveRand();
                 }
@@ -123,7 +123,7 @@ public class Predator extends Animal {
             }
             else {
                 energy += (int)(0.9 * target.energy);
-                map.entities.remove(target);
+                map.entities.remove((Entity) target);
                 return true;
             }
         }
@@ -135,7 +135,7 @@ public class Predator extends Animal {
             }
             else {
                 energy += (int)(0.9 * target.energy);
-                map.entities.remove(target);
+                map.entities.remove((Entity) target);
                 return true;
             }
         }
@@ -147,7 +147,7 @@ public class Predator extends Animal {
             }
             else {
                 energy += (int)(0.9 * target.energy);
-                map.entities.remove(target);
+                map.entities.remove((Entity) target);
                 return true;
             } 
         }
@@ -164,7 +164,7 @@ public class Predator extends Animal {
                     if (rand.nextInt(2) == 0) {
                         // this predator won the combat
                         energy += (int)(0.9 * target.energy);
-                        map.entities.remove(target);
+                        map.entities.remove((Entity) target);
                         return true;
                     }
                     else {
@@ -189,7 +189,7 @@ public class Predator extends Animal {
                 else {
                     // this predator won
                     energy += (int)(0.9 * target.energy);
-                    map.entities.remove(target);
+                    map.entities.remove((Entity) target);
                     return true;
                 }
             }
@@ -204,7 +204,7 @@ public class Predator extends Animal {
                 else {
                     // this predator won
                     energy += (int)(0.9 * target.energy);
-                    map.entities.remove(target);
+                    map.entities.remove((Entity) target);
                     return true;
                 }
             }
@@ -217,7 +217,7 @@ public class Predator extends Animal {
                     if (rand.nextInt(2) == 0) {
                         // this predator won the combat
                         energy += (int)(0.9 * target.energy);
-                        map.entities.remove(target);
+                        map.entities.remove((Entity) target);
                         return true;
                     }
                     else {
@@ -236,7 +236,7 @@ public class Predator extends Animal {
                 if (rand.nextInt(4) == 3) {
                     // this predator won
                     energy += (int)(0.9 * target.energy);
-                    map.entities.remove(target);
+                    map.entities.remove((Entity) target);
                     return false;
                 }
                 else {
@@ -257,7 +257,7 @@ public class Predator extends Animal {
                 else {
                     // this predator won
                     energy += (int)(0.9 * target.energy);
-                    map.entities.remove(target);
+                    map.entities.remove((Entity) target);
                     return true;
                 }
             }            
@@ -270,7 +270,7 @@ public class Predator extends Animal {
                     if (rand.nextInt(2) == 0) {
                         // this predator won the combat
                         energy += (int)(0.9 * target.energy);
-                        map.entities.remove(target);
+                        map.entities.remove((Entity) target);
                         return true;
                     }
                     else {
@@ -295,7 +295,7 @@ public class Predator extends Animal {
                 else {
                     // this predator won
                     energy += (int)(0.9 * target.energy);
-                    map.entities.remove(target);
+                    map.entities.remove((Entity) target);
                     return true;
                 }
             }
@@ -310,7 +310,7 @@ public class Predator extends Animal {
                 else {
                     // this predator won
                     energy += (int)(0.9 * target.energy);
-                    map.entities.remove(target);
+                    map.entities.remove((Entity) target);
                     return true;
                 }
             }            

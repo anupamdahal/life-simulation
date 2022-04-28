@@ -16,7 +16,7 @@ public abstract class Animal extends Entity {
 
     public boolean moveTowards(int desiredX, int desiredY) {
         // actual point the animal will attempt to move to considering its speed
-        int x = 0, y = 0;
+        int newX = desiredX, newY = desiredY;
         // amount of energy the move will take
         int energyDrain = 0;
         // speed of the animal
@@ -51,27 +51,27 @@ public abstract class Animal extends Entity {
             return false; // you're trying to move something that can't move somehow
         }
         // calculate the actual point the animal will move to and the energy drain
-        double distanceToDesiredPoint = Math.sqrt(Math.pow(desiredX, 2) + Math.pow(desiredY, 2));
+        double distanceToDesiredPoint = Math.sqrt(Math.pow(desiredX - this.x, 2) + Math.pow(desiredY - this.y, 2));
         if (distanceToDesiredPoint > (double)speed) {
             // get the unit vector in the direction of the move and scale it by the speed
             double dirX = (double)(desiredX - this.x) / distanceToDesiredPoint;
             double dirY = (double)(desiredY - this.y) / distanceToDesiredPoint;
-            x = this.x + (int)(dirX * speed);
-            y = this.y + (int)(dirY * speed);
+            newX = this.x + (int)(dirX * speed);
+            newY = this.y + (int)(dirY * speed);
         }
         else {
             // scale the energy drain according to the distance moved
             energyDrain = (int)(energyDrain * distanceToDesiredPoint / speed);
         }
         // is the point in bounds?
-        if (map.isPointInBounds(x, y)) {
+        if (map.isPointInBounds(newX, newY)) {
             // is the path blocked by an obstacle?
-            ArrayList<Pair<Double, Entity>> rocks = map.search(x, y, EntityType.OBSTACLE, 10);
+            ArrayList<Pair<Double, Entity>> rocks = map.search(newX, newY, EntityType.OBSTACLE, 10);
             if (!rocks.isEmpty()) {
                 Iterator<Pair<Double, Entity>> iter = rocks.iterator();
                 while (iter.hasNext()) {
                     Obstacle rock = (Obstacle)iter.next().getValue();
-                    if (rock.isBlocking(x, y)) {
+                    if (rock.isBlocking(newX, newY)) {
                         // rock is blocking the path
                         return false;
                     }
@@ -79,11 +79,12 @@ public abstract class Animal extends Entity {
             }
             // make the move
             this.energy -= energyDrain;
-            this.x = x;
-            this.y = y;
+            this.x = newX;
+            this.y = newY;
             return true;
         }
         // point is out of bounds
+        System.out.println("map point is out of bounds");
         return false;
     }
 

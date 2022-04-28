@@ -278,7 +278,7 @@ public class Simulator{
 
     do {
       update();
-    } while(map.shouldSimulationContinue() && this.simulation_time < 10000);
+    } while(map.shouldSimulationContinue() && this.simulation_time < 200);
     map.entities.clear();
   }
 
