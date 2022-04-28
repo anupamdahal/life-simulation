@@ -2,10 +2,13 @@ import produce from "immer"
 import { cloneDeep } from "lodash"
 import { useState, useRef, useCallback, useEffect } from "react"
 import { useLocation } from "react-router-dom"
+import { useNavigate } from "react-router"
+
 import { fetchEntities } from "../../services/fetchEntities"
 import { safeResolve } from "../../services/safeResolve"
 import { NO_OF_FRAMES } from "../../const/simulatorParams"
 import SimCell from "./SimCell"
+import { addScore } from "../../utils/scores"
 
 const Simulation = () => {
   const location = useLocation()
@@ -47,16 +50,15 @@ const Simulation = () => {
   }, [])
 
   const runSimulation = useCallback(async gen => {
-    if (curEntities.current.length === 0) return
-
-    if (!runningRef.current) {
+    if (curEntities.current.length === 0 || !runningRef.current){
+      setFinished(true)
       return
     }
 
     if (gen !== 0 && gen % NO_OF_FRAMES === 0) {
-      console.log("swap frames")
       if (newEntities.current.length === 0) {
         runningRef.current = false
+        setFinished(true)
         return
       }
       curEntities.current = newEntities.current
@@ -65,10 +67,10 @@ const Simulation = () => {
 
     if (gen >= totalGens.current) {
       runningRef.current = false
+      setFinished(true)
       return
     }
 
-    console.log(totalGens.current, gen, gen % NO_OF_FRAMES)
     if (gen % NO_OF_FRAMES === 1) {
       const newRequest = cloneDeep(request)
       newRequest.entities = cloneDeep(curEntities.current[curEntities.current.length - 1])
@@ -107,11 +109,7 @@ const Simulation = () => {
 
   const submitScore = event => {
     event.preventDefault()
-    const entry = {
-      name: username,
-      score: totalGens
-    }
-    // TODO: save to local cache here
+    addScore(username, totalGens)
     navigate("/scoreboard")
   }
 
