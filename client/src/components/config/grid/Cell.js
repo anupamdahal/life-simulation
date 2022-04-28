@@ -1,6 +1,6 @@
 import React from "react"
 
-const Cell = ({ isActive, x, y, cellClickRef, entityKind }) => {
+const Cell = ({ isActive, x, y, cellClickRef, entityKind, resolution }) => {
 
   let color
 
@@ -25,8 +25,8 @@ const Cell = ({ isActive, x, y, cellClickRef, entityKind }) => {
   const cellStyle = {
     backgroundColor: `${isActive ? `${color}` : "white"}`,
     border: ".5px solid black",
-    width: "15px",
-    height: "15px"
+    width: `${resolution}px`,
+    height: `${resolution}px`
   }
 
   return <div onClick={() => cellClickRef(x, y)} style={cellStyle}></div>

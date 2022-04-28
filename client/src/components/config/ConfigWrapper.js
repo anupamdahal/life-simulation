@@ -34,8 +34,23 @@ const ConfigWrapper = () => {
     return newGrid
   }
 
-  const [grid, setGrid] = useState(initGrid(75, 100))
+  const [grid, setGrid] = useState(initGrid(50, 50))
   const [entity, setEntity] = useState("plant")
+  const [entitiesCount, setEntitiesCount] = useState({
+    plants: 0,
+    predators: 0,
+    grazers: 0,
+    obstacles: 0
+  })
+
+  const updateEntitiesCount = (entityKind, increment) => {
+    const temp = {
+      ...entitiesCount
+    }
+
+    temp[entityKind] = temp[entityKind] + increment
+    setEntitiesCount(temp)
+  }
 
   const newGridSize = (rows, cols) => {
     setGrid(resizeGrid(rows, cols))
@@ -47,11 +62,19 @@ const ConfigWrapper = () => {
 
   const navigate = useNavigate()
 
-  const handleSubmit = async configs => {
+  const handleSubmit = configs => {
 
     const request = {
       ...configs,
       entities: grid
+    }
+
+    if (!Object.values(entitiesCount).every(field => {
+      if (field > 0) return true
+      return false
+    })) {
+      window.alert("THE SIMULATION MUST CONTAIN AT LEAST ONE OF EACH KIND OF ENTITY!")
+      return
     }
 
     navigate("/simulation", { state: { request } })
@@ -66,6 +89,7 @@ const ConfigWrapper = () => {
           grid={grid}
           setGridRef={setGrid}
           entityKind={entity}
+          updateEntityCountRef={updateEntitiesCount}
         />
       </div>
     </div>

@@ -1,23 +1,32 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import produce from "immer"
 import Cell from "./grid/Cell"
 
-const ConfigGrid = ({ grid, setGridRef, entityKind }) => {
+const ConfigGrid = ({ grid, setGridRef, entityKind, updateEntityCountRef }) => {
 
   const cellClick = (x, y) => {
     const newGrid = produce(grid, gridCopy => {
+      let entityVal
       switch (entityKind) {
         case "predator":
-          gridCopy[x][y] = 1 === grid[x][y] ? 0 : 1
+          entityVal = 1 === grid[x][y] ? 0 : 1
+          gridCopy[x][y] = entityVal
+          updateEntityCountRef("predators", entityVal ? 1 : -1)
           break
         case "grazer":
-          gridCopy[x][y] = 2 === grid[x][y] ? 0 : 2
+          entityVal = 2 === grid[x][y] ? 0 : 2
+          gridCopy[x][y] = entityVal
+          updateEntityCountRef("grazers", entityVal ? 1 : -1)
           break
         case "plant":
-          gridCopy[x][y] = 3 === grid[x][y] ? 0 : 3
+          entityVal = 3 === grid[x][y] ? 0 : 3
+          gridCopy[x][y] = entityVal
+          updateEntityCountRef("plants", entityVal ? 1 : -1)
           break
         case "obstacle":
-          gridCopy[x][y] = 4 === grid[x][y] ? 0 : 4
+          entityVal = 4 === grid[x][y] ? 0 : 4
+          gridCopy[x][y] = entityVal
+          updateEntityCountRef("obstacles", entityVal ? 1 : -1)
           break
       }
       return gridCopy
@@ -25,10 +34,18 @@ const ConfigGrid = ({ grid, setGridRef, entityKind }) => {
     setGridRef(newGrid)
   }
 
+  const colRes = grid[0].length >= 75 ? 10 : 15
+  const rowRes = grid.length >= 75 ? 10 : 15
+  const [resolution, setResolution] = useState(Math.min(colRes, rowRes))
+
+  useEffect(() => {
+    setResolution(Math.min(colRes, rowRes))
+  }, [colRes, rowRes])
+
   const gridStyle = {
     display: "grid",
-    gridTemplateColumns: `repeat(${grid[0].length}, 15px)`,
-    gridTemplateRows: `repeat(${grid.length}, 15px)`,
+    gridTemplateColumns: `repeat(${grid[0].length}, ${resolution}px)`,
+    gridTemplateRows: `repeat(${grid.length}, ${resolution}px)`,
     width: "60rem",
     height: "73vh",
     overflow: "scroll"
@@ -45,6 +62,7 @@ const ConfigGrid = ({ grid, setGridRef, entityKind }) => {
             cellClickRef={cellClick}
             isActive={grid[x][y]}
             entityKind={grid[x][y]}
+            resolution={resolution}
           />)
       )}
     </div>

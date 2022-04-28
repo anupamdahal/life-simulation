@@ -9,8 +9,8 @@ import Obstacle from "./form/Obstacle"
 const ConfigForm = ({ newGridSizeRef, handleSubmitRef }) => {
 
   const [landConfig, setLandConfig] = useState({
-    landX: 100,
-    landY: 75
+    landX: 50,
+    landY: 50
   })
 
   const [plantConfig, setPlantConfig] = useState({

@@ -6,7 +6,7 @@ const Land = ({ configs, handler }) => {
         <input
           type="number"
           min="10"
-          max="500"
+          max="100"
           step="5"
           name="landX"
           value={configs.landX}
@@ -18,7 +18,7 @@ const Land = ({ configs, handler }) => {
         <input
           type="number"
           min="10"
-          max="500"
+          max="100"
           step="5"
           name="landY"
           value={configs.landY}

@@ -1,4 +1,4 @@
-const SimCell = ({ entityKind }) => {
+const SimCell = ({ entityKind, resolution }) => {
 
   let color
 
@@ -23,8 +23,8 @@ const SimCell = ({ entityKind }) => {
   const cellStyle = {
     backgroundColor: `${color}`,
     border: ".5px solid black",
-    width: "15px",
-    height: "15px"
+    width: `${resolution}px`,
+    height: `${resolution}px`
   }
 
   return <div style={cellStyle}></div>

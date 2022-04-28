@@ -12,7 +12,7 @@ const Simulation = () => {
   const request = location?.state?.request
   const [grid, setGrid] = useState(() => request.entities)
   const totalGens = useRef(0)
-  const curEntities = useRef([]) 
+  const curEntities = useRef([])
   const newEntities = useRef([])
 
   const [start, setStart] = useState(false)
@@ -24,32 +24,37 @@ const Simulation = () => {
   runningRef.current = running
   simSpeedRef.current = simSpeed
 
+  const [resolution, setResolution] = useState(0)
+
   useEffect(() => {
     const initialFetch = async () => {
       const [entities, err] = await safeResolve(fetchEntities(request))
-      if(err){
+      if (err) {
         // handle error
-        return 
+        return
       }
       setStart(true)
-      if(entities.length === 0) return
+      if (entities.length === 0) return
       totalGens.current += entities.length
       curEntities.current = entities
       setGrid(entities[0])
+      const colRes = entities[0][0].length >= 75 ? 10 : 15
+      const rowRes = entities[0].length >= 75 ? 10 : 15
+      setResolution(Math.min(colRes, rowRes))
     }
     initialFetch()
   }, [])
 
-  const runSimulation = useCallback( async gen => {
-    if(curEntities.current.length === 0) return
+  const runSimulation = useCallback(async gen => {
+    if (curEntities.current.length === 0) return
 
     if (!runningRef.current) {
       return
     }
 
-    if(gen !== 0 && gen % NO_OF_FRAMES === 0){
+    if (gen !== 0 && gen % NO_OF_FRAMES === 0) {
       console.log("swap frames")
-      if(newEntities.current.length === 0){
+      if (newEntities.current.length === 0) {
         runningRef.current = false
         return
       }
@@ -63,7 +68,7 @@ const Simulation = () => {
     }
 
     console.log(totalGens.current, gen, gen % NO_OF_FRAMES)
-    if(gen % NO_OF_FRAMES === 1){
+    if (gen % NO_OF_FRAMES === 1) {
       const newRequest = cloneDeep(request)
       newRequest.entities = cloneDeep(curEntities.current[curEntities.current.length - 1])
 
@@ -91,10 +96,10 @@ const Simulation = () => {
   }, [])
 
   return (
-    <div className="simulation-wrapper">
+    <>
       {
         start && grid &&
-        <>
+        <div className="simulation-wrapper" >
           <button
             onClick={() => {
               setRunning(!running)
@@ -135,8 +140,8 @@ const Simulation = () => {
           </button>
           <div style={{
             display: "grid",
-            gridTemplateColumns: `repeat(${grid[0].length}, 15px)`,
-            gridTemplateRows: `repeat(${[grid.length]}, 15px)`,
+            gridTemplateColumns: `repeat(${grid[0].length}, ${resolution}px)`,
+            gridTemplateRows: `repeat(${[grid.length]}, ${resolution}px)`,
             width: "70rem",
             height: "73vh",
             overflow: "scroll",
@@ -147,12 +152,13 @@ const Simulation = () => {
                 <SimCell
                   key={`${x}-${y}`}
                   entityKind={grid[x][y]}
+                  resolution={resolution}
                 />)
             )}
           </div>
-        </>
+        </div>
       }
-    </div>
+    </>
   )
 }
 
