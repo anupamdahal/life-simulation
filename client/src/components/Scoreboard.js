@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const TableData = ({data}) => {
+const TableData = ({ data }) => {
   return (
     <tr key={data.name}>
       <td>{data.name}</td>
@@ -12,9 +12,11 @@ const TableData = ({data}) => {
 
 const Scoreboard = () => {
 
-  const names = [
+
+  // TODO: fetch from local cache, and replace the below hard coded array
+  const scores = [
     {
-      name: "JT", 
+      name: "JT",
       score: 99
     },
     {
@@ -41,7 +43,7 @@ const Scoreboard = () => {
             <th>Score</th>
           </thead>
           {
-            names.map(score => <TableData key={score.name} data={score} />)
+            scores.map(score => <TableData key={score.name} data={score} />)
           }
         </tbody>
       </table>

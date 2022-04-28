@@ -25,6 +25,7 @@ const Simulation = () => {
   simSpeedRef.current = simSpeed
 
   const [resolution, setResolution] = useState(0)
+  const [finished, setFinished] = useState(false)
 
   useEffect(() => {
     const initialFetch = async () => {
@@ -95,67 +96,98 @@ const Simulation = () => {
     setTimeout(() => runSimulation(gen + 1), simSpeedRef.current)
   }, [])
 
+  const [username, setUsername] = useState("")
+
+  const handleNameChange = event => {
+    event.preventDefault()
+    setUsername(event.target.value)
+  }
+
+  const navigate = useNavigate()
+
+  const submitScore = event => {
+    event.preventDefault()
+    const entry = {
+      name: username,
+      score: totalGens
+    }
+    // TODO: save to local cache here
+    navigate("/scoreboard")
+  }
+
   return (
     <>
       {
         start && grid &&
-        <div className="simulation-wrapper" >
-          <button
-            onClick={() => {
-              setRunning(!running)
-              if (!running) {
-                runningRef.current = true
-                runSimulation(1)
-              }
+        <div>
+          <div className="simulation-wrapper" >
+            <button
+              onClick={() => {
+                setRunning(!running)
+                if (!running) {
+                  runningRef.current = true
+                  runSimulation(1)
+                }
+              }}>
+              {running ? "stop" : "start"}
+            </button>
+            <button
+              onClick={() => {
+                setSimSpeed(1000)
+                simSpeedRef.current = 1000
+              }}>
+              {"x1"}
+            </button>
+            <button
+              onClick={() => {
+                setSimSpeed(100)
+                simSpeedRef.current = 100
+              }}>
+              {"x10"}
+            </button>
+            <button
+              onClick={() => {
+                setSimSpeed(20)
+                simSpeedRef.current = 20
+              }}>
+              {"x50"}
+            </button>
+            <button
+              onClick={() => {
+                setSimSpeed(10)
+                simSpeedRef.current = 10
+              }}>
+              {"x100"}
+            </button>
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: `repeat(${grid[0].length}, ${resolution}px)`,
+              gridTemplateRows: `repeat(${[grid.length]}, ${resolution}px)`,
+              width: "70rem",
+              height: "73vh",
+              overflow: "scroll",
+              resize: "both"
             }}>
-            {running ? "stop" : "start"}
-          </button>
-          <button
-            onClick={() => {
-              setSimSpeed(1000)
-              simSpeedRef.current = 1000
-            }}>
-            {"x1"}
-          </button>
-          <button
-            onClick={() => {
-              setSimSpeed(100)
-              simSpeedRef.current = 100
-            }}>
-            {"x10"}
-          </button>
-          <button
-            onClick={() => {
-              setSimSpeed(20)
-              simSpeedRef.current = 20
-            }}>
-            {"x50"}
-          </button>
-          <button
-            onClick={() => {
-              setSimSpeed(10)
-              simSpeedRef.current = 10
-            }}>
-            {"x100"}
-          </button>
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: `repeat(${grid[0].length}, ${resolution}px)`,
-            gridTemplateRows: `repeat(${[grid.length]}, ${resolution}px)`,
-            width: "70rem",
-            height: "73vh",
-            overflow: "scroll",
-            resize: "both"
-          }}>
-            {grid.map((rows, x) =>
-              rows.map((col, y) =>
-                <SimCell
-                  key={`${x}-${y}`}
-                  entityKind={grid[x][y]}
-                  resolution={resolution}
-                />)
-            )}
+              {grid.map((rows, x) =>
+                rows.map((col, y) =>
+                  <SimCell
+                    key={`${x}-${y}`}
+                    entityKind={grid[x][y]}
+                    resolution={resolution}
+                  />)
+              )}
+            </div>
           </div>
+          {
+            finished ?
+              <div>
+                <form onSubmit={submitScore}>
+                  <label>Name: </label>
+                  <input type="text" value={username} onChange={handleNameChange}></input>
+                </form>
+              </div>
+              : null
+          }
         </div>
       }
     </>
