@@ -1,0 +1,1 @@
+export const NO_OF_FRAMES = 10

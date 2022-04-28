@@ -17,6 +17,7 @@ import simulator.entity.*;
 import simulator.entity.Entity.EntityType;
 
 public class Simulator{
+  private final int GENERATION_LIM = 10;
   private Map map;
   private int simulation_time;
   private GrazerConfig grazerConfig;
@@ -278,7 +279,7 @@ public class Simulator{
 
     do {
       update();
-    } while(map.shouldSimulationContinue() && this.simulation_time < 10000);
+    } while(map.shouldSimulationContinue() && this.simulation_time < GENERATION_LIM);
     map.entities.clear();
   }
 
