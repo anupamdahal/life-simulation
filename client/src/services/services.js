@@ -25,7 +25,7 @@ export const getSimulationResult = (id) => (
     .then(res => res.data)
 )
 
-const getScores = (id) => {
+export const getScores = (id) => {
   return new Promise(async (resolve, reject) => {
     const getResult = async () => {
       const [res, err] = await safeResolve(getSimulationResult(id))
@@ -53,4 +53,3 @@ const postConfigs = configs => {
 
 const services = { getScores, postConfigs }
 export default services
-export { getScores }

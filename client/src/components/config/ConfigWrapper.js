@@ -3,9 +3,7 @@ import Selection from "./grid/Selection"
 import ConfigForm from "./ConfigForm"
 import { useState } from "react"
 import { useNavigate } from "react-router"
-import services, { getScores } from "../../services/services"
 import { produce } from "immer"
-import { safeResolve } from "../../services/safeResolve"
 
 const ConfigWrapper = () => {
 
@@ -51,36 +49,12 @@ const ConfigWrapper = () => {
 
   const handleSubmit = async configs => {
 
-    const temp = {
+    const request = {
       ...configs,
       entities: grid
     }
 
-    const [entities, err] = await safeResolve(
-      services
-        .postConfigs(temp)
-        .then(res => {
-          if (!res?._id) {
-            return Promise.reject("Request Id Not Received")
-          }
-          return res._id
-        })
-        .then(id => getScores(id))
-        .then(simResult => {
-          if (simResult.error !== "None") {
-            return Promise.reject(simResult.error)
-          }
-          return simResult.entities
-        })
-    )
-
-    if (err) {
-      // TODO: Handle Error
-      console.error(err)
-      return
-    }
-
-    navigate("/simulation", { state: { entities } })
+    navigate("/simulation", { state: { request } })
   }
 
   return (
