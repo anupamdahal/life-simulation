@@ -50,7 +50,7 @@ const Simulation = () => {
   }, [])
 
   const runSimulation = useCallback(async gen => {
-    if (curEntities.current.length === 0 || !runningRef.current){
+    if (curEntities.current.length === 0 || !runningRef.current) {
       setFinished(true)
       return
     }
@@ -105,20 +105,22 @@ const Simulation = () => {
     setUsername(event.target.value)
   }
 
-  const navigate = useNavigate()
 
   const submitScore = event => {
+    if (!finished) {
+      window.alert("SIMULATION IS NOT FINISHED")
+      return
+    }
     event.preventDefault()
     addScore(username, totalGens.current)
-    navigate("/scoreboard")
   }
 
   return (
     <>
       {
         start && grid &&
-        <div>
-          <div className="simulation-wrapper" >
+        <div className="simulation-wrapper">
+          <div className="simulation" >
             <button
               onClick={() => {
                 setRunning(!running)
@@ -127,7 +129,7 @@ const Simulation = () => {
                   runSimulation(1)
                 }
               }}>
-              {running ? "stop" : "start"}
+              {running.current ? "stop" : "start"}
             </button>
             <button
               onClick={() => {
@@ -176,16 +178,13 @@ const Simulation = () => {
               )}
             </div>
           </div>
-          {
-            finished ?
-              <div>
-                <form onSubmit={submitScore}>
-                  <label>Name: </label>
-                  <input type="text" value={username} onChange={handleNameChange}></input>
-                </form>
-              </div>
-              : null
-          }
+          <div >
+            <form onSubmit={submitScore} className="score-enter">
+              <label>Name: </label>
+              <input type="text" value={username} onChange={handleNameChange}></input>
+              <button type="submit">Submit</button>
+            </form>
+          </div>
         </div>
       }
     </>
