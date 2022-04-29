@@ -2,7 +2,6 @@ import produce from "immer"
 import { cloneDeep } from "lodash"
 import { useState, useRef, useCallback, useEffect } from "react"
 import { useLocation } from "react-router-dom"
-import { useNavigate } from "react-router"
 
 import { fetchEntities } from "../../services/fetchEntities"
 import { safeResolve } from "../../services/safeResolve"
@@ -29,6 +28,7 @@ const Simulation = () => {
 
   const [resolution, setResolution] = useState(0)
   const [finished, setFinished] = useState(false)
+  const finishedRef = useRef(finished)
 
   useEffect(() => {
     const initialFetch = async () => {
@@ -51,14 +51,14 @@ const Simulation = () => {
 
   const runSimulation = useCallback(async gen => {
     if (curEntities.current.length === 0 || !runningRef.current) {
-      setFinished(true)
+      finishedRef.current = true
       return
     }
 
     if (gen !== 0 && gen % NO_OF_FRAMES === 0) {
       if (newEntities.current.length === 0) {
         runningRef.current = false
-        setFinished(true)
+        finished.current = true
         return
       }
       curEntities.current = newEntities.current
@@ -67,7 +67,7 @@ const Simulation = () => {
 
     if (gen >= totalGens.current) {
       runningRef.current = false
-      setFinished(true)
+      finishedRef.current = true
       return
     }
 
@@ -105,13 +105,14 @@ const Simulation = () => {
     setUsername(event.target.value)
   }
 
-
   const submitScore = event => {
-    if (!finished) {
+    event.preventDefault()
+    if (!finishedRef) {
       window.alert("SIMULATION IS NOT FINISHED")
       return
+    } else {
+      window.alert(`Your score is ${totalGens.current} !\nCheck scoreboard for your result!`)
     }
-    event.preventDefault()
     addScore(username, totalGens.current)
   }
 
