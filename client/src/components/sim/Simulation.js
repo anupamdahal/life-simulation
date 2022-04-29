@@ -109,7 +109,7 @@ const Simulation = () => {
 
   const submitScore = event => {
     event.preventDefault()
-    addScore(username, totalGens)
+    addScore(username, totalGens.current)
     navigate("/scoreboard")
   }
 

@@ -1,6 +1,4 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { getScores } from "../services/services";
+import { getScoreBoard } from "../utils/scores";
 
 const TableData = ({ data }) => {
   return (
@@ -15,8 +13,7 @@ const Scoreboard = () => {
 
 
   // TODO: fetch from local cache, and replace the below hard coded array
-  const scores = getScores().sort((a, b) => a.score - b.score)
-
+  const scores = getScoreBoard().sort((a, b) => a.score - b.score)
   return (
     <div className="scoreboard">
       <h1 className="scoreboard-header">Scoreboard</h1>

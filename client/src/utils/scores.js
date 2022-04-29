@@ -9,7 +9,7 @@ export const addScore = (name, score) => {
   localStorage.setItem(SCORES, JSON.stringify(scores))
 }
 
-export const getScores = () => {
+export const getScoreBoard = () => {
   const rawScores = localStorage.getItem(SCORES)
   const scores = rawScores ? JSON.parse(rawScores) : {}
   return Object.keys(scores).map(key => ({

@@ -18,13 +18,13 @@ services:
     depends_on:
       - mongo
   
-  client:
-    build:
-      context: .
-      dockerfile: client/Dockerfile.client
-    restart: always
-    ports:
-      - "${CLIENT_PORT}:${CLIENT_PORT}"
+  # client:
+  #   build:
+  #     context: .
+  #     dockerfile: client/Dockerfile.client
+  #   restart: always
+  #   ports:
+  #     - "${CLIENT_PORT}:${CLIENT_PORT}"
   
   simulator:
     build:
